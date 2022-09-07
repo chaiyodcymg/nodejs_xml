@@ -1,6 +1,6 @@
 
 const monk = require('monk')
-const url = 'localhost:27017/nodejs_xml';
+const url = 'mongodb://localhost:27017/nodejs_xml';
 const db = monk(url);
 
 
@@ -10,6 +10,7 @@ db.then(() => {
 })
 
 const users = db.get('users')
+const cat_findhouse = db.get('cat_findhouse')
 
 
 exports.index = (req,res)=>{
@@ -20,4 +21,10 @@ exports.index = (req,res)=>{
 }
 exports.login = (req,res)=>{
     res.render('login', { title: 'Expresss' });
+}
+
+exports.cat_findhouse = (req,res)=>{
+    cat_findhouse.find({}).then((docs) => {
+      res.render('cat_findhouse', { title: 'Express',docs });
+    })
 }
