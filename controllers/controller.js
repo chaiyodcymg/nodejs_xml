@@ -19,5 +19,5 @@ exports.index = (req,res)=>{
 
 }
 exports.login = (req,res)=>{
-    res.render('login', { title: 'Express' });
+    res.render('login', { title: 'Expresss' });
 }
