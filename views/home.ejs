@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <form action="/add" method="post" id="findhome">
+        <label for="fname">ชื่อสัตว์เลี้ยง:</label><br>
+        <input type="text" id="" name="pet_name"><br>
+        <label for="lname">เลือกเพศ:</label><br>
+        <select name="pet_gender" id="pet_gender">
+            <option value="เพศชาย">เพศชาย</option>
+            <option value="เพศหญิง">เพศหญิง</option>
+            <option value="ไม่ทราบเพศ">ไม่ทราบเพศ</option>
+        </select><br>
+        <label for="lname">สี:</label><br>
+        <input type="text" id="" name="pet_color"><br>
+        <label for="pet_vaccin_date">วัคซีนที่ได้รับ:</label>
+        <input type="date" id="" name="pet_vaccin_date"><br>
+        <label for="">สายพันธุ์:</label><br>
+        <input type="text" id="" name="pet_gene"><br>
+        <textarea rows="4" cols="50" name="pet_symptom" form="findhome">รายละเอียด</textarea><br>
+        <label for="myfile">เพิ่มรูปภาพของคุณ:</label>
+        <input type="file" id="" name="pet_image" multiple><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

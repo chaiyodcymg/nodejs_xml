@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <p>Welcome to Test2</p>
+    <% calltest.forEach(calltest => { %>
+      <ul>
+        <li><a href="/show/<%=calltest._id%>"><%= calltest.pet_name%></a></li>
+      </ul>
+    <% }) %>
+
+    <!-- <a href="">
+      <%=calltest[0].pet_name%> <br>
+      <%=calltest[0].pet_gender%>
+    </a> -->
+  </body>
+</html>
