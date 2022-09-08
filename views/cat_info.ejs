@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/catinfo.css' />
+    <link rel="stylesheet" href="/stylesheets/banner.css">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">  
+    <script src="https://kit.fontawesome.com/7ef6297bb4.js" crossorigin="anonymous"></script>
+</head>
+  <body>
+
+    <div class="banner">
+        <div class="overlay">
+            <div class="imgbanner"></div>
+        </div>
+        <h2>หัวข้อจร้า</h2>
+       <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Library</li>
+      </ol>
+    </div>
+  <div class="container catinfo">
+    <div class="row">
+        <div class="col">
+          <div class="img_presentcat">
+            <img src="../images/cat.jpg" alt="">
+          </div>
+        </div>
+        <div class="col-xl catinfo_text">
+          <div>
+            <div class="text-wrap">
+                <h3>รหัสแมว 666</h3>
+                <ul>
+                    <li>เพศ</li>
+                    <li>สี</li>
+                    <li>วัคซีนที่เคยได้รับ</li>
+                    <li>สายพันธ์</li>
+                </ul>
+            </div>
+            <div class="text-wrap">
+                <h3>ข้อมูลสัตว์</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit, perspiciatis veniam. Expedita atque saepe debitis distinctio accusamus dolorem dolores quam, dolor nisi, id aspernatur voluptatem ipsa reprehenderit pariatur, quas possimus.</p>
+            </div>
+            <div class="text-wrap">
+                <h3>ช่องทางการติดต่อ</h3>
+                <ul>
+                    <li class="fa-solid fa-phone"> เบอรโทร</li>
+                </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  
+  <%- include('./footer'); %>
+  </body>
+</html>

@@ -21,3 +21,11 @@ exports.index = (req,res)=>{
 exports.login = (req,res)=>{
     res.render('login', { title: 'Expresss' });
 }
+
+exports.cat_info = (req,res)=>{
+  res.render('cat_info', { title: 'Expresss' });
+}
+
+exports.footer = (req,res)=>{
+  res.render('footer', { title: 'Expresss' });
+}

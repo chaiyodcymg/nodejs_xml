@@ -18,4 +18,6 @@ router.use((err, req, res, next)=> {
 
 router.get('/',controller.index );
 router.get('/login',controller.login );
+router.get('/catinfo',controller.cat_info );
+router.get('/footer',controller.footer );;
 module.exports = router;
