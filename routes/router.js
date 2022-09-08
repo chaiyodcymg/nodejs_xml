@@ -19,4 +19,9 @@ router.use((err, req, res, next)=> {
 router.get('/',controller.index );
 router.get('/login',controller.login );
 router.get('/cat_findhouse',controller.cat_findhouse);
+
+
+router.get('/:id',controller.findhouse_detail,(req,res)=>{
+  res.render('findhouse_detail')  
+})
 module.exports = router;
