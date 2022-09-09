@@ -2,20 +2,21 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/controller')
 
+const CryptoJS = require("crypto-js");
+const userDB = require('../controllers/controller')
+const createError = require('http-errors');
 
-
-//middleware ดักทุก request
-router.use((err, req, res, next)=> {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+router.use(( req, res, next)=>{
+    next()
 });
 
 
-router.get('/',controller.index );
-router.get('/login',controller.login );
+router.get('/',controller.auth,controller.index );
+router.get('/login',controller.auth_logout  ,controller.login_get );
+router.get('/register',controller.auth_logout ,controller.register_get );
+
+router.post('/login',controller.login );
+router.post('/register',controller.register );
+router.post('/logout',controller.logout );
+
 module.exports = router;
