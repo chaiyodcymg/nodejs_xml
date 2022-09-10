@@ -29,3 +29,7 @@ exports.cat_info = (req,res)=>{
 exports.footer = (req,res)=>{
   res.render('footer', { title: 'Expresss' });
 }
+
+exports.checkpost = (req,res)=>{
+  res.render('admincheckpost', { title: 'Expresss' });
+}
