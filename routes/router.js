@@ -21,5 +21,6 @@ router.get('/login', controller.login);
 router.get('/findhome_post', controller.findhome_post);
 router.get('/report_post', controller.report_post);
 router.get('/profile', controller.profile); 
-router.get('/editprofile',controller.editprofile ); 
+router.get('/editprofile', controller.editprofile); 
+router.get('/register',controller.register); 
 module.exports = router;

@@ -4,104 +4,112 @@
     <%- include('header') %>
     <div class="container">
         <h1 class="text-center">เรื่องที่แจ้ง</h1>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-            <label class="form-check-label" for="flexRadioDefault1">
-                แจ้งสัตว์เลี้ยงหาย
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-            <label class="form-check-label" for="flexRadioDefault2">
-                พบสัตว์เลี้ยง
-            </label>
-        </div>
-        <h2 class="mt-4 mb-4">ข้อมูลของสัตว์เลี้ยง</h2>
-        <form class="row g-3">
-            <div class="col-md-6">
-                <label class="form-label">ชื่อของสัตว์เลี้ยง</label>
-                <input type="text" class="form-control" id="inputEmail4">
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">สายพันธุ์</label>
-                <input type="text" class="form-control" id="inputPassword4">
-            </div>
+        <form action="/report_post/add" method="post">
 
-            <div class="col-md-6">
-                <label class="form-label">เพศ</label>
-                <select id="disabledSelect" class="form-select">
-                    <option>ชาย</option>
-                    <option>หญิง</option>
-                </select>
+            <div class="reportform">
+                <input value="สัตว์เลี้ยงหาย" class="form-check-input" type="radio" name="flexRadioDefault"
+                    id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    สัตว์เลี้ยงหาย
+                </label>
             </div>
+            <div class="form-check">
+                <input value="พบสัตว์เลี้ยง" class="form-check-input" type="radio" name="flexRadioDefault"
+                    id="flexRadioDefault2" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    พบสัตว์เลี้ยง
+                </label>
+            </div>
+            <h2 class="mt-4 mb-4">ข้อมูลของสัตว์เลี้ยง</h2>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">ชื่อของสัตว์เลี้ยง*</label>
+                    <input name="pet_name " type="text" class="form-control" id="inputEmail4" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">สายพันธุ์*</label>
+                    <input name="pet_gene" type="text" class="form-control" id="inputPassword4" required>
+                </div>
 
-            <div class="col-md-6">
-                <label class="form-label">สี</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1">
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">วัคซีนที่เคยได้รับ</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1">
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">วันที่รับวัคซีน</label>
-                <input type="date" class="form-control" id="exampleFormControlInput1">
-            </div>
-            <div class="mb-3">
-                <label class="form-label">รายละเอียดเพิ่มเติม</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="formFile" class="form-label">รูปภาพของสัตว์เลี้ยง</label>
-                <input class="form-control" type="file" id="formFile">
-            </div>
+                <div class="col-md-6">
+                    <label class="form-label">เพศ</label>
+                    <select name="pet_gender" id="disabledSelect" class="form-select">
+                        <option value="ชาย">ชาย</option>
+                        <option value="หญิง">หญิง</option>
+                    </select>
+                </div>
 
-            <h2>สถานที่ที่หาย/พบ</h2>
-            <div class="col-md-6">
-                <label class="form-label">วันที่หาย/พบ</label>
-                <input type="date" class="form-control" id="exampleFormControlInput1">
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">จุดสังเกตเบื้องต้น</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1">
-            </div>
-            <div class="mb-3">
-                <label class="form-label">ชื่อสถานที่</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1">
-            </div>
+                <div class="col-md-6">
+                    <label class="form-label">สี*</label>
+                    <input name="pet_color" type="text" class="form-control" id="exampleFormControlInput1" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">วัคซีนที่เคยได้รับ</label>
+                    <input name="pet_vaccin" type="text" class="form-control" id="exampleFormControlInput1">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">วันที่รับวัคซีน</label>
+                    <input name="pet_vaccin_in_date" type="date" class="form-control" id="exampleFormControlInput1">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">รายละเอียดเพิ่มเติม</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">รูปภาพของสัตว์เลี้ยง*</label>
+                    <input name="pet_image" class="form-control" type="file" id="formFile" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">ที่อยู่</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-            </div>
-            <h2>ข้อมูลการติดต่อ</h2>
+                <h2>สถานที่ที่หาย/พบ</h2>
+                <div class="col-md-6">
+                    <label class="form-label">วันที่หาย/พบ*</label>
+                    <input name="place_date_time" type="date" class="form-control" id="exampleFormControlInput1"
+                        required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">จุดสังเกตเบื้องต้น*</label>
+                    <input name="place_landmarks" type="text" class="form-control" id="exampleFormControlInput1"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">จุดที่หาย(สถานที่)</label>
+                    <input name="place_name" type="text" class="form-control" id="exampleFormControlInput1">
+                </div>
 
-            <div class="col-md-6">
-                <label class="form-label">ชื่อ</label>
-                <input type="text" class="form-control" id="inputEmail4">
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">นามสกุล</label>
-                <input type="text" class="form-control" id="inputPassword4">
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">เบอร์ติดต่อ</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1">
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">อีเมล</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1">
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">Line ID</label>
-                <input type="text" class="form-control" id="inputEmail4">
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">Facebook</label>
-                <input type="text" class="form-control" id="inputPassword4">
-            </div>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
-                <button class="btn btn-primary me-md-2" type="button">โพสต์</button>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">ที่อยู่</label>
+                    <textarea name="place" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <h2>ข้อมูลการติดต่อ</h2>
+
+                <div class="col-md-6">
+                    <label class="form-label">ชื่อ*</label>
+                    <input name="contact_name" type="text" class="form-control" id="inputEmail4" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">นามสกุล*</label>
+                    <input name="contact_name" type="text" class="form-control" id="inputPassword4" required>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">เบอร์ติดต่อ*</label>
+                    <input name="contact_surname" type="text" class="form-control" id="exampleFormControlInput1"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">อีเมล</label>
+                    <input name="contact_email" type="email" class="form-control" id="exampleFormControlInput1">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Line ID</label>
+                    <input name="contact_line" type="text" class="form-control" id="inputEmail4">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Facebook</label>
+                    <input name="contact_facebook" type="text" class="form-control" id="inputPassword4">
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
+                    <button class="btn btn-primary me-md-2" type="submit" id="submit_home_form">โพสต์</button>
+                </div>
             </div>
         </form>
     </div>
