@@ -12,6 +12,7 @@
     "crypto-js": "^4.1.1",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
+    "email-validator": "^2.0.4",
     "express": "~4.16.1",
     "express-flash-message": "^2.1.0",
     "express-session": "^1.17.3",

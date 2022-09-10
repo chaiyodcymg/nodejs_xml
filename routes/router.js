@@ -15,8 +15,8 @@ router.get('/',controller.auth,controller.index );
 router.get('/login',controller.auth_logout  ,controller.login_get );
 router.get('/register',controller.auth_logout ,controller.register_get );
 
-router.post('/login',controller.login );
-router.post('/register',controller.register );
+router.post('/login' ,controller.login );
+router.post('/register' ,controller.register );
 router.post('/logout',controller.logout );
 
 module.exports = router;

@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title></title>
+    <title>login</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <%- include('./bootstrap'); %>
   </head>
-  <body>
+  <body onload="myFunction()">
     <h1>Login</h1>
     <form action="/login" method="POST">
         <label for="fname">Email</label><br>
-        <input type="text" id="fname" name="email" value="b@gmail.com"><br>
+        <input type="text" id="fname" name="email" value="a@gmail.com"><br>
         <label for="lname">Password</label><br>
-        <input type="text" id="lname" name="password" value="1234"><br><br>
+        <input type="text" id="lname" name="password" value="12345678"><br><br>
         <input type="submit" value="Submit">
       </form> 
       <br>
       <a href="/register">register</a>
-<br><br>
+      <br><br>
       <% if ( login.length > 0 ) { %>
     
         <div class="alert alert-danger d-flex align-items-center" role="alert">
@@ -28,5 +28,11 @@
           </div>
         </div>
         <% } %>
+        <script>
+        function myFunction(){
+    
+          }
+         
+        </script>
   </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-  
+    <title>login</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <%- include('./bootstrap'); %>
   </head>
@@ -12,5 +12,8 @@
       <input type="submit" value="Logout">
     </form> 
 
+    <%  result.forEach((item)=>{%>
+    <p> <%= item.name %></p> 
+    <% }) %>
   </body>
 </html>

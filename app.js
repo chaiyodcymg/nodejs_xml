@@ -25,14 +25,6 @@ app.use(
   );
  app.use(flash());
  app.use(Router);
-//  app.get('/logout', (req, res) => {
-//     req.flash('message', 'You are now logged out.');
-//     res.redirect('/');
-// });
-// app.get('/', (req, res) => {
-//     res.render('index', { message: req.flash('message') });
-// });
-// app.set("trust proxy", 1);
 
 // app.use(( req, res, next)=>{
 //   console.log("innnnnnnnnn")
