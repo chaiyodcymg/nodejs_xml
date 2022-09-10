@@ -8,7 +8,7 @@ const Router = require('./routes/router');
 var session = require('express-session')
 const { flash } = require('express-flash-message');
 const app = express();
-
+const fileUpload  = require('express-fileupload');
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -24,6 +24,9 @@ app.use(
       saveUninitialized: true,})
   );
  app.use(flash());
+ app.use(
+  fileUpload()
+);
  app.use(Router);
 
 // app.use(( req, res, next)=>{
@@ -36,5 +39,5 @@ app.use(
 //   next(createError(404));
 // });
 
-
+module.exports = root_dir = __dirname+"/public/"
 module.exports = app;

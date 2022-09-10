@@ -9,8 +9,13 @@ const users = db.get('users')
 exports.users = users
 const CryptoJS = require("crypto-js");
 const validator = require("email-validator");
-
 const cat_findhouse= db.get('cat_findhouse')
+const cat_lost = db.get('cat_lost');
+
+
+
+
+// console.log( __dirname.split('\controllers')[0]+"public/images/")
 // หน้าหลัก
 // res.setHeader('Cache-Control', 'no-store');  ไม่ให้เก็บ Back/forward cache ปุ่มไปกลับบน browser
 exports.index = (req,res)=>{
@@ -25,6 +30,7 @@ exports.index = (req,res)=>{
 // ระบบ login
 exports.login = (req,res)=>{
 
+  console.log(req.body.email)
   const encrypted_password = CryptoJS.MD5(req.body.password.toString()).toString()
     users.findOne({email:req.body.email,password:encrypted_password}).then((result) => {
 
@@ -163,8 +169,68 @@ exports.register =async (req,res,next)=>{
 
 
 }
-// const encrypted_password = CryptoJS.MD5("asc").toString()
 
-// console.log(encrypted_password)
 
-// users.remove()
+
+
+exports.findhome_post = (req,res)=>{
+    res.render('findhome_post', { title: 'หาบ้านให้น้องเหมียว' });
+}
+
+exports.report_post = (req,res)=>{
+    res.render('report_post', { title: 'แจ้งพบ/หาย' });
+}
+
+exports.profile = (req,res)=>{
+    res.render('profile', { title: 'โปรไฟล์' });
+}
+
+exports.editprofile = (req,res)=>{
+    res.render('editprofile', { title: 'แก้ไขโปรไฟล์' });
+}
+
+exports.addcat_findhouse = (req, res, next) => {
+  if (req.files) {
+    console.log(req.files.pet_image)
+  }
+  const file = req.files.pet_image
+  const image_path =  __dirname.split('\controllers')[0]+"public/images/aa.jpg"
+  file.mv(image_path)
+    // fs.writeFile(image_path , oldpath , function (err) {
+    //   if (err){
+    //     console.log(err)
+    //     res.status(400).send(err)
+    //   }else{
+    //     res.status(200).send("success")
+    //   }
+    
+    // })
+ 
+  // cat_findhouse.insert({
+  //   findhome_type:req.body.flexRadioDefault,
+  //   pet_name:req.body.pet_name,
+  //   pet_gene:req.body.pet_gene,
+  //   pet_gender:req.body.pet_gender,
+  //   pet_color:req.body.pet_color,
+  //   pet_vaccin:req.body.pet_vaccin,
+  //   pet_vaccin_date:req.body.pet_vaccin_date,
+  //   pet_symptom:req.body.pet_symptom,
+  //   pet_image:req.body.pet_image,
+  //   place:req.body.place,
+  //   contact_name:req.body.contact_name,
+  //   contact_surname:req.body.contact_surname,
+  //   contact_tel:req.body.contact_tel,
+  //   contact_email:req.body.contact_email,
+  //   contact_line:req.body.contact_line,
+  //   contact_facebook:req.body.contact_facebook
+  // },function(err,result){
+  //   if(err){
+  //     console.log(err);
+  //     res.send(' <script>alert("บันทึกข้อมูลไม่สำเร็จ!!!"); window.location = "/"; </script>');
+  //   }else{
+  //     res.send(' <script>alert("บันทึกข้อมูลสำเร็จ!!!"); window.location = "/"; </script>');
+  //     // res.location('/');
+  //     // res.redirect('/');
+  //   }
+  // });
+};

@@ -19,4 +19,11 @@ router.post('/login' ,controller.login );
 router.post('/register' ,controller.register );
 router.post('/logout',controller.logout );
 
+
+router.get('/report_post', controller.report_post);
+router.get('/profile', controller.profile); 
+router.get('/editprofile',controller.editprofile ); 
+
+router.get("/findhome_post", controller.findhome_post);
+router.post("/findhome_post/add", controller.addcat_findhouse);
 module.exports = router;
