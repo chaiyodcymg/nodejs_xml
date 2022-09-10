@@ -18,4 +18,7 @@ router.use((err, req, res, next)=> {
 
 router.get('/',controller.index );
 router.get('/login',controller.login );
+router.get('/home',controller.home);
+router.get('/more_cat',controller.more_cat);
+router.get('/more_cat_john',controller.more_cat_john);
 module.exports = router;
