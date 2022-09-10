@@ -24,6 +24,8 @@ h1 {
 
 .img_presentcat img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .text-wrap h3 {
