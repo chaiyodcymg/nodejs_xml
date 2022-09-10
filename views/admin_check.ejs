@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>ADMIN CHECK POST</h1>
+    <% cats.forEach((item)=> { %>
+        <h2><%= item.name %></h2>
+        <img src="<%= item.image %>" style="width: 150px;height:150px;">
+        <p><%= item.color %></p>
+        <p><%= item.species %></p>
+        <% if(item.status==false) { %>
+            <a href="accept/<%= item._id %>"><button>อนุมัติ</button></a>
+            <a href="decline/<%= item._id %>"><button>ปฏิเสธ</button></a>
+        <% } else {%>
+            <p>อนุมัติแล้ว</p>
+        <% } %>
+        <hr>
+    <% }) %>
+ 
+</body>
+</html>

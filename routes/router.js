@@ -19,6 +19,9 @@ router.use((err, req, res, next)=> {
 router.get('/',controller.index );
 router.get('/login',controller.login );
 router.get('/cat_findhouse',controller.cat_findhouse);
+router.get('/admin_check',controller.admin_check);
+router.get('/accept/:id',controller.accept_post);
+router.get('/decline/:id',controller.decline_post);
 
 
 router.get('/:id',controller.findhouse_detail,);

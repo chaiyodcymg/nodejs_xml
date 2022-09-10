@@ -1,4 +1,5 @@
 
+const { Timestamp } = require('mongodb');
 const monk = require('monk')
 const url = 'mongodb://localhost:27017/nodejs_xml';
 const db = monk(url);
@@ -22,14 +23,31 @@ exports.login = (req,res)=>{
 }
 
 exports.cat_findhouse = (req,res)=>{
-    cat_findhouse.find({}).then((docs) => {
-    res.render('cat_findhouse', { cats:docs });
+    cat_findhouse.find({status:true}).then((docs) => {
+      return  res.render('cat_findhouse', { cats:docs });
     })
 }
 
 exports.findhouse_detail = (req,res)=>{
-  const cat_id = req.params.id
-  cat_findhouse.findOne({_id:cat_id}).then((doc)=>{
+  cat_findhouse.findOne({'_id':req.params.id}).then((doc)=>{
     res.render('findhouse_detail', {cat:doc});
+  })
+}
+
+exports.admin_check = (req,res)=>{
+  cat_findhouse.find({deleted_at:Timestamp({ t: 0, i: 0 })}).then((docs) => {
+    res.render('admin_check', { cats:docs });
+  })
+}
+
+exports.accept_post = (req,res)=>{
+  cat_findhouse.findOneAndUpdate({_id:req.params.id}, {$set:{ status:true} }).then((docs) => {
+    res.redirect('/admin_check');
+  })
+}
+
+exports.decline_post = (req,res)=>{
+  cat_findhouse.findOneAndUpdate({_id:req.params.id}, {$set:{ deleted_at:Date.now()} }).then((docs) => {
+    res.redirect('/admin_check');
   })
 }
