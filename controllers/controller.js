@@ -12,9 +12,11 @@ const validator = require("email-validator");
 
 const cat_findhouse= db.get('cat_findhouse')
 // หน้าหลัก
+// res.setHeader('Cache-Control', 'no-store');  ไม่ให้เก็บ Back/forward cache ปุ่มไปกลับบน browser
 exports.index = (req,res)=>{
 
   cat_findhouse.find({}).then((result) => {
+    res.setHeader('Cache-Control', 'no-store');  
     res.render('index', { title: 'Express' ,result});
   })
   
@@ -30,8 +32,9 @@ exports.login = (req,res)=>{
             let encrypted = CryptoJS.AES.encrypt(result._id.toString(), "nodejs_xml").toString()
             var encoded = CryptoJS.enc.Base64.parse(encrypted).toString(CryptoJS.enc.Hex);
 
-          
+        
             res.cookie('AUTH',encoded, {  httpOnly: true })
+            res.setHeader('Cache-Control', 'no-store');  
             res.status(200).redirect("/")
             // res.redirect("/")
     
@@ -46,6 +49,7 @@ exports.login = (req,res)=>{
 exports.login_get =async (req,res)=>{
   if( req.cookies.AUTH == undefined){
   const login = await req.consumeFlash('login');
+  res.setHeader('Cache-Control', 'no-store');  
     res.render('login',{login});
 
   }
@@ -106,6 +110,7 @@ exports.auth_logout =  (req,res,next)=>{
 // หน้าregister
 exports.register_get = async(req,res)=>{
   const register = await req.consumeFlash('register');
+  res.setHeader('Cache-Control', 'no-store');  
 res.render('register' , { register});
 }
 // ระบบ register
@@ -127,9 +132,9 @@ exports.register =async (req,res,next)=>{
             let encrypted = CryptoJS.AES.encrypt(result._id.toString(), "nodejs_xml").toString()
             var encoded = CryptoJS.enc.Base64.parse(encrypted).toString(CryptoJS.enc.Hex);
     
-          
-            res.cookie('AUTH',encoded, {  httpOnly: true })
      
+            res.cookie('AUTH',encoded, {  httpOnly: true })
+            res.setHeader('Cache-Control', 'no-store'); 
            res.redirect("/")
     
         }else{
