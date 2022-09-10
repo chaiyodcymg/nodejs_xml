@@ -7,7 +7,7 @@
         <!-- Background image -->
         <div class="" style="
         background-color:white;
-        height: 550px;
+        height: 540px;
         ">
             <img class="img-fluid" src="/images/cat.jpg" alt="">
         </div>
@@ -24,54 +24,49 @@
                     <div class="col-lg-8">
                         <h2 class="fw-bold mb-5">สมัครสมาชิก</h2>
                         <form>
-                            <!-- 2 column grid layout with text inputs for the first and last names -->
-                            
+
                             <div class="form-outline mb-4 text-start">
-                                <label class="form-label" for="form3Example3">ชื่อผู้ใช้</label>
-                                <input type="email" id="form3Example3" class="form-control" />
+                                <input name="username" type="text" id="form3Example3" class="form-control" placeholder="ชื่อผู้ใช้"
+                                    required />
                             </div>
                             <div class="row text-start">
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
-                                        <label class="form-label" for="form3Example1">รหัสผ่าน</label>
-                                        <input type="text" id="form3Example1" class="form-control" />
+                                        <input name="pass" type="password" id="form3Example1" class="form-control"
+                                            placeholder="รหัสผ่าน" required />
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
-                                        <label class="form-label" for="form3Example2">ยืนยันรหัสผ่าน</label>
-                                        <input type="text" id="form3Example2" class="form-control" />
+                                        <input name="confirmpass" type="password" id="form3Example2" class="form-control"
+                                            placeholder="ยืนยันรหัสผ่าน" required />
                                     </div>
                                 </div>
                             </div>
                             <div class="row text-start">
                                 <div class="col-md-6 mb-4 ">
                                     <div class="form-outline">
-                                        <label class="form-label" for="form3Example1">ชื่อ</label>
-                                        <input type="text" id="form3Example1" class="form-control" />
+                                        <input name="firstname" type="text" id="form3Example1" class="form-control" placeholder="ชื่อ"
+                                            required />
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
-                                        <label class="form-label" for="form3Example2">นามสกุล</label>
-                                        <input type="text" id="form3Example2" class="form-control" />
+                                        <input name="lastname" type="text" id="form3Example2" class="form-control" placeholder="นามสกุล"
+                                            required />
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Email input -->
-
-
-                            <!-- Password input -->
-                            <div class="form-outline mb-4">
-                                <input type="password" id="form3Example4" class="form-control" />
-                                <label class="form-label" for="form3Example4">รหัสผ่าน</label>
+                            <div class="form-outline mb-4 text-start">
+                                <input name="email" type="email" id="form3Example4" class="form-control" placeholder="อีเมล" />
                             </div>
 
                             <!-- Submit button -->
-                            <button type="submit" class="btn btn-primary btn-block mb-4">
-                                สมัครสมาชิก
-                            </button>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary mb-4">
+                                    สมัครสมาชิก
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
