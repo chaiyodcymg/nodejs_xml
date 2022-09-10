@@ -7,20 +7,13 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- for each พวกในตาราง -->
-    <!-- <% docs.forEach(docs => { %>
-        <h1><%= docs.name %></h1>
-        <img src="<%= docs.image %>" style="width: 150px;height:150px;">
-        <p><%= docs.color %></p>
-        <p><%= docs.species %></p>
-    <% }) %> -->
-
-    <% Object.values(docs).forEach(function(item){%>
+   
+    <% cats.forEach((item)=> { %>
         <a href="<%= item._id %>"><h1><%= item.name %></h1></a>
         <img src="<%= item.image %>" style="width: 150px;height:150px;">
         <p><%= item.color %></p>
         <p><%= item.species %></p>
     <% }) %>
-   
+ 
 </body>
 </html>

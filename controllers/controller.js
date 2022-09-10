@@ -23,7 +23,7 @@ exports.login = (req,res)=>{
 
 exports.cat_findhouse = (req,res)=>{
     cat_findhouse.find({}).then((docs) => {
-      res.render('cat_findhouse', { title: 'Express',docs });
+    res.render('cat_findhouse', { cats:docs });
     })
 }
 
