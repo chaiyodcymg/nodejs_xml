@@ -45,9 +45,7 @@ exports.login = (req,res)=>{
       })
 
 }
-exports.login = (req,res)=>{
-    res.render('login', { title: 'Expresss' });
-}
+
 
 exports.home = (req,res)=>{
   res.render('home', { title: 'Expresss' });
