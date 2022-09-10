@@ -14,10 +14,10 @@ const users = db.get('users')
 
 exports.index = (req,res)=>{
     users.find({}).then((docs) => {
-        res.render('index', { title: 'Express',docs });
+      res.render('index', { title: 'Express',docs });
       })
-
 }
+
 exports.login = (req,res)=>{
     res.render('login', { title: 'Expresss' });
 }
@@ -31,5 +31,26 @@ exports.footer = (req,res)=>{
 }
 
 exports.checkpost = (req,res)=>{
-  res.render('admincheckpost', { title: 'Expresss' });
+  res.render('admincheckpost', { title: 'ตรวจสอบโพสต์' });
 }
+
+exports.mypost = (req,res)=>{
+  res.render('user_mypost', { title: 'โพสต์ของฉัน' });
+}
+
+exports.findhome_post = (req,res)=>{
+    res.render('findhome_post', { title: 'หาบ้านให้น้องเหมียว' });
+}
+
+exports.report_post = (req,res)=>{
+    res.render('report_post', { title: 'แจ้งพบ/หาย' });
+}
+
+exports.profile = (req,res)=>{
+    res.render('profile', { title: 'โปรไฟล์' });
+}
+
+exports.editprofile = (req,res)=>{
+    res.render('editprofile', { title: 'แก้ไขโปรไฟล์' });
+}
+
