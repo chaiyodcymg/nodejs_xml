@@ -17,10 +17,8 @@ exports.index = (req,res)=>{
 
   cat_findhouse.find({}).then((result) => {
     res.setHeader('Cache-Control', 'no-store');  
-    res.render('index', { title: 'Express' ,result});
+    res.render('home', { title: 'Express' ,result});
   })
-  
- 
 }
 // ระบบ login
 exports.login = (req,res)=>{
@@ -42,14 +40,11 @@ exports.login = (req,res)=>{
             req.flash('login', "อีเมลหรือรหัสผ่านไม่ถูกต้อง");
             res.redirect("/login")
         }
-      })
-
+    })
 }
 
 
-exports.home = (req,res)=>{
-  res.render('home', { title: 'Expresss' });
-}
+
 
 exports.more_cat = (req,res)=>{
   res.render('more_cat', { title: 'Expresss' });
@@ -181,3 +176,22 @@ exports.register =async (req,res,next)=>{
 // console.log(encrypted_password)
 
 // users.remove()
+// exports.login = (req,res)=>{
+//     res.render('login', { title: 'Expresss' });
+// }
+
+exports.findhome_post = (req,res)=>{
+    res.render('findhome_post', { title: 'หาบ้านให้น้องเหมียว' });
+}
+
+exports.report_post = (req,res)=>{
+    res.render('report_post', { title: 'แจ้งพบ/หาย' });
+}
+
+exports.profile = (req,res)=>{
+    res.render('profile', { title: 'โปรไฟล์' });
+}
+
+exports.editprofile = (req,res)=>{
+    res.render('editprofile', { title: 'แก้ไขโปรไฟล์' });
+}

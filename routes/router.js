@@ -13,7 +13,7 @@ router.use(( req, res, next)=>{
 
 // router.get('/',controller.index );
 // router.get('/login',controller.login );
-router.get('/home',controller.home);
+
 router.get('/more_cat',controller.more_cat);
 router.get('/more_cat_john',controller.more_cat_john);
 router.get('/',controller.auth,controller.index );
@@ -24,4 +24,10 @@ router.post('/login' ,controller.login );
 router.post('/register' ,controller.register );
 router.post('/logout',controller.logout );
 
+// router.get('/',controller.index );
+// router.get('/login', controller.login);
+router.get('/findhome_post', controller.findhome_post);
+router.get('/report_post', controller.report_post);
+router.get('/profile', controller.profile); 
+router.get('/editprofile',controller.editprofile ); 
 module.exports = router;

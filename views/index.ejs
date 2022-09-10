@@ -6,18 +6,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <%- include('./bootstrap'); %>
   </head>
-  <body >
+  <body>
+    <h1><%= title %></h1>
   
-    <p>Welcome to </p>
-    <form action="/logout" method="POST">
-      <input type="submit" value="Logout">
-    </form> 
-    <% if(result.length > 0 ){%>
-    <%  result.forEach((item)=>{%>
-    <p> <%= item.name %></p> 
-    <% }) %>
-
-    <% }%>
-
   </body>
 </html>

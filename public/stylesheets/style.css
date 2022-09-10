@@ -7,6 +7,29 @@
 a {
   color: #FF9F45;
 }
+.nav-drop{
+  color: grey !important;
+}
+.nav-drop:hover{
+  color: rgb(100, 99, 99) !important;
+}
+
+/* สีปุ่ม */
+.btn-color{
+  background-color: #FF9F45 !important;
+}
+.btn-cancle{
+  border: 1px solid gray !important;
+}
+
+/* .col-md-4{
+  padding: 10px !important;
+} */
+.col-md-4 img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
 
 .head{
   background-color: #FF9F45;
@@ -20,7 +43,7 @@ a {
 
 .home-icon{
   width: 3rem;
-  fill: #FF9F45;
+  fill: #d5761d;
 }
 
 .flex-container{
@@ -42,6 +65,9 @@ a {
   text-decoration: none;
   color: #FF9F45;
 }
+.more-cat:hover{
+  color: #FF9F45;
+}
 .icon-more-cat{
   width: 0.9rem;
   fill: #FF9F45;
@@ -54,6 +80,7 @@ a {
   min-width: 5rem;
   height: 13rem;
   border-radius: 50%;
+  object-fit: cover;
 }
 .text-cat-john{
   display: flex;
@@ -63,6 +90,9 @@ a {
 
 .catinfo{
   text-decoration: none;
+  color: black;
+}
+.catinfo:hover{
   color: black;
 }
 
