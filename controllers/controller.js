@@ -56,3 +56,9 @@ exports.register = (req, res) => {
         title: 'สมัครสมาชิก'
     });
 }
+
+exports.login2 = (req, res) => {
+    res.render('login2', {
+        title: 'ล็อกอินจ้า'
+    });
+}
