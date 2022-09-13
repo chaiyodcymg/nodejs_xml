@@ -11,8 +11,8 @@ const CryptoJS = require("crypto-js");
 const validator = require("email-validator");
 const cat_findhouse= db.get('cat_findhouse')
 const cat_lost = db.get('cat_lost');
-
-
+const randomstring = require("randomstring");
+const fs = require('fs');
 
 
 // console.log( __dirname.split('\controllers')[0]+"public/images/")
@@ -70,7 +70,7 @@ exports.logout = (req,res)=>{
 exports.auth = (req,res,next)=>{
 
   if( req.cookies.AUTH != undefined){
-    console.log("เข้า if 1")
+
             const cookie = req.cookies.AUTH
             const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
             const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
@@ -82,23 +82,16 @@ exports.auth = (req,res,next)=>{
                   res.redirect('/')
                 }else{
                   next()
-                }
-               
-                        
+                }                        
               }else{
                 res.clearCookie('AUTH');
                  res.redirect('/login')
               }
-          })
-     
-       
-
+          })    
         }else {
-          console.log("เข้า else 1")
+        
           res.clearCookie('AUTH');
           res.redirect('/login')
-
-        
         }
 }
 
@@ -106,10 +99,10 @@ exports.auth = (req,res,next)=>{
 exports.auth_logout =  (req,res,next)=>{
 
  if( req.cookies.AUTH == undefined){
-    console.log("เข้า if")
+   
   return  next()
   }
-    console.log("เข้า else if")
+
     res.redirect('/')
   
 }
@@ -128,10 +121,7 @@ exports.register =async (req,res,next)=>{
   users.findOne({email:req.body.email}).then((result) => {
   
     if(result == null){
-
- 
      const encrypted_password = CryptoJS.MD5(req.body.password.toString()).toString()
-
       users.insert({email:req.body.email,password:encrypted_password }).then((result) => {
        
         if(result != null){
@@ -174,7 +164,8 @@ exports.register =async (req,res,next)=>{
 
 
 exports.findhome_post = (req,res)=>{
-    res.render('findhome_post', { title: 'หาบ้านให้น้องเหมียว' });
+  const findhome_post  =  req.consumeFlash('findhome_post');
+    res.render('findhome_post', { title: 'หาบ้านให้น้องเหมียว',findhome_post });
 }
 
 exports.report_post = (req,res)=>{
@@ -190,47 +181,44 @@ exports.editprofile = (req,res)=>{
 }
 
 exports.addcat_findhouse = (req, res, next) => {
-  if (req.files) {
-    console.log(req.files.pet_image)
-  }
-  const file = req.files.pet_image
-  const image_path =  __dirname.split('\controllers')[0]+"public/images/aa.jpg"
-  file.mv(image_path)
-    // fs.writeFile(image_path , oldpath , function (err) {
-    //   if (err){
-    //     console.log(err)
-    //     res.status(400).send(err)
-    //   }else{
-    //     res.status(200).send("success")
-    //   }
-    
-    // })
  
-  // cat_findhouse.insert({
-  //   findhome_type:req.body.flexRadioDefault,
-  //   pet_name:req.body.pet_name,
-  //   pet_gene:req.body.pet_gene,
-  //   pet_gender:req.body.pet_gender,
-  //   pet_color:req.body.pet_color,
-  //   pet_vaccin:req.body.pet_vaccin,
-  //   pet_vaccin_date:req.body.pet_vaccin_date,
-  //   pet_symptom:req.body.pet_symptom,
-  //   pet_image:req.body.pet_image,
-  //   place:req.body.place,
-  //   contact_name:req.body.contact_name,
-  //   contact_surname:req.body.contact_surname,
-  //   contact_tel:req.body.contact_tel,
-  //   contact_email:req.body.contact_email,
-  //   contact_line:req.body.contact_line,
-  //   contact_facebook:req.body.contact_facebook
-  // },function(err,result){
-  //   if(err){
-  //     console.log(err);
-  //     res.send(' <script>alert("บันทึกข้อมูลไม่สำเร็จ!!!"); window.location = "/"; </script>');
-  //   }else{
-  //     res.send(' <script>alert("บันทึกข้อมูลสำเร็จ!!!"); window.location = "/"; </script>');
-  //     // res.location('/');
-  //     // res.redirect('/');
-  //   }
-  // });
+const file = req.files.pet_image
+var filename_random = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(50)+".jpg"
+  if (fs.existsSync(filename_random )) {
+     filename_random  = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(60)+".jpg"
+    file.mv(filename_random)
+  }else{
+    file.mv(filename_random)
+  }
+// console.log(filename_random.split('/public/')[1])
+  cat_findhouse.insert({
+    status:false,
+    findhome_type:req.body.flexRadioDefault,
+    pet_name:req.body.pet_name,
+    pet_gene:req.body.pet_gene,
+    pet_gender:req.body.pet_gender,
+    pet_color:req.body.pet_color,
+    pet_vaccin:req.body.pet_vaccin,
+    pet_vaccin_date:req.body.pet_vaccin_date,
+    pet_symptom:req.body.pet_symptom,
+    pet_image:filename_random.split('/public/')[1],
+    place:req.body.place,
+    contact_name:req.body.contact_name,
+    contact_surname:req.body.contact_surname,
+    contact_tel:req.body.contact_tel,
+    contact_email:req.body.contact_email,
+    contact_line:req.body.contact_line,
+    contact_facebook:req.body.contact_facebook
+  },function(err,result){
+    if(err){
+      console.log(err);
+      // res.send(' <script>alert("บันทึกข้อมูลไม่สำเร็จ!!!") </script>');
+      req.flash('findhome_post', "ข้อมูลไม่ถูกต้อง");
+      res.redirect('/findhome_post');
+    }else{
+      // res.send(' <script>alert("บันทึกข้อมูลสำเร็จ!!!"); </script>');
+ 
+      res.redirect('/');
+    }
+  });
 };
