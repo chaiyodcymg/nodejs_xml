@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./head') %>
+<link rel="stylesheet" href="/stylesheets/postcheck.css">
+
+<body>
+    <%- include('./header') %>
+    
+        <div class="container">
+            <h1>โพสต์ของฉัน</h1>
+            <div class="row">
+                <div class="col-md ">
+                    <div class="box">
+                        <div class="img_presentcat">
+                            <img src="../images/cat.jpg" alt="">
+                        </div>
+                        <div class="text-wrap">
+                            <h3>รหัสแมว 666</h3>
+                            <div class="catinfo">
+                                <ul>
+                                    <li>เพศ</li>
+                                    <li>สี</li>
+                                    <li>วัคซีนที่เคยได้รับ</li>
+                                    <li>สายพันธ์</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="button">
+                            <button type="button" class="btn btn-danger">ลบ</button>
+                            <button type="button" class="btn btn-success">แก้ไข</button>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+
+    <%- include('./footer'); %>
+</body>
+
+</html>

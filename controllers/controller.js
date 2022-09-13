@@ -19,6 +19,7 @@ exports.index = (req,res)=>{
     res.setHeader('Cache-Control', 'no-store');  
     res.render('home', { title: 'Express' ,result});
   })
+  
 }
 // ระบบ login
 exports.login = (req,res)=>{
@@ -179,6 +180,22 @@ exports.register =async (req,res,next)=>{
 // exports.login = (req,res)=>{
 //     res.render('login', { title: 'Expresss' });
 // }
+
+exports.cat_info = (req,res)=>{
+  res.render('cat_info', { title: 'Expresss' });
+}
+
+exports.footer = (req,res)=>{
+  res.render('footer', { title: 'Expresss' });
+}
+
+exports.checkpost = (req,res)=>{
+  res.render('admincheckpost', { title: 'ตรวจสอบโพสต์' });
+}
+
+exports.mypost = (req,res)=>{
+  res.render('user_mypost', { title: 'โพสต์ของฉัน' });
+}
 
 exports.findhome_post = (req,res)=>{
     res.render('findhome_post', { title: 'หาบ้านให้น้องเหมียว' });

@@ -26,8 +26,16 @@ router.post('/logout',controller.logout );
 
 // router.get('/',controller.index );
 // router.get('/login', controller.login);
+// router.get('/',controller.index );
+// router.get('/login',controller.login );
+router.get('/catinfo',controller.cat_info );
+router.get('/footer',controller.footer );
+router.get('/checkpost',controller.checkpost );
+// router.get('/login', controller.login);
 router.get('/findhome_post', controller.findhome_post);
 router.get('/report_post', controller.report_post);
 router.get('/profile', controller.profile); 
 router.get('/editprofile',controller.editprofile ); 
+router.get('/mypost',controller.mypost ); 
+
 module.exports = router;

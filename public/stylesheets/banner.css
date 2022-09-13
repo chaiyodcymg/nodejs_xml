@@ -1,0 +1,47 @@
+.banner {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    margin-bottom: 2em;
+}
+
+.imgbanner {
+    height: 200px;
+    background-image: url(../images/catbanner.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(8px);
+}
+.overlay {
+    background-color: rgba(0, 0, 0, 0.948);
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.banner h2 {
+    font-weight: bolder;
+    font-size: 36px;
+    color: white;
+    z-index: 3;
+    text-align: center;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.breadcrumb {
+    z-index: 3;
+    text-align: center;
+    position: absolute;
+    top: 135px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.breadcrumb-item {
+    color: white !important;
+}
+
