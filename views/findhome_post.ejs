@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">เรื่องที่แจ้ง</h1>
+        <h2 class="mt-4 mb-4">ข้อมูลของสัตว์เลี้ยง</h2>
+
+        <form class="row g-3" action="/findhome_post/add" method="post">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="หาบ้านให้น้องแมว">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    หาบ้านให้น้องแมว
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="หาบ้านให้น้องแมวที่ป่วย" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    หาบ้านให้น้องแมวที่ป่วย
+                </label>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">ชื่อของสัตว์เลี้ยง*</label>
+                <input name="pet_name" type="text" class="form-control" id="inputEmail4" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">สายพันธุ์*</label>
+                <input name="pet_gene" type="text" class="form-control" id="inputPassword4" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">เพศ</label>
+                <select name="pet_gender" id="disabledSelect" class="form-select">
+                    <option value="ชาย">ชาย</option>
+                    <option value="หญิง">หญิง</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">สี*</label>
+                <input name="pet_color" type="text" class="form-control" id="exampleFormControlInput1" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">วัคซีนที่เคยได้รับ</label>
+                <input name="pet_vaccin" type="text" class="form-control" id="exampleFormControlInput1">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">วันที่รับวัคซีน</label>
+                <input name="pet_vaccin_date" type="date" class="form-control" id="exampleFormControlInput1">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">รายละเอียดเพิ่มเติม</label>
+                <textarea name="pet_symptom" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="formFile" class="form-label">รูปภาพของสัตว์เลี้ยง*</label>
+                <input name="pet_image" class="form-control" type="file" id="formFile" required>
+            </div>
+
+            <h2>สถานที่</h2>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">ที่อยู่</label>
+                <textarea name="place" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <h2>ข้อมูลการติดต่อ</h2>
+
+            <div class="col-md-6">
+                <label class="form-label">ชื่อ*</label>
+                <input name="contact_name" type="text" class="form-control" id="inputEmail4" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">นามสกุล*</label>
+                <input name="contact_surname" type="text" class="form-control" id="inputPassword4" required>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">เบอร์ติดต่อ*</label>
+                <input name="contact_tel" type="text" class="form-control" id="exampleFormControlInput1" required>
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">อีเมล</label>
+                <input name="contact_email" type="email" class="form-control" id="exampleFormControlInput1">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Line ID</label>
+                <input name="contact_line" type="text" class="form-control" id="inputEmail4">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Facebook</label>
+                <input name="contact_facebook" type="text" class="form-control" id="inputPassword4">
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
+                <button class="btn btn-primary me-md-2" type="submit" id="submit_home_form">โพสต์</button>
+            </div>
+        </form>
+    </div>
+    <!-- ใส่ที่ footer -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+        integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"
+        integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous">
+    </script>
+</body>
+</html>

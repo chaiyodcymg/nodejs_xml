@@ -18,9 +18,14 @@ router.get("/login", controller.login);
 router.get("/register", controller.register);
 router.post("/test1", controller.test1);
 router.get("/test2", controller.test2);
-router.get("/home", controller.home);
-router.post("/add", controller.add);
+router.get("/test2/:id", controller.show);
 
-router.get("/show/<%=calltest._id%>", controller.show);
+router.get("/findhome_post", controller.findhome_post);
+router.post("/findhome_post/add", controller.addcat_findhouse);
+router.post("/findhome_post/edit", controller.edit);
+router.post("/findhome_post/update", controller.update);
+
+router.get('/report_post', controller.report_post);
+router.post("/report_post/add", controller.addcat_lost);
 
 module.exports = router;

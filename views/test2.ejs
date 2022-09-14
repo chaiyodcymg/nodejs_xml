@@ -5,16 +5,18 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <p>Welcome to Test2</p>
+    <p><%= title%></p>
     <% calltest.forEach(calltest => { %>
       <ul>
-        <li><a href="/show/<%=calltest._id%>"><%= calltest.pet_name%></a></li>
+        <li>
+          <a href="/test2/<%=calltest._id%>"><%= calltest.pet_name%></a>
+          <form action="/findhome_post/edit" method="post">
+            <input type="hidden" name="edit_id" value="<%=calltest._id%>">
+            <button type="submit">แก้ไข</button>
+          </form>
+      </li>
       </ul>
     <% }) %>
 
-    <!-- <a href="">
-      <%=calltest[0].pet_name%> <br>
-      <%=calltest[0].pet_gender%>
-    </a> -->
   </body>
 </html>
