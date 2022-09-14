@@ -22,10 +22,14 @@ router.get("/test2/:id", controller.show);
 
 router.get("/findhome_post", controller.findhome_post);
 router.post("/findhome_post/add", controller.addcat_findhouse);
-router.post("/findhome_post/edit", controller.edit);
-router.post("/findhome_post/update", controller.update);
+router.post("/findhome_post/edit", controller.edit_findhome_post);
+router.post("/findhome_post/update", controller.update_findhome_post);
+router.get("/findhome_post/delete/:id", controller.delete_findhome_post);
 
 router.get('/report_post', controller.report_post);
 router.post("/report_post/add", controller.addcat_lost);
+router.post("/report_post/edit", controller.edit_cat_lost);
+router.post("/report_post/update", controller.update_cat_lost);
+router.post("/report_post/delete/:id", controller.delete_cat_lost);
 
 module.exports = router;
