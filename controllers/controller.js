@@ -37,10 +37,27 @@ exports.test1 = (req, res) => {
 };
 
 exports.test2 = (req, res) => {
-  cat_findhouse.find({}, function (err, docs) {
-    //ค้นหาข้อมูลใน collection test2 ทั้งหมด ไปเก็บที่ docs
-    res.render("test2", { title: "SHOWDATA", calltest: docs }); //test2 ต้องชื่อเดียวกันกับชื่อใน view
+    cat_findhouse.find({}, function (err, docs) {//ค้นหาข้อมูลใน collection cat_lost ทั้งหมด ไปเก็บที่ docs
+      res.render("test2", { title: "SHOWDATA", callitem: docs }); //test2 ต้องชื่อเดียวกันกับชื่อใน view
+    });
+    // cat_lost.find({}, function (err, docs) {//ค้นหาข้อมูลใน collection cat_lost ทั้งหมด ไปเก็บที่ docs
+    //   res.render("test2", { title: "SHOWDATA", callitem: docs }); //test2 ต้องชื่อเดียวกันกับชื่อใน view
+    // });
+};
+
+exports.show = (req, res) => {
+  const cat_id = req.params.id;
+  cat_findhouse.findOne({ _id: cat_id }).then((doc) => {
+    res.render("show", { cat: doc });
   });
+};
+
+//เทสการเขียนลบแบบไม่ต้องแยก router
+exports.delete = (req, res) => {
+  // cat_lost.remove({_id:req.params.id});
+  // res.redirect('/test2');
+  cat_findhouse.remove({_id:req.params.id});
+  res.redirect('/test2');
 };
 
 exports.findhome_post = (req, res) => {
@@ -48,14 +65,14 @@ exports.findhome_post = (req, res) => {
 };
 
 exports.addcat_findhouse = (req, res, next) => {
-  const file = req.files.pet_image;
-  var filename_random = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(50)+".jpg"
-  if (fs.existsSync(filename_random )) {
-     filename_random  = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(60)+".jpg"
-    file.mv(filename_random)
-  }else{
-    file.mv(filename_random)
-  }
+  // const file = req.files.pet_image;
+  // var filename_random = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(50)+".jpg"
+  // if (fs.existsSync(filename_random )) {
+  //    filename_random  = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(60)+".jpg"
+  //   file.mv(filename_random)
+  // }else{
+  //   file.mv(filename_random)
+  // }
   cat_findhouse.insert(
     {
       status: false,
@@ -67,7 +84,7 @@ exports.addcat_findhouse = (req, res, next) => {
       pet_vaccin: req.body.pet_vaccin,
       pet_vaccin_date: req.body.pet_vaccin_date,
       pet_symptom: req.body.pet_symptom,
-      pet_image: filename_random.split('/public/')[1],
+      // pet_image: filename_random.split('/public/')[1],
       place: req.body.place,
       contact_name: req.body.contact_name,
       contact_surname: req.body.contact_surname,
@@ -103,14 +120,14 @@ exports.edit_findhome_post = (req, res) => {
 
 //หลังจากกด submit จากหน้า edit.ejs จะมาทำ action นี้
 exports.update_findhome_post = (req, res) => {
-  const file = req.files.pet_image;
-  var filename_random = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(50)+".jpg"
-  if (fs.existsSync(filename_random )) {
-     filename_random  = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(60)+".jpg"
-    file.mv(filename_random)
-  }else{
-    file.mv(filename_random)
-  }
+  // const file = req.files.pet_image;
+  // var filename_random = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(50)+".jpg"
+  // if (fs.existsSync(filename_random )) {
+  //    filename_random  = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(60)+".jpg"
+  //   file.mv(filename_random)
+  // }else{
+  //   file.mv(filename_random)
+  // }
   const update_id = req.body.edit_id;
   let data = {
     pet_name: req.body.pet_name,
@@ -120,7 +137,7 @@ exports.update_findhome_post = (req, res) => {
     pet_vaccin: req.body.pet_vaccin,
     pet_vaccin_date: req.body.pet_vaccin_date,
     pet_symptom: req.body.pet_symptom,
-    pet_image: filename_random.split('/public/')[1],
+    // pet_image: filename_random.split('/public/')[1],
     place: req.body.place,
     contact_name: req.body.contact_name,
     contact_surname: req.body.contact_surname,
@@ -150,7 +167,10 @@ exports.update_findhome_post = (req, res) => {
       },
     })
     .then((updatedDoc) => {
-      res.redirect("/test2");
+      res.send(
+        ' <script>alert("อัพเดตข้อมูลสำเร็จ!!!"); window.location = "/test2"; </script>'
+      );
+      // res.redirect("/test2");
     });
 };
 
@@ -211,21 +231,21 @@ exports.addcat_lost = (req, res, next) => {
 };
 
 exports.edit_cat_lost = (req, res) => {
-  const edit_id = req.body.edit_id;
-  cat_lost.findOne({ _id: edit_id }).then((doc) => {
+  const edit_id1 = req.body.edit_id;
+  cat_lost.findOne({ _id: edit_id1 }).then((doc) => {
     res.render("edit_cat_lost", {title:"แก้ไขรายละเอียด", doc: doc });
   });
 };
 
 exports.update_cat_lost = (req, res) => {
-  const file = req.files.pet_image;
-  var filename_random = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(50)+".jpg"
-  if (fs.existsSync(filename_random )) {
-     filename_random  = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(60)+".jpg"
-    file.mv(filename_random)
-  }else{
-    file.mv(filename_random)
-  }
+  // const file = req.files.pet_image;
+  // var filename_random = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(50)+".jpg"
+  // if (fs.existsSync(filename_random )) {
+  //    filename_random  = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(60)+".jpg"
+  //   file.mv(filename_random)
+  // }else{
+  //   file.mv(filename_random)
+  // }
   const update_id = req.body.edit_id;
   let data = {
     pet_name: req.body.pet_name,
@@ -235,7 +255,7 @@ exports.update_cat_lost = (req, res) => {
     pet_vaccin: req.body.pet_vaccin,
     pet_vaccin_date: req.body.pet_vaccin_date,
     pet_symptom: req.body.pet_symptom,
-    pet_image: filename_random.split('/public/')[1],
+    // pet_image: filename_random.split('/public/')[1],
     place_date_time: req.body.place_date_time,
     place_landmarks: req.body.place_landmarks,
     place_name: req.body.place_name,
@@ -255,7 +275,7 @@ exports.update_cat_lost = (req, res) => {
     pet_vaccin: data.pet_vaccin,
     pet_vaccin_date: data.pet_vaccin_date,
     pet_symptom: data.pet_symptom,
-    pet_image: data.pet_image,
+    // pet_image: data.pet_image,
     place_date_time: data.place_date_time,
     place_landmarks: data.place_landmarks,
     place_name: data.place_name,
@@ -269,18 +289,13 @@ exports.update_cat_lost = (req, res) => {
   },
 })
 .then((updatedDoc) => {
-  res.redirect("/test2");
+  res.send(
+    '<script>alert("อัพเดตข้อมูลสำเร็จ!!!"); window.location = "/test2"; </script>'
+  );
+  // res.redirect("/test2");
 });
 }
-
 exports.delete_cat_lost = (req, res) => {
   cat_lost.remove({_id:req.params.id});
   res.redirect('/test2');
-};
-
-exports.show = (req, res) => {
-  const cat_id = req.params.id;
-  cat_findhouse.findOne({ _id: cat_id }).then((doc) => {
-    res.render("show", { cat: doc });
-  });
 };

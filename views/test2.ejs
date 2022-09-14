@@ -6,15 +6,24 @@
   </head>
   <body>
     <p><%= title%></p>
-    <% calltest.forEach(calltest => { %>
+    <% callitem.forEach(callitem => { %>
       <ul>
         <li>
-          <a href="/test2/<%=calltest._id%>"><%= calltest.pet_name%></a>
+          <a href="/test2/<%=callitem._id%>"><%= callitem.pet_name%></a>
           <form action="/findhome_post/edit" method="post">
-            <input type="hidden" name="edit_id" value="<%=calltest._id%>">
+            <input type="hidden" name="edit_id" value="<%=callitem._id%>">
             <button type="submit">แก้ไข</button>
           </form>
-          <a href="/findhome_post/delete/<%=calltest._id%>">ลบ</a><hr>
+          <a href="/delete/<%=callitem._id%>" onclick="return confirm('คุณต้องการลบ <%=callitem.pet_name%> หรือไม่?')">ลบ</a><hr>
+          <!-- <a href="/findhome_post/delete/<%=callitem._id%>" onclick="return confirm('คุณต้องการลบ <%=callitem.pet_name%> หรือไม่?')">ลบ</a><hr> -->
+
+          <!-- <a href="/test2/<%=callitem._id%>"><%= callitem.pet_name%></a>
+          <form action="/report_post/edit" method="post">
+            <input type="hidden" name="edit_id" value="<%=callitem._id%>">
+            <button type="submit">แก้ไข</button>
+          </form>
+          <a href="/delete/<%=callitem._id%>" onclick="return confirm('คุณต้องการลบ <%=callitem.pet_name%> หรือไม่?')">ลบ</a><hr> -->
+          <!-- <a href="/report_post/delete/<%=callitem._id%>" onclick="return confirm('คุณต้องการลบ <%=callitem.pet_name%> หรือไม่?')">ลบ</a><hr> -->
       </li>
       </ul>
     <% }) %>
