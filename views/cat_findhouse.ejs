@@ -7,13 +7,51 @@
     <title>Document</title>
 </head>
 <body>
-   
+   <h1>Cat Find House</h1>
+   <input type="text" id="search-box" onkeyup="sendData(this)">
+   <section id="searchResults">
+
+   </section>
+
+
     <% cats.forEach((item)=> { %>
-        <a href="<%= item._id %>"><h1><%= item.name %></h1></a>
+        <a href="<%= item._id %>"><h2><%= item.name %></h2></a>
         <img src="<%= item.image %>" style="width: 150px;height:150px;">
         <p><%= item.color %></p>
         <p><%= item.species %></p>
     <% }) %>
- 
+    
+    <script>
+        function sendData(text){
+            const searchResults = document.getElementById('searchResults')
+            let match = text.value.match(/^[a-zA-Zก-ฮ]*/);
+            let match2 = text.value.match(/\s*/);
+            if(match2[0] === text.value){
+                searchResults.innerHTML = '';
+                return;
+            }
+            if(match[0] === text.value){
+                fetch('getcat', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({payload:text.value})
+
+            }).then(res=>res.json()).then(data => {
+                let payload = data.cats;
+                searchResults.innerHTML = '';
+                if(payload.length < 1){
+                    searchResults.innerHTML = '<p>ไม่พบรายการที่ค้นหา</p>';
+                    return;
+                }
+                payload.forEach((item, index) => {
+                    if(index > 0) searchResults.innerHTML += '<hr>';
+                    searchResults.innerHTML +=  `<a href='${item._id}'>${item.name}</a>`
+                });
+            });
+            return;
+            }
+        }
+    </script>
+   
 </body>
 </html>

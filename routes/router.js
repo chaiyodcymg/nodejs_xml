@@ -25,4 +25,6 @@ router.get('/decline/:id',controller.decline_post);
 
 
 router.get('/:id',controller.findhouse_detail,);
+
+router.post('/getcat',controller.search);
 module.exports = router;

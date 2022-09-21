@@ -47,7 +47,16 @@ exports.accept_post = (req,res)=>{
 }
 
 exports.decline_post = (req,res)=>{
-  cat_findhouse.findOneAndUpdate({_id:req.params.id}, {$set:{ deleted_at:Date.now()} }).then((docs) => {
+  cat_findhouse.remove({_id:req.params.id}).then((docs) => {
     res.redirect('/admin_check');
   })
+}
+
+exports.search = (req,res) => {
+  let payload = req.body.payload.trim();
+  var query = new RegExp('^' + payload + '.*', 'i');
+  cat_findhouse.find({name:query}).then((search) =>{
+    res.send({cats:search});
+  })
+ 
 }
