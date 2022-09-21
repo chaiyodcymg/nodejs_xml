@@ -13,14 +13,22 @@ const cat_findhouse= db.get('cat_findhouse')
 const cat_lost = db.get('cat_lost');
 const randomstring = require("randomstring");
 const fs = require('fs');
+var MongoDB = require('mongodb');
 
+process.env.TZ = "Asia/bangkok"
 
 // console.log( __dirname.split('\controllers')[0]+"public/images/")
 // หน้าหลัก
 // res.setHeader('Cache-Control', 'no-store');  ไม่ให้เก็บ Back/forward cache ปุ่มไปกลับบน browser
+
 exports.index = (req,res)=>{
 
   cat_findhouse.find({}).then((result) => {
+   
+    const event = new Date(result[1].createat);
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric',second: 'numeric' };
+
+   console.log( event.toLocaleDateString('th-TH', options,))
     res.setHeader('Cache-Control', 'no-store');  
     res.render('index', { title: 'Express' ,result});
   })
@@ -180,9 +188,11 @@ exports.editprofile = (req,res)=>{
     res.render('editprofile', { title: 'แก้ไขโปรไฟล์' });
 }
 
+
 exports.addcat_findhouse = (req, res, next) => {
  
 const file = req.files.pet_image
+
 var filename_random = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(50)+".jpg"
   if (fs.existsSync(filename_random )) {
      filename_random  = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(60)+".jpg"
@@ -190,6 +200,7 @@ var filename_random = __dirname.split('\controllers')[0]+"public/images/"+random
   }else{
     file.mv(filename_random)
   }
+  var createAt = Date()
 // console.log(filename_random.split('/public/')[1])
   cat_findhouse.insert({
     status:false,
@@ -208,7 +219,9 @@ var filename_random = __dirname.split('\controllers')[0]+"public/images/"+random
     contact_tel:req.body.contact_tel,
     contact_email:req.body.contact_email,
     contact_line:req.body.contact_line,
-    contact_facebook:req.body.contact_facebook
+    contact_facebook:req.body.contact_facebook,
+    createat:createAt,
+  
   },function(err,result){
     if(err){
       console.log(err);
