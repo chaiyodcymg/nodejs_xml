@@ -24,7 +24,7 @@
     <script>
         function sendData(text){
             const searchResults = document.getElementById('searchResults')
-            let match = text.value.match(/^[\u0E00-\u0E7Faa-zA-Z]*/);
+            let match = text.value.match(/^[\u0E00-\u0E7Fa-zA-Z]*/);
             let match2 = text.value.match(/\s*/);
             if(match2[0] === text.value){
                 searchResults.innerHTML = '';
