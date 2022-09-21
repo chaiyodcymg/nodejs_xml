@@ -25,10 +25,7 @@ exports.index = (req,res)=>{
 
   cat_findhouse.find({}).then((result) => {
    
-    const event = new Date(result[1].createat);
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric',second: 'numeric' };
-
-   console.log( event.toLocaleDateString('th-TH', options,))
+   
     res.setHeader('Cache-Control', 'no-store');  
     res.render('index', { title: 'Express' ,result});
   })
@@ -200,7 +197,10 @@ var filename_random = __dirname.split('\controllers')[0]+"public/images/"+random
   }else{
     file.mv(filename_random)
   }
-  var createAt = Date()
+  const event = new Date();
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric',second: 'numeric' };
+
+const createat = event.toLocaleDateString('th-TH', options)
 // console.log(filename_random.split('/public/')[1])
   cat_findhouse.insert({
     status:false,
@@ -220,7 +220,7 @@ var filename_random = __dirname.split('\controllers')[0]+"public/images/"+random
     contact_email:req.body.contact_email,
     contact_line:req.body.contact_line,
     contact_facebook:req.body.contact_facebook,
-    createat:createAt,
+    createat:createat,
   
   },function(err,result){
     if(err){
