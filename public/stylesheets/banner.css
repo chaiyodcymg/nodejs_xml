@@ -8,7 +8,6 @@
 
 .imgbanner {
     height: 200px;
-    background-image: url(../images/catbanner.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
