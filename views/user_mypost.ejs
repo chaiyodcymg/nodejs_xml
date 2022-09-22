@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <%- include('head') %>
+  <body >
+    <% if(role == null){ %>
+      <%- include('header_notlogin') %>
+    <% } else if(role == 1) {%>
+      <%- include('header_admin') %>
+    <%}else{ %>
+      <%- include('header_user') %>
+      <%}%>
+    <h2>Mypost</h2>
+  
+   
+
+
+
+    <%- include('footer') %>
+  </body>
+</html>

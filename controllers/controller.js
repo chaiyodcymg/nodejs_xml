@@ -13,7 +13,6 @@ const cat_findhouse= db.get('cat_findhouse')
 const cat_lost = db.get('cat_lost');
 const randomstring = require("randomstring");
 const fs = require('fs');
-var MongoDB = require('mongodb');
 
 process.env.TZ = "Asia/bangkok"
 
@@ -21,21 +20,38 @@ process.env.TZ = "Asia/bangkok"
 // หน้าหลัก
 // res.setHeader('Cache-Control', 'no-store');  ไม่ให้เก็บ Back/forward cache ปุ่มไปกลับบน browser
 
-exports.index = (req,res)=>{
 
+exports.home= (req,res)=>{
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('home', { title: 'หน้าหลัก' ,result,role:result.role});
+    //  console.log(result)
+    })
+  // cat_findhouse.find({}).then((result) => {
+   
+   
+    // res.setHeader('Cache-Control', 'no-store');  
+    // res.render('index', { title: 'Express' ,result,role:null});
+  // })
+}else{
   cat_findhouse.find({}).then((result) => {
-   
-   
+ 
     res.setHeader('Cache-Control', 'no-store');  
-    res.render('index', { title: 'Express' ,result});
+    res.render('home', { title: 'หน้าหลัก' ,result,role:null});
   })
+
   
+}
  
 }
 // ระบบ login
 exports.login = (req,res)=>{
 
-  console.log(req.body.email)
+
   const encrypted_password = CryptoJS.MD5(req.body.password.toString()).toString()
     users.findOne({email:req.body.email,password:encrypted_password}).then((result) => {
 
@@ -61,7 +77,7 @@ exports.login_get =async (req,res)=>{
   if( req.cookies.AUTH == undefined){
   const login = await req.consumeFlash('login');
   res.setHeader('Cache-Control', 'no-store');  
-    res.render('login',{login});
+  res.render('login',{title: 'เข้าสู่ระบบ',login});
 
   }
 }
@@ -69,7 +85,7 @@ exports.login_get =async (req,res)=>{
 exports.logout = (req,res)=>{
 
   res.clearCookie('AUTH');
-  res.redirect("/login")
+  res.redirect("/")
 }
 // ระบบเช็คว่า login หรือยัง
 exports.auth = (req,res,next)=>{
@@ -115,19 +131,27 @@ exports.auth_logout =  (req,res,next)=>{
 exports.register_get = async(req,res)=>{
   const register = await req.consumeFlash('register');
   res.setHeader('Cache-Control', 'no-store');  
-res.render('register' , { register});
+res.render('register' , {title:'สมัครสมาชิก', register});
 }
 // ระบบ register
 exports.register =async (req,res,next)=>{
+ 
 
   if(validator.validate(req.body.email) && req.body.password.length >= 8){
-
-
   users.findOne({email:req.body.email}).then((result) => {
-  
+
+    
     if(result == null){
      const encrypted_password = CryptoJS.MD5(req.body.password.toString()).toString()
-      users.insert({email:req.body.email,password:encrypted_password }).then((result) => {
+      users.insert({
+        email:req.body.email,
+        password:encrypted_password ,
+        firstname:req.body.firstname,
+        lastname:req.body.lastname,
+        role:0,
+        image_url :"/images/user.png",
+ 
+      }).then((result) => {
        
         if(result != null){
             let encrypted = CryptoJS.AES.encrypt(result._id.toString(), "nodejs_xml").toString()
@@ -169,24 +193,64 @@ exports.register =async (req,res,next)=>{
 
 
 exports.findhome_post = (req,res)=>{
-  const findhome_post  =  req.consumeFlash('findhome_post');
-    res.render('findhome_post', { title: 'หาบ้านให้น้องเหมียว',findhome_post });
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      const findhome_post  =  req.consumeFlash('findhome_post');
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('findhome_post', { title: 'หาบ้านให้น้องเหมียว',role:result.role,findhome_post });
+    //  console.log(result)
+    })
+  }
+ 
+ 
 }
 
 exports.report_post = (req,res)=>{
-    res.render('report_post', { title: 'แจ้งพบ/หาย' });
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('report_post', { title: 'แก้ไขโปรไฟล์' ,result,role:result.role});
+
+    })
+  }
+  
 }
 
 exports.profile = (req,res)=>{
-    res.render('profile', { title: 'โปรไฟล์' });
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('profile', { title: 'โปรไฟล์' ,profile:result,role:result.role});
+    //  console.log(result)
+    })
+  }
+   
 }
 
 exports.editprofile = (req,res)=>{
-    res.render('editprofile', { title: 'แก้ไขโปรไฟล์' });
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('editprofile', { title: 'แก้ไขโปรไฟล์' ,profile:result,role:result.role});
+    //  console.log(result)
+    })
+  }
 }
 
 
-exports.addcat_findhouse = (req, res, next) => {
+exports.addcat_findhouse = (req, res) => {
  
 const file = req.files.pet_image
 
@@ -235,3 +299,92 @@ const createat = event.toLocaleDateString('th-TH', options)
     }
   });
 };
+exports.mypost = (req, res) =>{
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('user_mypost', { title: "โพสต์ของฉัน",profile:result,role:result.role});
+    //  console.log(result)
+    })
+  }
+
+}
+exports.user_permission = (req, res, next) => {
+  if( req.cookies.AUTH != undefined){
+
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+   if(result.role == 1){
+      next()
+   }else{
+    res.redirect("back")
+   }
+
+    })
+  }
+}
+exports.admincheckpost  = (req, res) => {
+  cat_findhouse.find({}).then((result) => {
+ 
+    res.setHeader('Cache-Control', 'no-store');  
+    res.render('admincheckpost', { title:"ตรวจสอบโพสต์",cats:result});
+  })
+
+}
+
+exports.editprofileinfo = (req, res) => {
+  if( req.cookies.AUTH != undefined){
+
+
+      users.findOne({email:req.body.email}).then((result) => {
+        if(result == null){
+          var objedit = {}
+
+          if(req.files){
+          const file = req.files.image
+
+          var filename_random = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(50)+".jpg"
+            if (fs.existsSync(filename_random )) {
+               filename_random  = __dirname.split('\controllers')[0]+"public/images/"+randomstring.generate(60)+".jpg"
+              file.mv(filename_random)
+            }else{
+              file.mv(filename_random)
+            }
+            objedit.image_url  = filename_random.split('/public')[1]
+          }
+          const cookie = req.cookies.AUTH
+          const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+          const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+      
+          objedit.firstname = req.body.firstname
+          objedit.lastname = req.body.lastname
+         users.findOneAndUpdate({_id: decrypted}, { $set:  objedit }).then((result) => {
+           
+            if(result != null){
+                res.setHeader('Cache-Control', 'no-store'); 
+               res.redirect("/editprofile")
+        
+            }else{
+                res.status(400).json({text:"สมัครสมาชิกไม่สำเร็จ"})
+            }
+          })
+    
+        }else{
+    
+       req.flash('register', "มีผู้ใช้อีเมลนี้แล้ว กรุณาใช้อีเมลอื่น");
+        res.status(304).redirect("/register" )
+        
+      
+        }
+      })
+    
+  }else{
+    res.redirect("/")
+  }
+
+}

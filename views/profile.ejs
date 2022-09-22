@@ -1,13 +1,23 @@
 <%- include('head') %>
 
 <body>
-    <%- include('header') %>
+    <% if(role == null){ %>
+        <%- include('header_notlogin') %>
+      <% } else if(role == 1) {%>
+        <%- include('header_admin') %>
+      <%}else{ %>
+        <%- include('header_user') %>
+        <%}%>
     <div class="container">
 
         <h1 class="text-center mb-3">โปรไฟล์</h1>
 
         <div class="text-center mb-4 mt-4">
-            <img class="rounded-circle mb-2" src="https://i.pinimg.com/236x/d5/6a/f7/d56af787f81df07a9d5bcd8ecad7ff3f.jpg" alt=""> <br>
+      
+            <img class="rounded-circle mb-2"
+                src=" <%= profile.image_url %>" alt=""> 
+                
+            <br>
             <a href="editprofile" class="fs-5">แก้ไขโปรไฟล์</a>
 
         </div>
@@ -16,26 +26,23 @@
             <div class="col-6">
                 <p class="fs-5 text-end">ชื่อ : </p>
             </div>
-            <div class="col-6">xxxxx</div>
+            <div class="col-6"><%= profile.firstname %>  <%= profile.lastname %></div>
         </div>
         <div class="row">
             <div class="col-6">
                 <p class="fs-5 text-end">อีเมล : </p>
             </div>
-            <div class="col-6">xxxxx</div>
+            <div class="col-6"><%= profile.email %></div>
         </div>
-        <div class="row">
-            <div class="col-6">
-                <p class="fs-5 text-end">เบอร์โทร : </p>
-            </div>
-            <div class="col-6">xxxxx</div>
-        </div>
+        
 
-
+        <form action="/logout" method="POST">
         <div class="d-grid gap-2 col-6 mx-auto">
-            <button class="btn btn-primary" type="button">ออกจากระบบ</button>
+            
+                <button class="btn btn-danger" type="submit">ออกจากระบบ</button>
+             
+    
         </div>
+    </form> 
     </div>
-</body>
-
-</html>
+    <%- include('footer') %>

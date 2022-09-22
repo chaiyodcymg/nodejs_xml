@@ -1,37 +1,86 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <%- include('./bootstrap'); %>
-  </head>
-  <body>
-<h1>Register</h1>
-    <form action="/register" method="POST">
-       <label for="fname">fname</label><br>
-       <input type="text" id="fname" name="fname" value="packk"><br>
-       <label for="lname">lname</label><br>
-       <input type="text" id="lname" name="lname" value="nakubb"><br>
-        <label for="email">email </label><br>
-        <input type="text" id="email" name="email" value="a@gmail.com"><br>
-        <label for="password">Password</label><br>
-        <input type="text" id="password" name="password" value="12345678"><br><br>
-        <input type="submit" class="btn btn-primary"value="Register">
-      </form> 
-      <br>
-      <a href="/login">login</a>
-       <br> <br>
-      <% if ( register.length > 0 ) { %>
-    
-      <div class="alert alert-danger d-flex align-items-center" role="alert">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
-            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-          </svg>
-        <div>
-           <%= register %>
-        </div>
-      </div>
-      <% } %>
+<%- include('head') %>
 
-  </body>
-</html>
+<body>
+
+    <!-- Section: Design Block -->
+    <section class="text-center">
+        <!-- Background image -->
+        <div class="p-5 bg-image" style="
+        background-image: url('/images/cat2.jpeg');
+        background-position: center;
+        height: 500px;
+        background-repeat: no-repeat;
+        background-size: 100%">
+        </div>
+        <!-- Background image -->
+
+        <div class="card mx-4 mx-md-5 shadow-5-strong" style="
+        margin-top: -100px;
+        background: hsla(0, 0%, 100%, 0.8);
+        backdrop-filter: blur(30px);
+        ">
+            <div class="card-body py-5 px-md-5">
+
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        <h2 class="fw-bold mb-5">สมัครสมาชิก</h2>
+
+                        <% if(register.length > 0) {%> 
+                        <div class="alert alert-danger text-start">
+                            <strong>ข้อผิดพลาด!</strong> <%= register %>
+                          </div>
+                     <%} %>
+                        <form action="/register" method="POST">
+
+                          <div class="form-outline mb-4 text-start">
+                            <input name="email" type="email" id="form3Example4" class="form-control fs-5"
+                                placeholder="อีเมล" value="a@gmail.com" />
+                        </div>
+                            <div class="row text-start">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <input name="password" type="password" id="form3Example1" class="form-control fs-5"
+                                            placeholder="รหัสผ่าน" required  value="12345678"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <input name="confirmpass" type="password" id="form3Example2"
+                                            class="form-control fs-5" placeholder="ยืนยันรหัสผ่าน" required value="12345678"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-start">
+                                <div class="col-md-6 mb-4 ">
+                                    <div class="form-outline">
+                                        <input name="firstname" type="text" id="form3Example1" class="form-control fs-5"
+                                            placeholder="ชื่อ" required value="อัครเดชไชยชาญ"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <input name="lastname" type="text" id="form3Example2" class="form-control fs-5"
+                                            placeholder="นามสกุล" required  value="อภิพานคนดีย์"/>
+                                    </div>
+                                </div>
+                            </div>
+                        
+
+                            <!-- Submit button -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btnorg mb-4 fs-5">
+                                    สมัครสมาชิก
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Section: Design Block -->
+
+  
+    <!-- ใส่ที่ footer -->
+    <%- include('footer') %>
+</body>
