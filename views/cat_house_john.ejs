@@ -1,0 +1,19 @@
+<% callitem2.forEach(callitem2 => { %>
+<a class="catinfo" href="/catinfo2/<%= callitem2._id%>">
+    <div class="card mb-3" style="width: 50rem;">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col"></div>
+                <div class="col">
+                    <img src="<%= callitem2.pet_image%>" class="img-cat-john" alt="...">
+                </div>
+                <div class="col"></div>
+            </div>
+            <p class="text-cat-john">ชื่อ: <%= callitem2.pet_name%></p>
+            <p class="text-cat-john">สี: <%= callitem2.pet_color%></p>
+            <p class="text-cat-john">สายพันธ์: <%= callitem2.pet_gene%></p>
+            <p class="text-cat-john">โพสต์เมื่อ: <%= callitem2.createat%></p>
+        </div>
+    </div>
+</a>
+<% }) %>

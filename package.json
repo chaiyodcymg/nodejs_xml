@@ -9,13 +9,21 @@
   "dependencies": {
     "body-parser": "^1.20.0",
     "cookie-parser": "~1.4.4",
+    "crypto-js": "^4.1.1",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
+    "email-validator": "^2.0.4",
     "express": "~4.16.1",
+    "express-fileupload": "^1.4.0",
+    "express-flash-message": "^2.1.0",
+    "express-session": "^1.17.3",
     "http-errors": "~1.6.3",
     "mongodb": "^4.9.1",
     "monk": "^7.3.4",
     "morgan": "~1.9.1",
-    "nodemon": "^2.0.19"
+    "randomstring": "^1.2.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }

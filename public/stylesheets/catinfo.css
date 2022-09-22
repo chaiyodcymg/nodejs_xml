@@ -2,7 +2,6 @@
     background-color: rgb(239, 239, 239);
     border-radius: 30px;
     width: 70% !important;
-   
 }
 
 .img_presentcat {
@@ -33,5 +32,21 @@
 
 .text-wrap ul {
     list-style: square;
+}
+
+.more_cat h2 {
+    border-bottom: 1px solid rgb(140, 140, 140);
+    margin-bottom: 2rem;
+}
+
+.more_cat {
+    width: 80% !important;
+    margin-top: 2em;
+}
+
+.cat-card {
+    margin: 1em 1em;
+    text-decoration: none;
+    color: inherit;
 }
 

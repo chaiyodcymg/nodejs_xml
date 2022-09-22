@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('head') %>
+<body>
+    <%- include('header') %>
+    <%- include('banner') %>
+
+    <div class="container catinfo">
+        <div class="row">
+          <div class="col">
+            <div class="img_presentcat">
+              <img src="<%= cat.pet_image%>" alt="">
+            </div>
+          </div>
+          <div class="col-xl catinfo_text">
+            <div>
+              <div class="text-wrap">
+                <h3><%= cat.pet_name%></h3>
+                <ul>
+                  <li>เพศ: <%= cat.pet_gender%></li>
+                  <li>สี: <%= cat.pet_color%></li>
+                  <li>วัคซีนที่เคยได้รับ: <%= cat.pet_vaccin%></li>
+                  <li>สายพันธ์: <%= cat.pet_gene%></li>
+                </ul>
+              </div>
+              <div class="text-wrap">
+                <h3>ข้อมูลสัตว์</h3>
+                <p><%= cat.pet_symptom%></p>
+              </div>
+              <div class="text-wrap">
+                <h3>ช่องทางการติดต่อ</h3>
+                <ul>
+                  <li class="fa-solid fa-phone"> เบอรโทร</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <%- include('./footer'); %>
+</body>
+</html>
