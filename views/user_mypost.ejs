@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <% cat.forEach((item)=> { %>
+        <a href="<%= item._id %>"><h2><%= item.name %></h2></a>
+        <img src="<%= item.image %>" style="width: 150px;height:150px;">
+        <p><%= item.color %></p>
+        <p><%= item.species %></p>
+        <% if(item.status == 0) { %>
+            <p>กำลังรอการตรวจสอบ</p>
+        <% }else if (item.status == 1) { %>
+            <p>โพสต์ได้รับการอนุมัติแล้ว</p>
+        <% }else { %>
+            <p>โพสต์ถูกปฏิเสธ</p>
+            <a href="#">แก้ไขโพสต์</a>
+        <% } %>
+    <% }) %>
+</body>
+</html>

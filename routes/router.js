@@ -22,7 +22,7 @@ router.get('/cat_findhouse',controller.cat_findhouse);
 router.get('/admin_check',controller.admin_check);
 router.get('/accept/:id',controller.accept_post);
 router.get('/decline/:id',controller.decline_post);
-
+router.get('/mypost',controller.mypost)
 
 router.get('/:id',controller.findhouse_detail,);
 

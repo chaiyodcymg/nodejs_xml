@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+    <%- include('./head') %>
+<link rel="stylesheet" href="/stylesheets/postcheck.css">
 <body>
     <h1>ADMIN CHECK POST</h1>
     <% cats.forEach((item)=> { %>
@@ -13,14 +9,18 @@
         <img src="<%= item.image %>" style="width: 150px;height:150px;">
         <p><%= item.color %></p>
         <p><%= item.species %></p>
-        <% if(item.status==false) { %>
+        <% if(item.status== 0) { %>
             <a href="accept/<%= item._id %>"><button>อนุมัติ</button></a>
             <a href="decline/<%= item._id %>"><button>ปฏิเสธ</button></a>
-        <% } else {%>
+        <% } else if(item.status == 1){%>
             <p>อนุมัติแล้ว</p>
-        <% } %>
+        <% } else if (item.status == 2) {%>
+            <p>ปฏิเสธแล้ว</p>
+        <% }%>
         <hr>
     <% }) %>
+
+    
  
 </body>
 </html>

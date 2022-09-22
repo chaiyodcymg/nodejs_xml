@@ -23,7 +23,7 @@ exports.login = (req,res)=>{
 }
 
 exports.cat_findhouse = (req,res)=>{
-    cat_findhouse.find({status:true}).then((docs) => {
+    cat_findhouse.find({status:1}).then((docs) => {
       return  res.render('cat_findhouse', { cats:docs });
     })
 }
@@ -41,13 +41,13 @@ exports.admin_check = (req,res)=>{
 }
 
 exports.accept_post = (req,res)=>{
-  cat_findhouse.findOneAndUpdate({_id:req.params.id}, {$set:{ status:true} }).then((docs) => {
+  cat_findhouse.findOneAndUpdate({_id:req.params.id}, {$set:{ status:1} }).then((docs) => {
     res.redirect('/admin_check');
   })
 }
 
 exports.decline_post = (req,res)=>{
-  cat_findhouse.remove({_id:req.params.id}).then((docs) => {
+  cat_findhouse.findOneAndUpdate({_id:req.params.id}, {$set:{ status:2} }).then((docs) => {
     res.redirect('/admin_check');
   })
 }
@@ -55,8 +55,15 @@ exports.decline_post = (req,res)=>{
 exports.search = (req,res) => {
   let payload = req.body.payload.trim();
   var query = new RegExp('^' + payload + '.*', 'i');
-  cat_findhouse.find({name:query}).then((search) =>{
+  cat_findhouse.find({name:query,status:1}).then((search) =>{
     res.send({cats:search});
   })
  
+}
+
+exports.mypost = (req,res) => {
+  let userid = "63189269503f74057607d2e8"
+  cat_findhouse.find({user_id:userid}).then((doc)=>{
+    res.render('user_mypost', {cat:doc});
+  })
 }
