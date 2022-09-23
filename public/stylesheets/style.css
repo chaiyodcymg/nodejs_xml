@@ -31,6 +31,17 @@ a {
   width: 100%;
   object-fit: cover;
 }
+.cat_img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.cat-card{
+  display: inline-block !important;
+  margin-left: 1em;
+  margin-right:1em;
+  margin-bottom: 2em;
+}
 
 .head{
   background-color: #FF9F45;

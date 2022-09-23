@@ -1,9 +1,8 @@
-
 const monk = require('monk')
 const url = 'localhost:27017/nodejs_xml';
 const db = monk(url);
 db.then(() => {
-  console.log('Connected correctly to server')
+    console.log('Connected correctly to server')
 })
 const users = db.get('users')
 exports.users = users
@@ -13,13 +12,19 @@ const validator = require("email-validator");
 const cat_findhouse= db.get('cat_findhouse')
 // หน้าหลัก
 // res.setHeader('Cache-Control', 'no-store');  ไม่ให้เก็บ Back/forward cache ปุ่มไปกลับบน browser
-exports.index = (req,res)=>{
+
+exports.index = (req, res) => {
+    users.find({}).then((docs) => {
+        res.render('index', {
+            title: 'Express',
+            docs
+        });
+    })
 
   cat_findhouse.find({}).then((result) => {
     res.setHeader('Cache-Control', 'no-store');  
     res.render('home', { title: 'Express' ,result});
   })
-  
 }
 // ระบบ login
 exports.login = (req,res)=>{
@@ -44,15 +49,15 @@ exports.login = (req,res)=>{
     })
 }
 
-
-
-
 exports.more_cat = (req,res)=>{
-  res.render('more_cat', { title: 'Expresss' });
+  res.render('more_cat', { title: 'น้องเหมียวหาบ้าน' });
 }
 
 exports.more_cat_john = (req,res)=>{
-  res.render('more_cat_john', { title: 'Expresss' });
+  res.render('more_cat_john', { title: 'น้องจรหาบ้าน' });
+}
+exports.more_found_cat = (req,res)=>{
+  res.render('more_found_cat', { title: 'พบสัตว์เลี้ยง' });
 }
 // หน้า login
 exports.login_get =async (req,res)=>{
@@ -196,19 +201,50 @@ exports.checkpost = (req,res)=>{
 exports.mypost = (req,res)=>{
   res.render('user_mypost', { title: 'โพสต์ของฉัน' });
 }
-
-exports.findhome_post = (req,res)=>{
-    res.render('findhome_post', { title: 'หาบ้านให้น้องเหมียว' });
+exports.login = (req, res) => {
+    res.render('login', {
+        title: 'Expresss'
+    });
 }
 
-exports.report_post = (req,res)=>{
-    res.render('report_post', { title: 'แจ้งพบ/หาย' });
+exports.findhome_post = (req, res) => {
+    res.render('findhome_post', {
+        title: 'หาบ้านให้น้องเหมียว'
+    });
 }
 
-exports.profile = (req,res)=>{
-    res.render('profile', { title: 'โปรไฟล์' });
+exports.report_post = (req, res) => {
+    res.render('report_post', {
+        title: 'แจ้งพบ/หาย'
+    });
 }
 
-exports.editprofile = (req,res)=>{
-    res.render('editprofile', { title: 'แก้ไขโปรไฟล์' });
+exports.profile = (req, res) => {
+    res.render('profile', {
+        title: 'โปรไฟล์'
+    });
+}
+
+exports.editprofile = (req, res) => {
+    res.render('editprofile', {
+        title: 'แก้ไขโปรไฟล์'
+    });
+}
+
+exports.register = (req, res) => {
+    res.render('register', {
+        title: 'สมัครสมาชิก'
+    });
+}
+
+exports.login2 = (req, res) => {
+    res.render('login2', {
+        title: 'ล็อกอินจ้า'
+    });
+}
+
+exports.home = (req, res) => {
+  res.render('home', {
+      title: 'Home'
+  });
 }
