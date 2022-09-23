@@ -3,14 +3,67 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx">
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= docs[0].email %></p>
     <!-- <a href="/login">login</a>
     <a href="/register">register</a> -->
     <a href="/findhome_post">น้องเหมียวหาบ้าน</a><br>
     <a href="/report_post">แจ้งแมวหาย</a><br>
     <a href="/test2">show data</a><br>
+    <a href="/mypost">โพสต์ของฉัน</a><br>
+
+    <h1>น้องเหมียวหาบ้าน</h1>
+    <% callitem1.forEach(callitem1 => { %>
+      <ul>
+        <li>
+          <a href="/catfindhouse/<%=callitem1._id%>">ชื่อ : <%= callitem1.pet_name%></a><br>
+          <img src="<%= callitem1.pet_image%>" alt="แมววัด55" style="width: 50px; height: 50px;">
+          <p>เพศ : <%= callitem1.pet_gender%></p>
+          <p>สี : <%= callitem1.pet_color%></p>
+          <p>วัคซีนที่เคยได้รับ : <%= callitem1.pet_vaccin%></p>
+          <p>สายพันธุ์ : <%= callitem1.pet_gene%></p>
+          <p>โพสต์เมื่อ : <%= callitem1.createat%></p>
+      </li>
+      </ul>
+    <% }) %>
+
+    <h1>ประกาศแมวหาย</h1>
+    <% callitem2.forEach(callitem2 => { %>
+    <% if(callitem2.post_type == "สัตว์เลี้ยงหาย"){%>
+      <!-- <% console.log(callitem2.post_type)%> -->
+      <ul>
+        <li>
+          <a href="/catlost/<%=callitem2._id%>">ชื่อ : <%= callitem2.pet_name%></a><br>
+          <img src="<%= callitem2.pet_image%>" alt="" style="width: 50px; height: 50px;">
+          <p>เรื่องที่ต้องการให้ช่วย : <%= callitem2.post_title%></p>
+          <p>รายละเอียดเพิ่มเติม : <%= callitem2.pet_symptom%></p>
+          <p>เพศ : <%= callitem2.pet_gender%></p>
+          <p>โพสต์เมื่อ : <%= callitem2.createat%></p>
+      </li>
+      </ul>
+    <% } %>
+    <% }) %>
+
+    <h1>แจ้งพบแมว</h1>
+    <% callitem2.forEach(callitem2 => { %>
+    <% if(callitem2.post_type == "พบสัตว์เลี้ยง"){ %>
+      <!-- <% console.log(callitem2.post_type)%> -->
+      <ul>
+        <li>
+          <a href="/catlost/<%=callitem2._id%>">ชื่อ : <%= callitem2.pet_name%></a><br>
+          <img src="<%= callitem2.pet_image%>" alt="" style="width: 50px; height: 50px;">
+          <p>เรื่องที่ต้องการให้ช่วย : <%= callitem2.post_title%></p>
+          <p>รายละเอียดเพิ่มเติม : <%= callitem2.pet_symptom%></p>
+          <p>เพศ : <%= callitem2.pet_gender%></p>
+          <p>โพสต์เมื่อ : <%= callitem2.createat%></p>
+      </li>
+      </ul>
+    <% } %>
+    <% }) %>
+      
   </body>
 </html>

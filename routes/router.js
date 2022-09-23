@@ -13,12 +13,15 @@ router.use((err, req, res, next) => {
   res.render("error");
 });
 
-router.get("/", controller.index);
 router.get("/login", controller.login);
 router.get("/register", controller.register);
-router.post("/test1", controller.test1);
-router.get("/test2", controller.test2);
-router.get("/test2/:id", controller.show);
+router.get("/test2", controller.test2);//โพสต์ของฉัน
+router.get('/mypost',controller.mypost);//โพสต์ของฉัน
+
+
+router.get("/", controller.index);
+router.get("/catfindhouse/:id", controller.catfindhouse_detail);
+router.get("/catlost/:id", controller.catlost_detail);
 
 router.get("/findhome_post", controller.findhome_post);
 router.post("/findhome_post/add", controller.addcat_findhouse);
