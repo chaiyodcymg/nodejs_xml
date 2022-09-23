@@ -7,10 +7,13 @@
         <h1 class="text-center mb-3">แก้ไขโปรไฟล์</h1>
 
         <div class="text-center">
-            <img class="rounded-circle mb-2" src="https://i.pinimg.com/236x/d5/6a/f7/d56af787f81df07a9d5bcd8ecad7ff3f.jpg" alt="">
+            <img class="rounded-circle mb-5"
+                src="https://i.pinimg.com/236x/d5/6a/f7/d56af787f81df07a9d5bcd8ecad7ff3f.jpg" alt="">
         </div>
-        
         <form class="row g-3">
+
+            <label class="form-label">เลือกภาพโปรไฟล์ใหม่</label>
+            <input name="pro_pic" type="file" class="form-control" id="customFile" />
             <div class="col-md-6">
                 <label class="form-label">ชื่อ</label>
                 <input type="text" class="form-control" id="inputEmail4">
@@ -27,6 +30,12 @@
                 <label class="form-label">อีเมล</label>
                 <input type="email" class="form-control" id="inputPassword4">
             </div>
+
+
+            <div class="d-grid gap-2 col-6 mx-auto mt-5">
+                <button class="btn btnorg" type="submit">บันทึกการแก้ไข</button>
+                <a href="" class="btn btn-danger">ยกเลิก</a>
+            </div>
         </form>
 
         <div class="d-grid gap-2 col-6 mx-auto mt-5">
@@ -34,6 +43,4 @@
             <button class="btn btn-cancle" type="button">ยกเลิก</button>
         </div>
     </div>
-</body>
-
-</html>
+    <%- include('footer') %>
