@@ -1,6 +1,12 @@
 <%- include('head') %>
 <body>
-    <%- include('header') %>
+    <% if(role == null){ %>
+        <%- include('header_notlogin') %>
+      <% } else if(role == 1) {%>
+        <%- include('header_admin') %>
+      <%}else{ %>
+        <%- include('header_user') %>
+        <%}%>
     <%- include('banner') %>
     <div class="container">
         <div class="row">
@@ -20,8 +26,8 @@
                     <div class="col-md-6">
                         <label class="form-label">เพศ</label>
                         <select name="pet_gender" id="disabledSelect" class="form-select">
-                            <option value="ชาย">ชาย</option>
-                            <option value="หญิง">หญิง</option>
+                            <option value="ผู้">ผู้</option>
+                            <option value="เมีย">เมีย</option>
                         </select>
                     </div>
             
@@ -43,7 +49,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="formFile" class="form-label">รูปภาพของสัตว์เลี้ยง*</label>
-                        <input name="pet_image" class="form-control" type="file" id="formFile" accept="image/jpeg" value="<%= doc.pet_image%>" required>
+                        <input name="pet_image" class="form-control" type="file" id="formFile" accept=".jpg, .jpeg, .png" value="<%= doc.pet_image%>" required>
                     </div>
             
                     <h2>สถานที่</h2>

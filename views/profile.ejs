@@ -1,39 +1,48 @@
 <%- include('head') %>
 
 <body>
-    <%- include('header') %>
-    <%- include('banner') %>
-    <link href="/stylesheets/profile.css" rel="stylesheet" type="text/css">
+    <% if(role == null){ %>
+        <%- include('header_notlogin') %>
+      <% } else if(role == 1) {%>
+        <%- include('header_admin') %>
+      <%}else{ %>
+        <%- include('header_user') %>
+        <%}%>
     <div class="container">
 
-        <div class="box-wrap-profile">
-            <div class="text-center profile-block">
-                <img class="rounded-circle mb-2" style="height: 200px; width: 200px;object-fit: cover;"
-                    src="https://i.pinimg.com/236x/d5/6a/f7/d56af787f81df07a9d5bcd8ecad7ff3f.jpg" alt=""> <br>
-                <a href="editprofile" class="fs-5">แก้ไขโปรไฟล์</a>
-            </div>
-            <div class="profile-info">
-                <div class="row">
-                    <div class="col-6">
-                        <p class="fs-5 text-end">ชื่อ : </p>
-                    </div>
-                    <div class="col-6">xxxxx</div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <p class="fs-5 text-end">อีเมล : </p>
-                    </div>
-                    <div class="col-6">xxxxx</div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <p class="fs-5 text-end">เบอร์โทร : </p>
-                    </div>
-                    <div class="col-6">xxxxx</div>
-                </div>
-            </div>
-            <button class="btn btn-danger logout" type="button">ออกจากระบบ</button>
+        <h1 class="text-center mb-3">โปรไฟล์</h1>
+
+        <div class="text-center mb-4 mt-4">
+      
+            <img class="rounded-circle mb-2"
+                src=" <%= profile.image_url %>" alt=""> 
+                
+            <br>
+            <a href="editprofile" class="fs-5">แก้ไขโปรไฟล์</a>
+
         </div>
+
+        <div class="row">
+            <div class="col-6">
+                <p class="fs-5 text-end">ชื่อ : </p>
+            </div>
+            <div class="col-6"><%= profile.firstname %>  <%= profile.lastname %></div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <p class="fs-5 text-end">อีเมล : </p>
+            </div>
+            <div class="col-6"><%= profile.email %></div>
+        </div>
+        
+
+        <form action="/logout" method="POST">
+        <div class="d-grid gap-2 col-6 mx-auto">
+            
+                <button class="btn btn-danger" type="submit">ออกจากระบบ</button>
+             
+    
+        </div>
+    </form> 
     </div>
-</body>
-<%- include('footer') %>
+    <%- include('footer') %>

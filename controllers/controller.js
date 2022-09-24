@@ -18,22 +18,49 @@ process.env.TZ = "Asia/bangkok"
 const fs = require('fs');
 // หน้าหลัก
 // res.setHeader('Cache-Control', 'no-store');  ไม่ให้เก็บ Back/forward cache ปุ่มไปกลับบน browser
-exports.index = (req,res)=>{
-
-  // cat_findhouse.find({}).then((result) => {
-  //   res.setHeader('Cache-Control', 'no-store');  
-  //   res.render('home', { title: 'Express' ,result});
-  // })
-  cat_findhouse.find({}).then((docs) => {
-    cat_lost.find({}).then((doc) => {
+exports.index= (req,res)=>{
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      cat_findhouse.find({status:1},{limit:3}).then((docs) => {
+        cat_lost.find({status:1},{limit:2}).then((doc) => {
       res.setHeader('Cache-Control', 'no-store');  
-      res.render("home", { title: "Home",callitem1: docs ,callitem2: doc });
+      res.render('home', { title: 'หน้าหลัก' ,result,role:result.role,callitem1: docs ,callitem2: doc});
+        })
+      })
+    })
+ 
+}else{
+  cat_findhouse.find({status:1},{limit:3}).then((docs) => {
+    cat_lost.find({status:1}, {limit:2}).then((doc) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render("home", { title: "Home",callitem1: docs ,callitem2: doc,role:null });
     })
   })
-  
+}
+}
+
+exports.user_permission = (req, res, next) => {
+  if( req.cookies.AUTH != undefined){
+
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+   if(result.role == 1){
+      next()
+   }else{
+    res.redirect("back")
+   }
+
+    })
+  }
 }
 // ระบบ login
 exports.login = (req,res)=>{
+
 
   const encrypted_password = CryptoJS.MD5(req.body.password.toString()).toString()
     users.findOne({email:req.body.email,password:encrypted_password}).then((result) => {
@@ -52,25 +79,39 @@ exports.login = (req,res)=>{
             req.flash('login', "อีเมลหรือรหัสผ่านไม่ถูกต้อง");
             res.redirect("/login")
         }
-    })
+      })
+
 }
 
 
 
-
 exports.more_cat = (req,res)=>{
-  res.render('more_cat', { title: 'Expresss' });
+  // res.render('more_cat', { title: 'Expresss' });
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      cat_findhouse.find({status:1}).then((docs) => {
+        cat_lost.find({status:1}).then((doc) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('home', { title: 'หน้าหลัก' ,result,role:result.role,callitem1: docs ,callitem2: doc});
+        })
+      })
+    })
+}
 }
 
 exports.more_cat_john = (req,res)=>{
   res.render('more_cat_john', { title: 'Expresss' });
 }
+
 // หน้า login
 exports.login_get =async (req,res)=>{
   if( req.cookies.AUTH == undefined){
   const login = await req.consumeFlash('login');
   res.setHeader('Cache-Control', 'no-store');  
-    res.render('login',{login});
+  res.render('login',{title: 'เข้าสู่ระบบ',login});
 
   }
 }
@@ -78,13 +119,14 @@ exports.login_get =async (req,res)=>{
 exports.logout = (req,res)=>{
 
   res.clearCookie('AUTH');
-  res.redirect("/login")
+  res.redirect("/")
 }
+
 // ระบบเช็คว่า login หรือยัง
 exports.auth = (req,res,next)=>{
 
   if( req.cookies.AUTH != undefined){
-    console.log("เข้า if 1")
+
             const cookie = req.cookies.AUTH
             const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
             const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
@@ -96,57 +138,55 @@ exports.auth = (req,res,next)=>{
                   res.redirect('/')
                 }else{
                   next()
-                }
-               
-                        
+                }                        
               }else{
                 res.clearCookie('AUTH');
                  res.redirect('/login')
               }
-          })
-     
-       
-
+          })    
         }else {
-          console.log("เข้า else 1")
+        
           res.clearCookie('AUTH');
           res.redirect('/login')
-
-        
         }
 }
 
 // ระบบเช็คว่าถ้า login แล้ว จะไม่สามารถไปหน้า login กับ register ได้
 exports.auth_logout =  (req,res,next)=>{
 
- if( req.cookies.AUTH == undefined){
-    console.log("เข้า if")
-  return  next()
-  }
-    console.log("เข้า else if")
-    res.redirect('/')
-  
-}
+  if( req.cookies.AUTH == undefined){
+    
+   return  next()
+   }
+ 
+     res.redirect('/')
+   
+ }
 // หน้าregister
 exports.register_get = async(req,res)=>{
   const register = await req.consumeFlash('register');
   res.setHeader('Cache-Control', 'no-store');  
-res.render('register' , { register});
+res.render('register' , {title:'สมัครสมาชิก', register});
 }
 // ระบบ register
 exports.register =async (req,res,next)=>{
+ 
 
   if(validator.validate(req.body.email) && req.body.password.length >= 8){
-
-
   users.findOne({email:req.body.email}).then((result) => {
-  
+
+    
     if(result == null){
-
- 
      const encrypted_password = CryptoJS.MD5(req.body.password.toString()).toString()
-
-      users.insert({email:req.body.email,password:encrypted_password }).then((result) => {
+      users.insert({
+        email:req.body.email,
+        password:encrypted_password ,
+        firstname:req.body.firstname,
+        lastname:req.body.lastname,
+        role:0,
+        image_url :"/images/user.png",
+ 
+      }).then((result) => {
        
         if(result != null){
             let encrypted = CryptoJS.AES.encrypt(result._id.toString(), "nodejs_xml").toString()
@@ -183,120 +223,175 @@ exports.register =async (req,res,next)=>{
 
 
 }
-// const encrypted_password = CryptoJS.MD5("asc").toString()
 
-// console.log(encrypted_password)
 
-// users.remove()
-// exports.login = (req,res)=>{
-//     res.render('login', { title: 'Expresss' });
-// }
-
-exports.cat_info = (req,res)=>{
-  res.render('cat_info', { title: 'Expresss' });
-}
 
 exports.footer = (req,res)=>{
   res.render('footer', { title: 'Expresss' });
 }
 
-exports.checkpost = (req,res)=>{
-  cat_findhouse.find({}).then((docs) => {
-    cat_lost.find({}).then((doc) => {
-      res.render("admincheckpost", { title: "ตรวจสอบโพสต์",callitem1: docs ,callitem2: doc });
+exports.checkpost  = (req, res) => {
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      cat_findhouse.find({}).then((docs) => {
+        cat_lost.find({}).then((doc) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('admincheckpost', { title: 'ตรวจสอบโพสต์',role:result.role,callitem1: docs ,callitem2: doc });
+        })
+      })
     })
-  })
+  }
 }
 
-// exports.mypost = (req,res)=>{
-//   res.render('user_mypost', { title: 'โพสต์ของฉัน' });
-// }
 
-exports.mypost = (req,res)=>{
-  cat_findhouse.find({}).then((docs) => {
-    cat_lost.find({}).then((doc) => {
-      res.render("user_mypost", { title: "โพสต์ของฉัน",callitem1: docs ,callitem2: doc });
-    })
-  })
-};
+exports.mypost = (req, res) =>{
+    if( req.cookies.AUTH != undefined){
+      const cookie = req.cookies.AUTH
+      const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+      const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+      users.findOne({_id: decrypted }).then((result) => {
+        cat_findhouse.find({}).then((docs) => {
+          cat_lost.find({}).then((doc) => {
+        res.setHeader('Cache-Control', 'no-store');  
+        res.render('user_mypost', { title: "โพสต์ของฉัน",profile:result,role:result.role,callitem1: docs ,callitem2: doc});
+
+          })
+        })
+      })
+    }
+  
+  }
+   
+
 
 
 //yun
 exports.catfindhouse_detail = (req, res) => {
-  const cat_id = req.params.id;
-  cat_findhouse.findOne({ _id: cat_id }).then((docs) => {
-    res.render("show_detail", { cat:docs });
-  })
+  if( req.cookies.AUTH != undefined){
+    let cat_id = req.params.id.toString() ;
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+    cat_findhouse.findOne({}).then((doc) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('cat_detail', { title:'หาบ้านให้น้องแมว',profile:result,role:result.role,cat:doc});
+
+    })
+   
+    })
+  }
+  
+  
 };
 exports.catlost_detail = (req, res) => {
-  const cat_id = req.params.id;
-  cat_lost.findOne({_id: cat_id}).then((doc) => {
-    res.render("show_detail", { cat:doc });
-  })
+  if( req.cookies.AUTH != undefined){
+    let cat_id = req.params.id.toString() ;
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+    cat_lost.findOne({}).then((doc) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('cat_detail', { title:'น้องแมวหาย',profile:result,role:result.role,cat:doc});
+
+    })
+   
+    })
+  }
 };
 
-exports.findhome_post = (req, res) => {
-    res.render('findhome_post', {
-        title: 'หาบ้านให้น้องเหมียว'
-    });
+
+
+exports.findhome_post = (req,res)=>{
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      const findhome_post  =  req.consumeFlash('findhome_post');
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('findhome_post', { title: 'หาบ้านให้น้องเหมียว',role:result.role,findhome_post });
+    })
+  }
 }
 
-exports.addcat_findhouse = (req, res, next) => {
-  const file = req.files.pet_image;
+
+exports.addcat_findhouse = (req, res) => {
+  const cookie = req.cookies.AUTH
+  const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+  const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+  const file = req.files.pet_image
+  
   var filename_random = __dirname.split('\controllers')[0]+"/public/images/"+randomstring.generate(50)+".jpg"
-  if (fs.existsSync('filename_random' )) {
-     filename_random  = __dirname.split('\controllers')[0]+"/public/images/"+randomstring.generate(60)+".jpg"
-    file.mv(filename_random)
-  }else{
-    file.mv(filename_random)
-  }
-  const event = new Date();
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric',second: 'numeric' };
-  const createat = event.toLocaleDateString('th-TH', options)
-  cat_findhouse.insert(
-    {
-      status: 0,
-      findhome_type: req.body.flexRadioDefault,
-      pet_name: req.body.pet_name,
-      pet_gene: req.body.pet_gene,
-      pet_gender: req.body.pet_gender,
-      pet_color: req.body.pet_color,
-      pet_vaccin: req.body.pet_vaccin,
-      pet_vaccin_date: req.body.pet_vaccin_date,
-      pet_symptom: req.body.pet_symptom,
-      pet_image: filename_random.split('/public')[1],
-      place: req.body.place,
-      contact_name: req.body.contact_name,
-      contact_surname: req.body.contact_surname,
-      contact_tel: req.body.contact_tel,
-      contact_email: req.body.contact_email,
-      contact_line: req.body.contact_line,
-      contact_facebook: req.body.contact_facebook,
-      createat : createat,
-    },
-    function (err) {
-      if (err) {
-        console.log(err);
-        res.send(
-          ' <script>alert("บันทึกข้อมูลไม่สำเร็จ!!!"); window.location = "/"; </script>'
-        );
-      } else {
-        res.send(
-          ' <script>alert("บันทึกข้อมูลสำเร็จ!!!"); window.location = "/"; </script>'
-        );
-      }
+    if (fs.existsSync(filename_random )) {
+       filename_random  = __dirname.split('\controllers')[0]+"/public/images/"+randomstring.generate(60)+".jpg"
+      file.mv(filename_random)
+    }else{
+      file.mv(filename_random)
     }
-  );
-};
-
-
-exports.report_post = (req, res) => {
-    res.render('report_post', {
-        title: 'แจ้งพบ/หาย'
+    const event = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric',second: 'numeric' };
+  
+  const createat = event.toLocaleDateString('th-TH', options)
+    cat_findhouse.insert({
+      status:0,
+      // findhome_type:req.body.flexRadioDefault,
+      post_type: req.body.flexRadioDefault,
+      pet_name:req.body.pet_name,
+      pet_gene:req.body.pet_gene,
+      pet_gender:req.body.pet_gender,
+      pet_color:req.body.pet_color,
+      pet_vaccin:req.body.pet_vaccin,
+      pet_vaccin_date:req.body.pet_vaccin_date,
+      pet_symptom:req.body.pet_symptom,
+      pet_image:filename_random.split('/public')[1],
+      place:req.body.place,
+      contact_name:req.body.contact_name,
+      contact_surname:req.body.contact_surname,
+      contact_tel:req.body.contact_tel,
+      contact_email:req.body.contact_email,
+      contact_line:req.body.contact_line,
+      contact_facebook:req.body.contact_facebook,
+      createat:createat,
+      user_id:decrypted
+    
+    },function(err,result){
+      if(err){
+        console.log(err);
+        // res.send(' <script>alert("บันทึกข้อมูลไม่สำเร็จ!!!") </script>');
+        req.flash('findhome_post', "ข้อมูลไม่ถูกต้อง");
+        res.redirect('/findhome_post');
+      }else{
+        // res.send(' <script>alert("บันทึกข้อมูลสำเร็จ!!!"); </script>');
+   
+        res.redirect('/');
+      }
     });
+  };
+
+
+exports.report_post = (req,res)=>{
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('report_post', { title: 'แก้ไขโปรไฟล์' ,result,role:result.role});
+
+    })
+  }
+  
 }
 
 exports.addcat_lost = (req, res, next) => {
+  const cookie = req.cookies.AUTH
+  const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+  const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8);
   const file = req.files.pet_image;
   var filename_random = __dirname.split('\controllers')[0]+"/public/images/"+randomstring.generate(50)+".jpg"
   if (fs.existsSync(filename_random)) {
@@ -331,6 +426,7 @@ exports.addcat_lost = (req, res, next) => {
       contact_line: req.body.contact_line,
       contact_facebook: req.body.contact_facebook,
       createat : createat,
+      userid:decrypted
     },function (err, cat_lost) {
       if (err) {
         console.log(err);
@@ -347,28 +443,81 @@ exports.addcat_lost = (req, res, next) => {
   );
 };
 
-exports.profile = (req, res) => {
-    res.render('profile', {
-        title: 'โปรไฟล์'
-    });
+exports.profile = (req,res)=>{
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('profile', { title: 'โปรไฟล์' ,profile:result,role:result.role});
+    //  console.log(result)
+    })
+  }
+   
 }
 
-exports.editprofile = (req, res) => {
-    res.render('editprofile', {
-        title: 'แก้ไขโปรไฟล์'
-    });
+exports.editprofile = (req,res)=>{
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('editprofile', { title: 'แก้ไขโปรไฟล์' ,profile:result,role:result.role});
+    //  console.log(result)
+    })
+  }
 }
 
-exports.register = (req, res) => {
-    res.render('register', {
-        title: 'สมัครสมาชิก'
-    });
-}
+exports.editprofileinfo = (req, res) => {
+  if( req.cookies.AUTH != undefined){
+      users.findOne({email:req.body.email}).then((result) => {
+        if(result == null){
+          var objedit = {}
 
-exports.login2 = (req, res) => {
-    res.render('login2', {
-        title: 'ล็อกอินจ้า'
-    });
+          if(req.files){
+          const file = req.files.image
+
+          var filename_random = __dirname.split('\controllers')[0]+"/public/images/"+randomstring.generate(50)+".jpg"
+            if (fs.existsSync(filename_random )) {
+               filename_random  = __dirname.split('\controllers')[0]+"/public/images/"+randomstring.generate(60)+".jpg"
+              file.mv(filename_random)
+            }else{
+              file.mv(filename_random)
+            }
+            objedit.image_url  = filename_random.split('/public')[1]
+          }
+          const cookie = req.cookies.AUTH
+          const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+          const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+      
+          objedit.firstname = req.body.firstname
+          objedit.lastname = req.body.lastname
+         users.findOneAndUpdate({_id: decrypted}, { $set:  objedit }).then((result) => {
+           
+            if(result != null){
+                res.setHeader('Cache-Control', 'no-store'); 
+               res.redirect("/profile")
+        
+            }else{
+                res.status(400).json({text:"สมัครสมาชิกไม่สำเร็จ"})
+            }
+          })
+    
+        }else{
+    
+       req.flash('register', "มีผู้ใช้อีเมลนี้แล้ว กรุณาใช้อีเมลอื่น");
+        res.status(304).redirect("/register" )
+        
+      
+        }
+      })
+    
+  }else{
+    res.redirect("/")
+  }
+
 }
 
 exports.banner = (req, res) => {
@@ -378,9 +527,20 @@ exports.banner = (req, res) => {
 }
 
 exports.search = (req, res) => {
-  res.render('search', {
-      title: 'ค้นหา'
-  });
+  if( req.cookies.AUTH != undefined){
+    let input = req.query.search
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      cat_findhouse.find({pet_name:input,status:1}).then((docs) => {
+        cat_lost.find({pet_name:input,status:1}).then((doc) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('search', { title: 'ค้นหา',role:result.role,callitem1: docs ,callitem2: doc  });
+        })
+      })
+    })
+  }
 }
 
 
@@ -388,18 +548,6 @@ exports.search = (req, res) => {
 
 
 //yun
-exports.catfindhouse_detail = (req, res) => {
-  const cat_id = req.params.id;
-  cat_findhouse.findOne({ _id: cat_id }).then((docs) => {
-    res.render("show_detail", { title:"น้องแมวหาบ้าน", cat:docs });
-  })
-};
-exports.catlost_detail = (req, res) => {
-  const cat_id = req.params.id;
-  cat_lost.findOne({_id: cat_id}).then((doc) => {
-    res.render("show_detail", { title:"ประกาศแมวหาย", cat:doc });
-  })
-};
 
 exports.delete = (req, res) => {
   cat_findhouse.remove({_id:req.params.id});
@@ -434,7 +582,7 @@ exports.update_findhome_post = (req, res) => {
     pet_vaccin: req.body.pet_vaccin,
     pet_vaccin_date: req.body.pet_vaccin_date,
     pet_symptom: req.body.pet_symptom,
-    pet_image: filename_random.split('/public/')[1],
+    pet_image: filename_random.split('/public')[1],
     place: req.body.place,
     contact_name: req.body.contact_name,
     contact_surname: req.body.contact_surname,
@@ -493,7 +641,7 @@ exports.update_cat_lost = (req, res) => {
     pet_vaccin: req.body.pet_vaccin,
     pet_vaccin_date: req.body.pet_vaccin_date,
     pet_symptom: req.body.pet_symptom,
-    pet_image: filename_random.split('/public/')[1],
+    pet_image: filename_random.split('/public')[1],
     place_date_time: req.body.place_date_time,
     place_landmarks: req.body.place_landmarks,
     place_name: req.body.place_name,

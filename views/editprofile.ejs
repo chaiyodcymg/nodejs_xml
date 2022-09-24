@@ -1,41 +1,46 @@
 <%- include('head') %>
 
 <body>
-    <%- include('header') %>
+    <% if(role == null){ %>
+        <%- include('header_notlogin') %>
+      <% } else if(role == 1) {%>
+        <%- include('header_admin') %>
+      <%}else{ %>
+        <%- include('header_user') %>
+        <%}%>
     <div class="container">
 
         <h1 class="text-center mb-3">แก้ไขโปรไฟล์</h1>
 
         <div class="text-center">
-            <img class="rounded-circle mb-5" style="height: 200px; width: 200px;object-fit: cover;"
-                src="https://i.pinimg.com/236x/d5/6a/f7/d56af787f81df07a9d5bcd8ecad7ff3f.jpg" alt="">
+            <img class="rounded-circle mb-5"
+                src="<%= profile.image_url %>" alt="">
         </div>
-        <form class="row g-3">
+        <form class="row g-3" action="/editprofile" method="POST" enctype="multipart/form-data">
 
             <label class="form-label">เลือกภาพโปรไฟล์ใหม่</label>
-            <input name="pro_pic" type="file" class="form-control" id="customFile" />
+            <input name="image" type="file" class="form-control" id="customFile" />
             <div class="col-md-6">
                 <label class="form-label">ชื่อ</label>
-                <input type="text" class="form-control" id="inputEmail4">
+                <input type="text" name="firstname"  class="form-control" id="inputEmail4" value="<%= profile.firstname %>">
             </div>
             <div class="col-md-6">
                 <label class="form-label">นามสกุล</label>
-                <input type="text" class="form-control" id="inputPassword4">
+                <input type="text" name="lastname" class="form-control" id="inputPassword4" value="<%= profile.lastname %>">
             </div>
-            <div class="col-md-6">
-                <label class="form-label">เบอร์โทร</label>
-                <input type="text" class="form-control" id="inputEmail4">
-            </div>
+        
             <div class="col-md-6">
                 <label class="form-label">อีเมล</label>
-                <input type="email" class="form-control" id="inputPassword4">
+                <input type="email" class="form-control" id="inputPassword4" value="<%= profile.email %>" disabled>
             </div>
 
 
             <div class="d-grid gap-2 col-6 mx-auto mt-5">
                 <button class="btn btnorg" type="submit">บันทึกการแก้ไข</button>
-                <a href="" class="btn btn-danger">ยกเลิก</a>
+                <a href="/profile" class="btn btn-danger">ยกเลิก</a>
             </div>
         </form>
     </div>
-    <%- include('footer') %>
+</body>
+
+</html>

@@ -2,15 +2,15 @@
 <html lang="en">
 <%- include('head') %>
 <body>
-  <% if(role == null){ %>
-    <%- include('header_notlogin') %>
-  <% } else if(role == 1) {%>
-    <%- include('header_admin') %>
-  <%}else{ %>
-    <%- include('header_user') %>
-  <%}%>
+    <% if(role == null){ %>
+        <%- include('header_notlogin') %>
+      <% } else if(role == 1) {%>
+        <%- include('header_admin') %>
+      <%}else{ %>
+        <%- include('header_user') %>
+      <%}%>
     <%- include('banner') %>
-<
+
     <div class="container catinfo">
         <div class="row">
           <div class="col">
@@ -36,7 +36,7 @@
               <div class="text-wrap">
                 <h3>ช่องทางการติดต่อ</h3>
                 <ul>
-                  <li class="fa-solid fa-phone"> <%= cat.contact_tel %></li>
+                  <li class="fa-solid fa-phone"> เบอรโทร</li>
                 </ul>
               </div>
             </div>

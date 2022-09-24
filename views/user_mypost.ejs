@@ -4,7 +4,13 @@
 <link rel="stylesheet" href="/stylesheets/postcheck.css">
 
 <body>
-    <%- include('header') %>
+    <% if(role == null){ %>
+        <%- include('header_notlogin') %>
+      <% } else if(role == 1) {%>
+        <%- include('header_admin') %>
+      <%}else{ %>
+        <%- include('header_user') %>
+        <%}%>
     <%- include('banner') %>
         <div class="container">
             <div class="d-inline-flex flex-wrap justify-content-center">
