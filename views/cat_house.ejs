@@ -1,24 +1,24 @@
-<!-- status เปลี่ยน 1 เป็น 0 -->
-<div class="flex-container mt-5">
-    <% callitem1.forEach(callitem1 => { %>
-        <% if(callitem1.status== 1) { %> 
-    <a class="catinfo " href="/catinfo1/<%= callitem1._id%>">
-        <div class="card mb-3 home-cat">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="<%= callitem1.pet_image%>" class="img-fluid rounded-start cat-pic" alt="..." >
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">ชื่อ: <%= callitem1.pet_name%></h5>
-                        <p class="card-text">สี: <%= callitem1.pet_color%></p>
-                        <p class="card-text">สายพันธ์: <%= callitem1.pet_gene%></p>
-                        <p class="card-text"><small class="text-muted">โพสต์เมื่อ: <%= callitem1.createat%></small></p>
+<% callitem1.forEach(callitem1 => { %>
+    <% if(callitem1.status == 1 ) { %>
+    <div class="flex-container mt-5">
+        <a class="catinfo " href="/catinfo1/<%= callitem1._id%>">
+            <div class="card mb-3 home-cat">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="<%= callitem1.pet_image%>" class="img-fluid rounded-start cat-pic" alt="..." >
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">ชื่อ: <%= callitem1.pet_name%></h5>
+                            <p class="card-text">สี: <%= callitem1.pet_color%></p>
+                            <p class="card-text">สายพันธ์: <%= callitem1.pet_gene%></p>
+                            <p class="card-text"><small class="text-muted">โพสต์เมื่อ: <%= callitem1.createat%></small></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </a>
-        <% } %>
-    <% }) %>
-</div>
+        </a>
+    </div>
+    <% } %>
+<% }) %>
+

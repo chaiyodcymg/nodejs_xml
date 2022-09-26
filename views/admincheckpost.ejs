@@ -24,9 +24,8 @@
                     <div class="accordion-body">
                       <div class="d-inline-flex flex-row">
                         <% callitem1.forEach((item)=> { %>
-                            <% if(item.status== 0) { %>
+                            <% if(item.status== 0 ) { %>
                             <div class="box">
-                                <div class="status-post">สถานะ</div>
                                 <div class="presentcat">
                                     <img src="<%= item.pet_image %>" alt="">
                                 </div>
@@ -49,7 +48,7 @@
                             <% } %>  
                         <% }) %>     
                         <% callitem2.forEach((item)=> { %>
-                            <% if(item.status== 0) { %>
+                            <% if(item.status== 0 ) { %>
                             <div class="box">
                                 <div class="presentcat">
                                     <img src="<%= item.pet_image %>" alt="">
@@ -86,7 +85,7 @@
                     <div class="accordion-body">
                         <div class="d-inline-flex flex-row">
                             <% callitem1.forEach((item)=> { %>
-                                <% if(item.status== 1) { %>
+                                <% if(item.status== 1 ) { %>
                                     <div class="box box-admin">
                                         <div class="presentcat">
                                             <img src="<%= item.pet_image %>" alt="">
@@ -109,7 +108,7 @@
                                 <% } %>
                             <% }) %>   
                             <% callitem2.forEach((item)=> { %>
-                                <% if(item.status== 1) { %>
+                                <% if(item.status== 1 ) { %>
                                 <div class="box">
                                     <div class="presentcat">
                                         <img src="<%= item.pet_image %>" alt="">
@@ -145,7 +144,7 @@
                     <div class="accordion-body">
                         <div class="d-inline-flex flex-row">
                             <% callitem1.forEach((item)=> { %>
-                                <% if(item.status== 2) { %>
+                                <% if(item.status== 2 ) { %>
                                 <div class="box box-admin">
                                     <div class="status-post">
                                         <span>สถานะ : ปฏิเสธแล้ว</span>
@@ -169,7 +168,7 @@
                                 <% } %>
                             <% }) %>  
                             <% callitem2.forEach((item)=> { %>
-                                <% if(item.status== 2) { %>
+                                <% if(item.status== 2 ) { %>
                                 <div class="box">
                                     <div class="presentcat">
                                         <img src="<%= item.pet_image %>" alt="">

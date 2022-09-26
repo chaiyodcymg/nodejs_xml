@@ -86,24 +86,63 @@ exports.login = (req,res)=>{
 
 
 exports.more_cat = (req,res)=>{
-  // res.render('more_cat', { title: 'Expresss' });
+
   if( req.cookies.AUTH != undefined){
     const cookie = req.cookies.AUTH
     const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
     const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
     users.findOne({_id: decrypted }).then((result) => {
       cat_findhouse.find({status:1}).then((docs) => {
-        cat_lost.find({status:1}).then((doc) => {
       res.setHeader('Cache-Control', 'no-store');  
-      res.render('home', { title: 'หน้าหลัก' ,result,role:result.role,callitem1: docs ,callitem2: doc});
-        })
+      res.render('more_cat', { result,role:result.role,callitem1: docs});
       })
+    })
+}else{
+    cat_findhouse.find({status:1}).then((docs) => {
+    res.setHeader('Cache-Control', 'no-store');  
+    res.render('more_cat', { role:null,callitem1: docs});
     })
 }
 }
 
 exports.more_cat_john = (req,res)=>{
-  res.render('more_cat_john', { title: 'Expresss' });
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      cat_lost.find({status:1}).then((doc) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('more_cat_john', { result,role:result.role,callitem2: doc});
+        })
+    
+    })
+}else{
+  cat_lost.find({status:1}).then((docs) => {
+  res.setHeader('Cache-Control', 'no-store');  
+  res.render('more_cat_john', { role:null,callitem1: docs});
+  })
+}
+}
+
+exports.more_found_cat = (req,res)=>{
+  if( req.cookies.AUTH != undefined){
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      cat_lost.find({status:1}).then((doc) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('more_found_cat', { result,role:result.role,callitem2: doc});
+        })
+    
+    })
+}else{
+  cat_lost.find({status:1}).then((docs) => {
+  res.setHeader('Cache-Control', 'no-store');  
+  res.render('more_found_cat', { role:null,callitem1: docs});
+  })
+}
 }
 
 // หน้า login
@@ -253,8 +292,8 @@ exports.mypost = (req, res) =>{
       const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
       const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
       users.findOne({_id: decrypted }).then((result) => {
-        cat_findhouse.find({}).then((docs) => {
-          cat_lost.find({}).then((doc) => {
+        cat_findhouse.find({user_id:decrypted}).then((docs) => {
+          cat_lost.find({userid:decrypted}).then((doc) => {
         res.setHeader('Cache-Control', 'no-store');  
         res.render('user_mypost', { title: "โพสต์ของฉัน",profile:result,role:result.role,callitem1: docs ,callitem2: doc});
 
@@ -270,38 +309,50 @@ exports.mypost = (req, res) =>{
 
 //yun
 exports.catfindhouse_detail = (req, res) => {
+  let cat_id = req.params.id.toString() ;
   if( req.cookies.AUTH != undefined){
-    let cat_id = req.params.id.toString() ;
+
     const cookie = req.cookies.AUTH
     const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
     const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
     users.findOne({_id: decrypted }).then((result) => {
-    cat_findhouse.findOne({}).then((doc) => {
+    cat_findhouse.findOne({status:1}).then((doc) => {
       res.setHeader('Cache-Control', 'no-store');  
       res.render('cat_detail', { title:'หาบ้านให้น้องแมว',profile:result,role:result.role,cat:doc});
-
     })
    
     })
-  }
+  }else{
+    cat_findhouse.findOne({_id:cat_id}).then((doc) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('cat_detail', { title:'หาบ้านให้น้องแมว',role:null,cat:doc});
+    })
+}
   
   
 };
 exports.catlost_detail = (req, res) => {
+  let cat_id = req.params.id.toString() ;
   if( req.cookies.AUTH != undefined){
-    let cat_id = req.params.id.toString() ;
+    
     const cookie = req.cookies.AUTH
     const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
     const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
-    users.findOne({_id: decrypted }).then((result) => {
-    cat_lost.findOne({}).then((doc) => {
-      res.setHeader('Cache-Control', 'no-store');  
-      res.render('cat_detail', { title:'น้องแมวหาย',profile:result,role:result.role,cat:doc});
 
-    })
+    users.findOne({_id: decrypted }).then((result) => {
+      cat_lost.findOne({status:1}).then((doc) => {
+        res.setHeader('Cache-Control', 'no-store');  
+        res.render('cat_detail', { title:'น้องแมวหาย',profile:result,role:result.role,cat:doc});
+
+    })  
    
     })
-  }
+  }else{
+    cat_lost.findOne({_id:cat_id}).then((doc) => {
+      res.setHeader('Cache-Control', 'no-store');  
+      res.render('cat_detail', { title:'น้องแมวหาย',role:null,cat:doc});
+    })
+}
 };
 
 
@@ -337,40 +388,80 @@ exports.addcat_findhouse = (req, res) => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric',second: 'numeric' };
   
   const createat = event.toLocaleDateString('th-TH', options)
-    cat_findhouse.insert({
-      status:0,
-      // findhome_type:req.body.flexRadioDefault,
-      post_type: req.body.flexRadioDefault,
-      pet_name:req.body.pet_name,
-      pet_gene:req.body.pet_gene,
-      pet_gender:req.body.pet_gender,
-      pet_color:req.body.pet_color,
-      pet_vaccin:req.body.pet_vaccin,
-      pet_vaccin_date:req.body.pet_vaccin_date,
-      pet_symptom:req.body.pet_symptom,
-      pet_image:filename_random.split('/public')[1],
-      place:req.body.place,
-      contact_name:req.body.contact_name,
-      contact_surname:req.body.contact_surname,
-      contact_tel:req.body.contact_tel,
-      contact_email:req.body.contact_email,
-      contact_line:req.body.contact_line,
-      contact_facebook:req.body.contact_facebook,
-      createat:createat,
-      user_id:decrypted
+  users.findOne({_id: decrypted }).then((result) => {
+    if (result.role == 1) {
+      cat_findhouse.insert({
+        status:1,
+        // findhome_type:req.body.flexRadioDefault,
+        post_type: req.body.flexRadioDefault,
+        pet_name:req.body.pet_name,
+        pet_gene:req.body.pet_gene,
+        pet_gender:req.body.pet_gender,
+        pet_color:req.body.pet_color,
+        pet_vaccin:req.body.pet_vaccin,
+        pet_vaccin_date:req.body.pet_vaccin_date,
+        pet_symptom:req.body.pet_symptom,
+        pet_image:filename_random.split('/public')[1],
+        place:req.body.place,
+        contact_name:req.body.contact_name,
+        contact_surname:req.body.contact_surname,
+        contact_tel:req.body.contact_tel,
+        contact_email:req.body.contact_email,
+        contact_line:req.body.contact_line,
+        contact_facebook:req.body.contact_facebook,
+        createat:createat,
+        user_id:decrypted
+      
+      },function(err,result){
+        if(err){
+          console.log(err);
+          // res.send(' <script>alert("บันทึกข้อมูลไม่สำเร็จ!!!") </script>');
+          req.flash('findhome_post', "ข้อมูลไม่ถูกต้อง");
+          res.redirect('/findhome_post');
+        }else{
+          // res.send(' <script>alert("บันทึกข้อมูลสำเร็จ!!!"); </script>');
+     
+          res.redirect('/');
+        }
+      });
+    }else {
+      cat_findhouse.insert({
+        status:0,
+        // findhome_type:req.body.flexRadioDefault,
+        post_type: req.body.flexRadioDefault,
+        pet_name:req.body.pet_name,
+        pet_gene:req.body.pet_gene,
+        pet_gender:req.body.pet_gender,
+        pet_color:req.body.pet_color,
+        pet_vaccin:req.body.pet_vaccin,
+        pet_vaccin_date:req.body.pet_vaccin_date,
+        pet_symptom:req.body.pet_symptom,
+        pet_image:filename_random.split('/public')[1],
+        place:req.body.place,
+        contact_name:req.body.contact_name,
+        contact_surname:req.body.contact_surname,
+        contact_tel:req.body.contact_tel,
+        contact_email:req.body.contact_email,
+        contact_line:req.body.contact_line,
+        contact_facebook:req.body.contact_facebook,
+        createat:createat,
+        user_id:decrypted
+      
+      },function(err,result){
+        if(err){
+          console.log(err);
+          // res.send(' <script>alert("บันทึกข้อมูลไม่สำเร็จ!!!") </script>');
+          req.flash('findhome_post', "ข้อมูลไม่ถูกต้อง");
+          res.redirect('/findhome_post');
+        }else{
+          // res.send(' <script>alert("บันทึกข้อมูลสำเร็จ!!!"); </script>');
+     
+          res.redirect('/');
+        }
+      });
+    }
+  })
     
-    },function(err,result){
-      if(err){
-        console.log(err);
-        // res.send(' <script>alert("บันทึกข้อมูลไม่สำเร็จ!!!") </script>');
-        req.flash('findhome_post', "ข้อมูลไม่ถูกต้อง");
-        res.redirect('/findhome_post');
-      }else{
-        // res.send(' <script>alert("บันทึกข้อมูลสำเร็จ!!!"); </script>');
-   
-        res.redirect('/');
-      }
-    });
   };
 
 
@@ -403,44 +494,87 @@ exports.addcat_lost = (req, res, next) => {
   const event = new Date();
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric',second: 'numeric' };
   const createat = event.toLocaleDateString('th-TH', options)
-  cat_lost.insert({
-      status:0,
-      post_type: req.body.flexRadioDefault,
-      pet_name: req.body.pet_name,
-      post_title : req.body.post_title,
-      pet_gene: req.body.pet_gene,
-      pet_gender: req.body.pet_gender,
-      pet_color: req.body.pet_color,
-      pet_vaccin: req.body.pet_vaccin,
-      pet_vaccin_date: req.body.pet_vaccin_date,
-      pet_symptom: req.body.pet_symptom,
-      pet_image: filename_random.split('/public')[1],
-      place_date_time: req.body.place_date_time,
-      place_landmarks: req.body.place_landmarks,
-      place_name: req.body.place_name,
-      place: req.body.place,
-      contact_name: req.body.contact_name,
-      contact_surname: req.body.contact_surname,
-      contact_tel: req.body.contact_tel,
-      contact_email: req.body.contact_email,
-      contact_line: req.body.contact_line,
-      contact_facebook: req.body.contact_facebook,
-      createat : createat,
-      userid:decrypted
-    },function (err, cat_lost) {
-      if (err) {
-        console.log(err);
-        res.send(
-          ' <script>alert("บันทึกข้อมูลไม่สำเร็จ!!!"); window.location = "/"; </script>'
-        );
-      } else {
-        res.send(
-          ' <script>alert("บันทึกข้อมูลสำเร็จ!!!"); window.location = "/"; </script>'
-        );
-
-      }
+  users.findOne({_id: decrypted }).then((result) => {
+    if (result.role == 1) {
+      cat_lost.insert({
+        status:1,
+        post_type: req.body.flexRadioDefault,
+        pet_name: req.body.pet_name,
+        post_title : req.body.post_title,
+        pet_gene: req.body.pet_gene,
+        pet_gender: req.body.pet_gender,
+        pet_color: req.body.pet_color,
+        pet_vaccin: req.body.pet_vaccin,
+        pet_vaccin_date: req.body.pet_vaccin_date,
+        pet_symptom: req.body.pet_symptom,
+        pet_image: filename_random.split('/public')[1],
+        place_date_time: req.body.place_date_time,
+        place_landmarks: req.body.place_landmarks,
+        place_name: req.body.place_name,
+        place: req.body.place,
+        contact_name: req.body.contact_name,
+        contact_surname: req.body.contact_surname,
+        contact_tel: req.body.contact_tel,
+        contact_email: req.body.contact_email,
+        contact_line: req.body.contact_line,
+        contact_facebook: req.body.contact_facebook,
+        createat : createat,
+        userid:decrypted
+      },function (err, cat_lost) {
+        if (err) {
+          console.log(err);
+          res.send(
+            ' <script>alert("บันทึกข้อมูลไม่สำเร็จ!!!"); window.location = "/"; </script>'
+          );
+        } else {
+          res.send(
+            ' <script>alert("บันทึกข้อมูลสำเร็จ!!!"); window.location = "/"; </script>'
+          );
+  
+        }
+      });
+    }else{
+      cat_lost.insert({
+        status:0,
+        post_type: req.body.flexRadioDefault,
+        pet_name: req.body.pet_name,
+        post_title : req.body.post_title,
+        pet_gene: req.body.pet_gene,
+        pet_gender: req.body.pet_gender,
+        pet_color: req.body.pet_color,
+        pet_vaccin: req.body.pet_vaccin,
+        pet_vaccin_date: req.body.pet_vaccin_date,
+        pet_symptom: req.body.pet_symptom,
+        pet_image: filename_random.split('/public')[1],
+        place_date_time: req.body.place_date_time,
+        place_landmarks: req.body.place_landmarks,
+        place_name: req.body.place_name,
+        place: req.body.place,
+        contact_name: req.body.contact_name,
+        contact_surname: req.body.contact_surname,
+        contact_tel: req.body.contact_tel,
+        contact_email: req.body.contact_email,
+        contact_line: req.body.contact_line,
+        contact_facebook: req.body.contact_facebook,
+        createat : createat,
+        userid:decrypted
+      },function (err, cat_lost) {
+        if (err) {
+          console.log(err);
+          res.send(
+            ' <script>alert("บันทึกข้อมูลไม่สำเร็จ!!!"); window.location = "/"; </script>'
+          );
+        } else {
+          res.send(
+            ' <script>alert("บันทึกข้อมูลสำเร็จ!!!"); window.location = "/"; </script>'
+          );
+  
+        }
+      });
     }
-  );
+   
+    })
+  
 };
 
 exports.profile = (req,res)=>{

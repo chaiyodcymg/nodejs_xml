@@ -20,6 +20,7 @@ router.get('/',controller.index );
 
 router.get('/more_cat',controller.more_cat);
 router.get('/more_cat_john',controller.more_cat_john);
+router.get('/more_found_cat',controller.more_found_cat);
 
 
 router.post('/login' ,controller.login );

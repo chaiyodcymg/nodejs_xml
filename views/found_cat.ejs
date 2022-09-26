@@ -1,50 +1,23 @@
+<% callitem2.forEach(callitem2 => { %>
+    <% if(callitem2.post_type = "พบสัตว์เลี้ยง") {%>
+        <% if(callitem2.status == 1 ) { %>
 <div class="w-80">
 
-    <a class="catinfo " href="/catinfo">
+    <a class="catinfo " href="/catinfo2/<%= callitem2._id%>">
         <div class="card cat-card" style="width: 300px;">
-            <img class="cat_img" src="./images/cat.jpg" class="card-img-top" alt="...">
+            <img class="cat_img" src="<%= callitem2.pet_image%>" class="card-img-top" alt="...">
             <div class="card-body">
-                <h5 class="card-title">รหัสแมว</h5>
-                <p class="card-text">สี: </p>
-                <p class="card-text">สายพันธ์: </p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                <h5 class="card-title">ชื่อ: <%= callitem2.pet_name%></h5>
+                <p class="card-text">สี: <%= callitem2.pet_color%></p>
+                <p class="card-text">สายพันธ์: <%= callitem2.pet_gene%></p>
+                <p class="card-text"><small class="text-muted">โพสต์เมื่อ: <%= callitem2.createat%></small></p>
             </div>
         </div>
     </a>
-    <a class="catinfo " href="/catinfo">
-        <div class="card cat-card" style="width: 300px;">
-            <img class="cat_img" src="./images/cat.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">รหัสแมว</h5>
-                <p class="card-text">สี: </p>
-                <p class="card-text">สายพันธ์: </p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-    </a>
-    <a class="catinfo " href="/catinfo">
-        <div class="card cat-card" style="width: 300px;">
-            <img class="cat_img" src="./images/cat.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">รหัสแมว</h5>
-                <p class="card-text">สี: </p>
-                <p class="card-text">สายพันธ์: </p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-    </a>
-    <a class="catinfo " href="/catinfo">
-        <div class="card cat-card" style="width: 300px;">
-            <img class="cat_img" src="./images/cat.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">รหัสแมว</h5>
-                <p class="card-text">สี: </p>
-                <p class="card-text">สายพันธ์: </p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-    </a>
-    </div>
+   
+   
 </div>
-
+        <% } %>
+    <% } %>
+<% }) %>
     
