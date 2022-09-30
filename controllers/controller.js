@@ -14,7 +14,7 @@ const validator = require("email-validator");
 const cat_findhouse = db.get("cat_findhouse");
 const cat_lost = db.get("cat_lost");
 const randomstring = require("randomstring");
-process.env.TZ = "Asia/bangkok"
+process.env.TZ = "Asia/Bangkok"
 const fs = require('fs');
 // หน้าหลัก
 // res.setHeader('Cache-Control', 'no-store');  ไม่ให้เก็บ Back/forward cache ปุ่มไปกลับบน browser
@@ -24,17 +24,22 @@ exports.index= (req,res)=>{
     const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
     const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
     users.findOne({_id: decrypted }).then((result) => {
-      cat_findhouse.find({status:1},{limit:3}).then((docs) => {
-        cat_lost.find({status:1},{limit:2}).then((doc) => {
-      res.setHeader('Cache-Control', 'no-store');  
-      res.render('home', { title: 'หน้าหลัก' ,result,role:result.role,callitem1: docs ,callitem2: doc});
+      if(result != null ){
+         cat_findhouse.find({status:1}).then((docs) => {
+        cat_lost.find({status:1}).then((doc) => {
+    
+          res.setHeader('Cache-Control', 'no-store');  
+          res.render('home', { title: 'หน้าหลัก' ,result,role:result.role,callitem1: docs ,callitem2: doc});
+            })
         })
-      })
+      }
+ 
     })
  
 }else{
-  cat_findhouse.find({status:1},{limit:3}).then((docs) => {
-    cat_lost.find({status:1}, {limit:2}).then((doc) => {
+  cat_findhouse.find({status:1},{limit:2}).then((docs) => {
+    cat_lost.find({status:1},{limit:2}).then((doc) => {
+     
       res.setHeader('Cache-Control', 'no-store');  
       res.render("home", { title: "Home",callitem1: docs ,callitem2: doc,role:null });
     })
@@ -309,19 +314,33 @@ exports.mypost = (req, res) =>{
 
 //yun
 exports.catfindhouse_detail = (req, res) => {
-  let cat_id = req.params.id.toString() ;
+  let cat_id = req.query.id;
   if( req.cookies.AUTH != undefined){
-
+    
     const cookie = req.cookies.AUTH
     const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
     const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+
     users.findOne({_id: decrypted }).then((result) => {
-    cat_findhouse.findOne({status:1}).then((doc) => {
-      res.setHeader('Cache-Control', 'no-store');  
-      res.render('cat_detail', { title:'หาบ้านให้น้องแมว',profile:result,role:result.role,cat:doc});
-    })
+   
+     cat_findhouse.findOne({_id:cat_id}).then((doc) => {
+      if(result.role == 1){
+        res.setHeader('Cache-Control', 'no-store');  
+        res.render('cat_detail', { title:'หาบ้านให้น้องแมว',profile:result,role:result.role,cat:doc});
+      }else if( doc.status ==1 ){
+        res.setHeader('Cache-Control', 'no-store');  
+        res.render('cat_detail', { title:'หาบ้านให้น้องแมว',profile:result,role:result.role,cat:doc});
+
+      }else{
+        res.setHeader('Cache-Control', 'no-store');  
+        res.redirect('/');
+      }
+      
+
+    })  
    
     })
+
   }else{
     cat_findhouse.findOne({_id:cat_id}).then((doc) => {
       res.setHeader('Cache-Control', 'no-store');  
@@ -332,7 +351,7 @@ exports.catfindhouse_detail = (req, res) => {
   
 };
 exports.catlost_detail = (req, res) => {
-  let cat_id = req.params.id.toString() ;
+  let cat_id = req.query.id;
   if( req.cookies.AUTH != undefined){
     
     const cookie = req.cookies.AUTH
@@ -340,13 +359,14 @@ exports.catlost_detail = (req, res) => {
     const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
 
     users.findOne({_id: decrypted }).then((result) => {
-      cat_lost.findOne({status:1}).then((doc) => {
+     cat_lost.findOne({_id:cat_id}).then((doc) => {
         res.setHeader('Cache-Control', 'no-store');  
         res.render('cat_detail', { title:'น้องแมวหาย',profile:result,role:result.role,cat:doc});
 
     })  
    
     })
+
   }else{
     cat_lost.findOne({_id:cat_id}).then((doc) => {
       res.setHeader('Cache-Control', 'no-store');  
@@ -384,13 +404,14 @@ exports.addcat_findhouse = (req, res) => {
     }else{
       file.mv(filename_random)
     }
-    const event = new Date();
+    const event = new Date(Date.now());
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric',second: 'numeric' };
   
   const createat = event.toLocaleDateString('th-TH', options)
   users.findOne({_id: decrypted }).then((result) => {
     if (result.role == 1) {
       cat_findhouse.insert({
+
         status:1,
         // findhome_type:req.body.flexRadioDefault,
         post_type: req.body.flexRadioDefault,
@@ -426,6 +447,7 @@ exports.addcat_findhouse = (req, res) => {
       });
     }else {
       cat_findhouse.insert({
+
         status:0,
         // findhome_type:req.body.flexRadioDefault,
         post_type: req.body.flexRadioDefault,
@@ -491,7 +513,7 @@ exports.addcat_lost = (req, res, next) => {
   }else{
     file.mv(filename_random)
   }
-  const event = new Date();
+  const event = new Date(Date.now());
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric',minute: 'numeric',second: 'numeric' };
   const createat = event.toLocaleDateString('th-TH', options)
   users.findOne({_id: decrypted }).then((result) => {
@@ -686,15 +708,24 @@ exports.search = (req, res) => {
 exports.delete = (req, res) => {
   cat_findhouse.remove({_id:req.params.id});
   cat_lost.remove({_id:req.params.id});
-  res.redirect('/');
+  res.redirect('/mypost');
 };
 
 //อ้างอิง id ที่จะทำการแก้ไขรายละเอียด
 exports.edit_findhome_post = (req, res) => {
-  const edit_id = req.body.edit_id;
-  cat_findhouse.findOne({ _id: edit_id }).then((doc) => {
-    res.render("edit_findhome_post", {title:"แก้ไขรายละเอียด", doc: doc });
-  });
+  if( req.cookies.AUTH != undefined){
+    const edit_id = req.body.edit_id;
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      cat_findhouse.findOne({ _id: edit_id }).then((doc) => {
+        res.render("edit_findhome_post", {title:"แก้ไขรายละเอียด", doc: doc ,role:result.role});
+      });
+    })
+ 
+
+}
 };
 
 //หลังจากกด submit จากหน้า edit.ejs จะมาทำ action นี้
@@ -745,11 +776,12 @@ exports.update_findhome_post = (req, res) => {
     })
     .then((updatedDoc) => {
       res.send(
-        ' <script>alert("อัพเดตข้อมูลสำเร็จ!!!"); window.location = "/"; </script>'
+        ' <script>alert("อัพเดตข้อมูลสำเร็จ!!!"); window.location = "/mypost"; </script>'
       );
     });
 };
 exports.edit_cat_lost = (req, res) => {
+  
   const edit_id1 = req.body.edit_id;
   cat_lost.findOne({ _id: edit_id1 }).then((doc) => {
     res.render("edit_cat_lost", {title:"แก้ไขรายละเอียด", doc: doc });
@@ -811,7 +843,7 @@ exports.update_cat_lost = (req, res) => {
 })
 .then((updatedDoc) => {
   res.send(
-    '<script>alert("อัพเดตข้อมูลสำเร็จ!!!"); window.location = "/"; </script>'
+    '<script>alert("อัพเดตข้อมูลสำเร็จ!!!"); window.location = "/mypost"; </script>'
   );
 });
 }

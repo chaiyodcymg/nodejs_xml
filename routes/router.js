@@ -41,8 +41,8 @@ router.post('/editprofile',controller.auth ,controller.editprofileinfo );
 router.get("/mypost",controller.auth ,controller.mypost);
 
 //yun
-router.get('/catinfo1/:id',controller.catfindhouse_detail);
-router.get('/catinfo2/:id',controller.catlost_detail);
+router.get('/catinfo1/',controller.catfindhouse_detail);
+router.get('/catinfo2/',controller.catlost_detail);
 
 router.get("/findhome_post", controller.auth ,controller.findhome_post);
 router.post("/findhome_post/add", controller.auth ,controller.addcat_findhouse);

@@ -1,7 +1,9 @@
-<% callitem1.forEach(callitem1 => { %>
-    <% if(callitem1.status == 1 ) { %>
+
+     <% callitem1.forEach(callitem1 => { %>
+        <% if(callitem1.status == 1 ) { %>
     <div class="flex-container mt-5">
-        <a class="catinfo " href="/catinfo1/<%= callitem1._id%>">
+       
+        <a class="catinfo " href="/catinfo1/?id=<%= callitem1._id%>">
             <div class="card mb-3 home-cat">
                 <div class="row g-0">
                     <div class="col-md-4">
@@ -18,7 +20,9 @@
                 </div>
             </div>
         </a>
+         
     </div>
     <% } %>
-<% }) %>
+    <% }) %>
+ 
 

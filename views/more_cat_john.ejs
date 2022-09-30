@@ -9,6 +9,7 @@
       <%}else{ %>
         <%- include('header_user') %>
         <%}%>
+        <% if(callitem2 != null) { %>
     <div class="container">
         <div class="row">
             <div class="col"></div>
@@ -27,6 +28,7 @@
             <div class="col"></div>
         </div>
     </div>
+    <% } %>
     <%- include('./footer'); %>
 </body>
 </html>

@@ -14,7 +14,7 @@
     <% }else { %>
     <div class="container">
         <% callitem1.forEach((item)=> { %>
-        <a class="catinfo-search mb-3 home-cat-search" href="/catinfo1/<%= item._id%>">
+        <a class="catinfo-search mb-3 home-cat-search" href="/catinfo1/?id=<%= item._id%>">
             <div class="d-inline-flex">
                 <div class="col">
                      <img src="<%= item.pet_image %>" class="img-fluid rounded-start cat-pic-search" alt="...">
@@ -31,7 +31,7 @@
         </a>
         <% }) %>
         <% callitem2.forEach((item)=> { %>
-            <a class="catinfo-search mb-3 home-cat-search" href="/catinfo2/<%= item._id%>">
+            <a class="catinfo-search mb-3 home-cat-search" href="/catinfo2/?id=<%= item._id%>">
                 <div class="d-inline-flex">
                     <div class="col">
                          <img src="<%= item.pet_image %>" class="img-fluid rounded-start cat-pic-search" alt="...">
