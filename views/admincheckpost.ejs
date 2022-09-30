@@ -1,40 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('./head') %>
+<%- include('head') %>
 <link rel="stylesheet" href="/stylesheets/postcheck.css">
 
 <body>
-    <%- include('./header') %>
-    
-        <div class="container">
-            <h1>ตรวจสอบโพสต์</h1>
-            <div class="row">
-                <div class="col-md ">
-                    <div class="box">
-                        <div class="img_presentcat">
-                            <img src="../images/cat.jpg" alt="">
-                        </div>
-                        <div class="text-wrap">
-                            <h3>รหัสแมว 666</h3>
-                            <div class="catinfo">
-                                <ul>
-                                    <li>เพศ</li>
-                                    <li>สี</li>
-                                    <li>วัคซีนที่เคยได้รับ</li>
-                                    <li>สายพันธ์</li>
-                                </ul>
+    <% if(role == null){ %>
+        <%- include('header_notlogin') %>
+      <% } else if(role == 1) {%>
+        <%- include('header_admin') %>
+      <%}else{ %>
+        <%- include('header_user') %>
+        <%}%>
+    <%- include('banner') %>
+    <div class="container">
+              <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        รอการอนุมัติ  
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <div class="d-inline-flex flex-row">
+                        <% callitem1.forEach((item)=> { %>
+                            <% if(item.status== 0 ) { %>
+                            <div class="box">
+                                <div class="presentcat">
+                                    <img src="<%= item.pet_image %>" alt="">
+                                </div>
+                                <div class="text-wrap">
+                                    <h3>ชื่อ: <%= item.pet_name %></h3>
+                                    <div class="catinfo">
+                                        <ul>
+                                            <li>เรื่องที่แจ้ง: <%= item.post_type %></li>
+                                            <li>เพศ: <%= item.pet_gender %></li>
+                                            <li>สี: <%= item.pet_color %></li>
+                                            <li>วัคซีนที่เคยได้รับ: <%= item.pet_vaccine %></li>
+                                            <li>สายพันธ์: <%= item.pet_gene %></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="button">
+                                    <a href="catinfo1/?id=<%= item._id %>"><button type="button" class="decline btn btn-primary">ดูรายละเอียด</button></a>
+                                    <a href="decline/<%= item._id %>"><button type="button" class="decline btn btn-danger">ปฏิเสธ</button></a>
+                                    <a href="accept/<%= item._id %>"><button type="button" class="btn btn-success">อนุมัติ</button></a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="button">
-                            <button type="button" class="btn btn-danger">ปฏิเสธ</button>
-                            <button type="button" class="btn btn-success">อนุมัติ</button>
+                            <% } %>  
+                        <% }) %>     
+                        <% callitem2.forEach((item)=> { %>
+                            <% if(item.status== 0 ) { %>
+                            <div class="box">
+                                <div class="presentcat">
+                                    <img src="<%= item.pet_image %>" alt="">
+                                </div>
+                                <div class="text-wrap">
+                                    <h3>ชื่อ: <%= item.pet_name %></h3>
+                                    <div class="catinfo">
+                                        <ul>
+                                            <li>เรื่องที่แจ้ง: <%= item.post_type %></li>
+                                            <li>เพศ: <%= item.pet_gender %></li>
+                                            <li>สี: <%= item.pet_color %></li>
+                                            <li>วัคซีนที่เคยได้รับ: <%= item.pet_vaccine %></li>
+                                            <li>สายพันธ์: <%= item.pet_gene %></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="button">
+                                    <a href="catinfo2/?id=<%= item._id %>"><button type="button" class="decline btn btn-primary">ดูรายละเอียด</button></a>
+                                    <a href="decline/<%= item._id %>"><button type="button" class="decline btn btn-danger">ปฏิเสธ</button></a>
+                                    <a href="accept/<%= item._id %>"><button type="button" class="btn btn-success">อนุมัติ</button></a>
+                                </div>
+                            </div>
+                            <% } %>  
+                        <% }) %>              
+                     </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      อนุมัติ 
+                    </button>
+                  </h2>
+                  <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="d-inline-flex flex-row">
+                            <% callitem1.forEach((item)=> { %>
+                                <% if(item.status== 1 ) { %>
+                                  
+                                    <div class="box box-admin">
+                                        <div class="presentcat">
+                                            <img src="<%= item.pet_image %>" alt="">
+                                        </div>
+                                        <div class="text-wrap">
+                                            <h3>ชื่อ: <%= item.pet_name %></h3>
+                                            <div class="catinfo">
+                                                <ul>
+                                                    <li>เรื่องที่แจ้ง: <%= item.post_type %></li>
+                                                    <li>เพศ: <%= item.pet_gender %></li>
+                                                    <li>สี: <%= item.pet_color %></li>
+                                                    <li>วัคซีนที่เคยได้รับ: <%= item.pet_vaccine %></li>
+                                                    <li>สายพันธ์ุ: <%= item.pet_gene %></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="button">
+                                            <span>อนุมัติแล้ว</span>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            <% }) %>   
+                            <% callitem2.forEach((item)=> { %>
+                                <% if(item.status== 1 ) { %>
+                                <div class="box">
+                                    <div class="presentcat">
+                                        <img src="<%= item.pet_image %>" alt="">
+                                    </div>
+                                    <div class="text-wrap">
+                                        <h3>ชื่อ: <%= item.pet_name %></h3>
+                                        <div class="catinfo">
+                                            <ul>
+                                                <li>เรื่องที่แจ้ง: <%= item.post_type %></li>
+                                                <li>เพศ: <%= item.pet_gender %></li>
+                                                <li>สี: <%= item.pet_color %></li>
+                                                <li>วัคซีนที่เคยได้รับ: <%= item.pet_vaccine %></li>
+                                                <li>สายพันธ์: <%= item.pet_gene %></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="button">
+                                        <span>อนุมัติแล้ว</span>
+                                    </div>
+                                </div>
+                                <% } %>  
+                            <% }) %>                 
+                     </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      ปฏิเสธ
+                    </button>
+                  </h2>
+                  <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="d-inline-flex flex-row">
+                            <% callitem1.forEach((item)=> { %>
+                                <% if(item.status== 2 ) { %>
+                                <div class="box box-admin">
+                                    <div class="status-post">
+                                        <span>สถานะ : ปฏิเสธแล้ว</span>
+                                    </div>
+                                    <div class="presentcat">
+                                        <img src="<%= item.pet_image %>" alt="">
+                                    </div>
+                                    <div class="text-wrap">
+                                        <h3>ชื่อ: <%= item.pet_name %></h3>
+                                            <div class="catinfo">
+                                                <ul>
+                                                    <li>เรื่องที่แจ้ง: <%= item.post_type %></li>
+                                                    <li>เพศ: <%= item.pet_gender %></li>
+                                                    <li>สี: <%= item.pet_color %></li>
+                                                    <li>วัคซีนที่เคยได้รับ: <%= item.pet_vaccine %></li>
+                                                    <li>สายพันธ์ุ: <%= item.pet_gene %></li>
+                                                </ul>
+                                            </div>
+                                    </div>
+                                    
+                                </div>
+                                <% } %>
+                            <% }) %>  
+                            <% callitem2.forEach((item)=> { %>
+                                <% if(item.status== 2 ) { %>
+                                <div class="box">
+                                    <div class="presentcat">
+                                        <img src="<%= item.pet_image %>" alt="">
+                                    </div>
+                                    <div class="text-wrap">
+                                        <h3>ชื่อ: <%= item.pet_name %></h3>
+                                        <div class="catinfo">
+                                            <ul>
+                                                <li>เรื่องที่แจ้ง: <%= item.post_type %></li>
+                                                <li>เพศ: <%= item.pet_gender %></li>
+                                                <li>สี: <%= item.pet_color %></li>
+                                                <li>วัคซีนที่เคยได้รับ: <%= item.pet_vaccine %></li>
+                                                <li>สายพันธ์: <%= item.pet_gene %></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <% } %>  
+                            <% }) %>                    
                         </div>
                     </div>
+                  </div>
                 </div>
-    
-            </div>
-        </div>
+              </div>
 
+    </div>
+<script>
+
+</script>
     <%- include('./footer'); %>
 </body>
 

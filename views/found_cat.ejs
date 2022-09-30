@@ -1,48 +1,17 @@
-<div class="w-80">
-    <a class="catinfo " href="/catinfo">
-        <div class="card cat-card" style="width: 300px;">
-            <img class="cat_img" src="./images/cat.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">รหัสแมว</h5>
-                <p class="card-text">สี: </p>
-                <p class="card-text">สายพันธ์: </p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-    </a>
-    <a class="catinfo " href="/catinfo">
-        <div class="card cat-card" style="width: 300px;">
-            <img class="cat_img" src="./images/cat.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">รหัสแมว</h5>
-                <p class="card-text">สี: </p>
-                <p class="card-text">สายพันธ์: </p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-    </a>
-    <a class="catinfo " href="/catinfo">
-        <div class="card cat-card" style="width: 300px;">
-            <img class="cat_img" src="./images/cat.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">รหัสแมว</h5>
-                <p class="card-text">สี: </p>
-                <p class="card-text">สายพันธ์: </p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-    </a>
-    <a class="catinfo " href="/catinfo">
-        <div class="card cat-card" style="width: 300px;">
-            <img class="cat_img" src="./images/cat.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">รหัสแมว</h5>
-                <p class="card-text">สี: </p>
-                <p class="card-text">สายพันธ์: </p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-    </a>
-</div>
 
+            <% cat_found.forEach(item => { %>
+                <% if(item.post_type == "พบสัตว์เลี้ยง") {%>
+            <a class="catinfo" href="/catinfo3/?id=<%= item._id%>">
+                <div class="card cat-card" style="width: 300px;">
+                    <img class="cat_img" src="<%= item.pet_image%>" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate">ชื่อ: <%= item.pet_name%></h5>
+                        <p class="card-text text-truncate">สี: <%= item.pet_color%></p>
+                        <p class="card-text text-truncate">สายพันธ์: <%= item.pet_gene%></p>
+                        <p class="card-text text-truncate"><small class="text-muted">โพสต์เมื่อ: <%= item.createat%></small></p>
+                    </div>
+                </div>
+            </a>
+                <% } %>
+            <% }) %>
     

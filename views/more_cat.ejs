@@ -2,7 +2,14 @@
     <title>Cat Infomation</title>
 </head>
 <body>
-    <%- include('header') %>
+    <% if(role == null){ %>
+        <%- include('header_notlogin') %>
+      <% } else if(role == 1) {%>
+        <%- include('header_admin') %>
+      <%}else{ %>
+        <%- include('header_user') %>
+        <%}%>
+    <% if(callitem1 != null) { %>
     <div class="container">
         <div class="row">
             <div class="col"></div>
@@ -21,6 +28,7 @@
             <div class="col"></div>
         </div>
     </div>
+    <% } %>
     <%- include('./footer'); %>
 </body>
 </html>

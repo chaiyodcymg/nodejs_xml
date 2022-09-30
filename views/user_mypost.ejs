@@ -1,37 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('./head') %>
+<%- include('head') %>
 <link rel="stylesheet" href="/stylesheets/postcheck.css">
 
 <body>
-    <%- include('./header') %>
-    
+    <% if(role == null){ %>
+        <%- include('header_notlogin') %>
+      <% } else if(role == 1) {%>
+        <%- include('header_admin') %>
+      <%}else{ %>
+        <%- include('header_user') %>
+        <%}%>
+    <%- include('banner') %>
         <div class="container">
-            <h1>โพสต์ของฉัน</h1>
-            <div class="row">
+            <div class="d-inline-flex flex-wrap justify-content-center">
+                <% callitem1.forEach(callitem1 => { %>
                 <div class="col-md ">
+             
                     <div class="box">
-                        <div class="img_presentcat">
-                            <img src="../images/cat.jpg" alt="">
+                        <div class="presentcat">
+                            <img src="<%= callitem1.pet_image%>" alt="">
                         </div>
                         <div class="text-wrap">
-                            <h3>รหัสแมว 666</h3>
+                            <h3><%= callitem1.pet_name%></h3>
                             <div class="catinfo">
                                 <ul>
-                                    <li>เพศ</li>
-                                    <li>สี</li>
-                                    <li>วัคซีนที่เคยได้รับ</li>
-                                    <li>สายพันธ์</li>
+                                    <li>เพศ: <%= callitem1.pet_gender%></li>
+                                    <li>สี: <%= callitem1.pet_color%></li>
+                                    <li>วัคซีนที่เคยได้รับ: <%= callitem1.pet_vaccin%></li>
+                                    <li>สายพันธ์: <%= callitem1.pet_gene%></li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="button">
-                            <button type="button" class="btn btn-danger">ลบ</button>
-                            <button type="button" class="btn btn-success">แก้ไข</button>
+                        <div class="button d-flex">
+                            <a href="/delete/<%=callitem1._id%>" onclick="return confirm('คุณต้องการลบ <%=callitem1.pet_name%> หรือไม่?')"><button type="button" class="btn btn-danger">ลบ</button></a>
+                            <form action="/findhome_post/edit" method="post">
+                                <input type="hidden" name="edit_id" value="<%=callitem1._id%>">
+                                <button type="submit" class="btn btn-success">แก้ไข</button>
+                            </form>
                         </div>
                     </div>
+        
                 </div>
-    
+                <% }) %>
+                <% callitem2.forEach(callitem2 => { %>
+                <div class="col-md ">
+             
+                    <div class="box">
+                        <div class="presentcat">
+                            <img src="<%= callitem2.pet_image%>" alt="">
+                        </div>
+                        <div class="text-wrap">
+                            <h3><%= callitem2.pet_name%></h3>
+                            <div class="catinfo">
+                                <ul>
+                                    <li>เพศ: <%= callitem2.pet_gender%></li>
+                                    <li>สี: <%= callitem2.pet_color%></li>
+                                    <li>วัคซีนที่เคยได้รับ: <%= callitem2.pet_vaccin%></li>
+                                    <li>สายพันธ์: <%= callitem2.pet_gene%></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="button d-flex">
+                            <a href="/delete/<%=callitem2._id%>" onclick="return confirm('คุณต้องการลบ <%=callitem2.pet_name%> หรือไม่?')"> <button type="button" class="btn btn-danger">ลบ</button></a>
+                            <form action="/report_post/edit" method="post">
+                                <input type="hidden" name="edit_id" value="<%=callitem2._id%>">
+                                <button type="submit" class="btn btn-success">แก้ไข</button>
+                            </form>
+                        </div>
+                    </div>
+        
+                </div>
+                <% }) %>
             </div>
         </div>
 

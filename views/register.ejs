@@ -24,23 +24,29 @@
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-8">
                         <h2 class="fw-bold mb-5">สมัครสมาชิก</h2>
-                        <form>
 
-                            <div class="form-outline mb-4 text-start">
-                                <input name="username" type="text" id="form3Example3" class="form-control fs-5"
-                                    placeholder="ชื่อผู้ใช้" required />
-                            </div>
+                        <% if(register.length > 0) {%> 
+                        <div class="alert alert-danger text-start">
+                            <strong>ข้อผิดพลาด!</strong> <%= register %>
+                          </div>
+                     <%} %>
+                        <form action="/register" method="POST">
+
+                          <div class="form-outline mb-4 text-start">
+                            <input name="email" type="email" id="form3Example4" class="form-control fs-5"
+                                placeholder="อีเมล" value="a@gmail.com" />
+                        </div>
                             <div class="row text-start">
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
-                                        <input name="pass" type="password" id="form3Example1" class="form-control fs-5"
-                                            placeholder="รหัสผ่าน" required />
+                                        <input name="password" type="password" id="form3Example1" class="form-control fs-5"
+                                            placeholder="รหัสผ่าน" />
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
                                         <input name="confirmpass" type="password" id="form3Example2"
-                                            class="form-control fs-5" placeholder="ยืนยันรหัสผ่าน" required />
+                                            class="form-control fs-5" placeholder="ยืนยันรหัสผ่าน" />
                                     </div>
                                 </div>
                             </div>
@@ -48,20 +54,17 @@
                                 <div class="col-md-6 mb-4 ">
                                     <div class="form-outline">
                                         <input name="firstname" type="text" id="form3Example1" class="form-control fs-5"
-                                            placeholder="ชื่อ" required />
+                                            placeholder="ชื่อ" />
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
                                         <input name="lastname" type="text" id="form3Example2" class="form-control fs-5"
-                                            placeholder="นามสกุล" required />
+                                            placeholder="นามสกุล" />
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-outline mb-4 text-start">
-                                <input name="email" type="email" id="form3Example4" class="form-control fs-5"
-                                    placeholder="อีเมล" />
-                            </div>
+                        
 
                             <!-- Submit button -->
                             <div class="d-grid gap-2">
@@ -77,6 +80,7 @@
     </section>
     <!-- Section: Design Block -->
 
-
+  
     <!-- ใส่ที่ footer -->
     <%- include('footer') %>
+</body> 

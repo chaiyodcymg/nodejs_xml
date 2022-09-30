@@ -2,7 +2,14 @@
     <title>Cat Infomation</title>
 </head>
 <body>
-    <%- include('header') %>
+    <% if(role == null){ %>
+        <%- include('header_notlogin') %>
+      <% } else if(role == 1) {%>
+        <%- include('header_admin') %>
+      <%}else{ %>
+        <%- include('header_user') %>
+        <%}%>
+    <% if(cat_found != null) { %>
     <div class="title d-flex justify-content-center mt-5">
         <svg class="home-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
@@ -21,6 +28,7 @@
             <div class="col"></div>
         </div>
     </div>
+    <% } %>
     <%- include('./footer'); %>
 </body>
 </html>

@@ -1,0 +1,21 @@
+<%- include('head') %>
+<link rel='stylesheet' href='/stylesheets/catinfo.css' />
+<link rel="stylesheet" href="/stylesheets/banner.css">
+<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js'></script>
+<script src="https://kit.fontawesome.com/7ef6297bb4.js" crossorigin="anonymous"></script>
+
+<div class="banner">
+    <div class="overlay">
+        <div class="imgbanner"></div>
+    </div>
+    <h2><%= title %></h2>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a class="white-link" href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page""><%= title %></li>
+    </ol>
+</div>
+
+<script>
+    var images = ['/images/catbanner.jpg','/images/cat1.jpg','/images/cat2.jpg'];
+    document.getElementsByClassName('imgbanner')[0].style.backgroundImage = 'url(' + images[Math.floor(Math.random() * images.length)] + ')';
+</script>

@@ -1,0 +1,56 @@
+<%- include('head') %>
+
+<body>
+    <% if(role == null){ %>
+        <%- include('header_notlogin') %>
+      <% } else if(role == 1) {%>
+        <%- include('header_admin') %>
+      <%}else{ %>
+        <%- include('header_user') %>
+        <%}%>
+    <%- include('banner') %>
+    <% if(callitem1.length === 0 && callitem2.length === 0 ) { %>
+
+    <% }else { %>
+    <div class="container">
+        <% callitem1.forEach((item)=> { %>
+        <a class="catinfo-search mb-3 home-cat-search" href="/catinfo1/?id=<%= item._id%>">
+            <div class="d-flex flex-wrap card-serach">
+                <div class="">
+                     <img src="<%= item.pet_image %>" class="img-fluid rounded-start cat-pic-search" alt="...">
+                </div>
+                <div class="col">
+                     <div class="cat-info-serach">
+                         <h5 class="card-title">ชื่อ: <%= item.pet_name %></h5>
+                        <p class="card-text">สี: <%= item.pet_color %></p>
+                        <p class="card-text">สายพันธ์: <%= item.pet_gene %></p>
+                        <p class="card-text"><small class="text-muted"></small></p>
+                     </div>
+                 </div>
+             </div>
+        </a>
+        <hr>
+        <% }) %>
+        <% callitem2.forEach((item)=> { %>
+            <a class="catinfo-search mb-3 home-cat-search" href="/catinfo2/?id=<%= item._id%>">
+                <div class="d-inline-flex">
+                    <div class="col">
+                         <img src="" class="img-fluid rounded-start cat-pic-search" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                         <div class="card-body">
+                             <h5 class="card-title">ชื่อ: <%= item.pet_name %></h5>
+                            <p class="card-text">สี: <%= item.pet_color %></p>
+                            <p class="card-text">สายพันธ์: <%= item.pet_gene %></p>
+                            <p class="card-text"><small class="text-muted"></small></p>
+                         </div>
+                     </div>
+                 </div>
+            </a>
+            <% }) %>
+    </div>
+    <% } %>
+
+
+
+    <%- include('footer') %>

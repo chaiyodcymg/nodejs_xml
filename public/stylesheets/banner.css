@@ -3,11 +3,11 @@
     height: 200px;
     overflow: hidden;
     margin-bottom: 2em;
+    margin-top: 0   ;
 }
 
 .imgbanner {
     height: 200px;
-    background-image: url(../images/catbanner.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -27,7 +27,7 @@
     z-index: 3;
     text-align: center;
     position: absolute;
-    top: 100px;
+    top: 170px;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -36,7 +36,7 @@
     z-index: 3;
     text-align: center;
     position: absolute;
-    top: 135px;
+    top: 200px;
     left: 50%;
     transform: translate(-50%, -50%);
 }

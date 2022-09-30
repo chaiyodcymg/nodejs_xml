@@ -1,16 +1,23 @@
-<a class="catinfo" href="/catinfo">
-    <div class="card mb-3" style="width: 50rem;">
-        <div class="card-body">
-            <div class="row mb-3">
-                <div class="col"></div>
-                <div class="col">
-                    <img src="/images/cat.jpg" class="img-cat-john" alt="...">
+<% callitem2.forEach(callitem2 => { %>
+    <% if(callitem2.post_type == "สัตว์เลี้ยงหาย") {%>
+    
+            <a class="catinfo" href="/catinfo2/?id=<%= callitem2._id%>">
+                <div class="card mb-3" style="width: 50rem;">
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col"></div>
+                            <div class="col">
+                                <img src="<%= callitem2.pet_image%>" class="img-cat-john" alt="...">
+                            </div>
+                            <div class="col"></div>
+                        </div>
+                        <p class="text-cat-john text-truncate">ชื่อ: <%= callitem2.pet_name%></p>
+                        <p class="text-cat-john text-truncate">สี: <%= callitem2.pet_color%></p>
+                        <p class="text-cat-john text-truncate">สายพันธ์: <%= callitem2.pet_gene%></p>
+                        <p class="text-cat-john text-truncate">โพสต์เมื่อ: <%= callitem2.createat%></p>
+                    </div>
                 </div>
-                <div class="col"></div>
-            </div>
-            <p class="text-cat-john">รหัสแมว: </p>
-            <p class="text-cat-john">สี: </p>
-            <p class="text-cat-john">สายพันธ์: </p>
-        </div>
-    </div>
-</a>
+            </a>
+       
+    <% } %>
+<% }) %>

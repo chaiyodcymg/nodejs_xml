@@ -1,37 +1,24 @@
-
-<div class="flex-container mt-5">
-    <a class="catinfo " href="/catinfo">
-        <div class="card mb-3 home-cat">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="/images/cat.jpg" class="img-fluid rounded-start cat-pic" alt="...">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">รหัสแมว</h5>
-                        <p class="card-text">สี: </p>
-                        <p class="card-text">สายพันธ์: </p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+<div class="mt-5">
+        <% callitem1.forEach(callitem1 => { %>
+            <% if(callitem1.status == 1 ) { %>
+            <a class="catinfo catinfo-card" href="/catinfo1/?id=<%= callitem1._id%>">
+                <div class="card mb-3 home-cat">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="<%= callitem1.pet_image%>" class="img-fluid rounded-start cat-pic" alt="..." >
+                        </div>
+                        <div class="col-md-8 card-body">
+                                <h5 class="card-title text-truncate">ชื่อ: <%= callitem1.pet_name%></h5>
+                                <p class="card-text text-truncate">สี: <%= callitem1.pet_color%></p>
+                                <p class="card-text text-truncate">สายพันธ์: <%= callitem1.pet_gene%></p>
+                                <p class="card-text text-truncate"><small class="text-muted">โพสต์เมื่อ: <%= callitem1.createat%></small></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </a>
-    <a class="catinfo" href="/catinfo">
-        <div class="card mb-3 home-cat home-cat-right">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="/images/cat.jpg" class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">รหัสแมว</h5>
-                        <p class="card-text">สี: </p>
-                        <p class="card-text">สายพันธ์: </p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
+            </a>
+        <% } %>
+        <% }) %>
 </div>
+ 
+ 
+
