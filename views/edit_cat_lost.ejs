@@ -1,5 +1,13 @@
 <%- include('head') %>
 <body>
+    <% if(role == null){ %>
+        <%- include('header_notlogin') %>
+      <% } else if(role == 1) {%>
+        <%- include('header_admin') %>
+      <%}else{ %>
+        <%- include('header_user') %>
+        <%}%>
+    <%- include('banner') %>
     <form class="row g-3" action="/report_post/update" method="post" enctype="multipart/form-data">
         <h2 class="mt-4">ข้อมูลของสัตว์เลี้ยง</h2>
         <input type="hidden" name="edit_id" value="<%= doc._id%>">

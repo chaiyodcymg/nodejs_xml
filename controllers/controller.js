@@ -781,11 +781,21 @@ exports.update_findhome_post = (req, res) => {
     });
 };
 exports.edit_cat_lost = (req, res) => {
+  if( req.cookies.AUTH != undefined){
+    const edit_id = req.body.edit_id;
+    const cookie = req.cookies.AUTH
+    const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
+    const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    users.findOne({_id: decrypted }).then((result) => {
+      cat_lost.findOne({ _id: edit_id }).then((doc) => {
+        res.render("edit_cat_lost", {title:"แก้ไขรายละเอียด", doc: doc ,role:result.role});
+      });
+    })
+ 
+
+}
   
-  const edit_id1 = req.body.edit_id;
-  cat_lost.findOne({ _id: edit_id1 }).then((doc) => {
-    res.render("edit_cat_lost", {title:"แก้ไขรายละเอียด", doc: doc });
-  });
+ 
 };
 
 exports.update_cat_lost = (req, res) => {
