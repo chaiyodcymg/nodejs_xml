@@ -30,15 +30,16 @@
              </div>
         </a>
         <hr>
+
         <% }) %>
         <% callitem2.forEach((item)=> { %>
             <a class="catinfo-search mb-3 home-cat-search" href="/catinfo2/?id=<%= item._id%>">
-                <div class="d-inline-flex">
-                    <div class="col">
-                         <img src="" class="img-fluid rounded-start cat-pic-search" alt="...">
+                <div class="d-flex flex-wrap card-serach">
+                    <div class="">
+                         <img src="<%= item.pet_image %>" class="img-fluid rounded-start cat-pic-search" alt="...">
                     </div>
-                    <div class="col-md-8">
-                         <div class="card-body">
+                    <div class="col">
+                         <div class="cat-info-serach">
                              <h5 class="card-title">ชื่อ: <%= item.pet_name %></h5>
                             <p class="card-text">สี: <%= item.pet_color %></p>
                             <p class="card-text">สายพันธ์: <%= item.pet_gene %></p>
@@ -47,6 +48,7 @@
                      </div>
                  </div>
             </a>
+            <hr>
             <% }) %>
     </div>
     <% } %>

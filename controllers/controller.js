@@ -19,31 +19,35 @@ const fs = require('fs');
 // หน้าหลัก
 // res.setHeader('Cache-Control', 'no-store');  ไม่ให้เก็บ Back/forward cache ปุ่มไปกลับบน browser
 exports.index= (req,res)=>{
-  if( req.cookies.AUTH != undefined){
+  // เช็คว่าคนที่เข้ามาดูได้เข้าสู่ระบบหรือยัง
+  if( req.cookies.AUTH != undefined){ 
     const cookie = req.cookies.AUTH
     const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
     const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
+    // หา id ของ user เพื่อจะได้เอา role มาดูว่าเป็น user หรือ admin
     users.findOne({_id: decrypted }).then((result) => {
       if(result != null ){
-        cat_findhouse.find({status:1},{limit:3}).then((docs) => {
+        // หาข้อมูลจากฐานข้อมูลทั้งหมดแล้วนำไปแสดงที่หน้าแรก
+        cat_findhouse.find({status:1},{limit:4}).then((docs) => {
         cat_lost.find({status:1,post_type:"สัตว์เลี้ยงหาย"},{limit:3}).then((doc) => {
         cat_lost.find({status:1,post_type:"พบสัตว์เลี้ยง"},{limit:3}).then((docc) => {
-         
+        //  ส่งข้อมูลไปที่หน้า home โดยมี role ของ user ส่งไปเพื่อกำหนดหน้าที่จะแสดง
             res.setHeader('Cache-Control', 'no-store');  
             res.render('home', { title: 'หน้าหลัก' ,result,role:result.role,callitem1: docs ,callitem2: doc,cat_found:docc});
           })
-        
             })
         })
       }
  
     })
  
+    // ถ้าไม่ได้ล็อคอิน
 }else{
-  cat_findhouse.find({status:1},{limit:3}).then((docs) => {
+   // หาข้อมูลจากฐานข้อมูลทั้งหมดแล้วนำไปแสดงที่หน้าแรก
+  cat_findhouse.find({status:1},{limit:4}).then((docs) => {
     cat_lost.find({status:1 , post_type: "สัตว์เลี้ยงหาย"},{limit:3}).then((doc) => {
       cat_lost.find({status: 1 , post_type: "พบสัตว์เลี้ยง"},{limit:3}).then((docc) => {
-
+  //  ส่งข้อมูลไปที่หน้า home 
         res.setHeader('Cache-Control', 'no-store');  
         res.render("home", { title: "Home",callitem1: docs ,callitem2: doc,cat_found:docc,role:null });
       })
@@ -53,6 +57,8 @@ exports.index= (req,res)=>{
 }
 }
 
+
+// แยกสิทธิ์แอดมินกับผู้ใช้ทั่วไป
 exports.user_permission = (req, res, next) => {
   if( req.cookies.AUTH != undefined){
 
@@ -69,9 +75,9 @@ exports.user_permission = (req, res, next) => {
     })
   }
 }
+
 // ระบบ login
 exports.login = (req,res)=>{
-
 
   const encrypted_password = CryptoJS.MD5(req.body.password.toString()).toString()
     users.findOne({email:req.body.email,password:encrypted_password}).then((result) => {
@@ -84,7 +90,6 @@ exports.login = (req,res)=>{
             res.cookie('AUTH',encoded, {  httpOnly: true })
             res.setHeader('Cache-Control', 'no-store');  
             res.status(200).redirect("/")
-            // res.redirect("/")
     
         }else{
             req.flash('login', "อีเมลหรือรหัสผ่านไม่ถูกต้อง");
@@ -95,7 +100,7 @@ exports.login = (req,res)=>{
 }
 
 
-
+// แสดงหน้าเพิ่มเติมของแมวหาบ้าน
 exports.more_cat = (req,res)=>{
 
   if( req.cookies.AUTH != undefined){
@@ -116,6 +121,8 @@ exports.more_cat = (req,res)=>{
 }
 }
 
+
+// แสดงหน้าเพิ่มเติมของแมวหาย
 exports.more_cat_john = (req,res)=>{
   if( req.cookies.AUTH != undefined){
     const cookie = req.cookies.AUTH
@@ -136,6 +143,8 @@ exports.more_cat_john = (req,res)=>{
 }
 }
 
+
+// แสดงหน้าเพิ่มเติมของพบแมว
 exports.more_found_cat = (req,res)=>{
   if( req.cookies.AUTH != undefined){
     const cookie = req.cookies.AUTH
@@ -275,11 +284,12 @@ exports.register =async (req,res,next)=>{
 }
 
 
-
+// ส่งฟุตเตอร์
 exports.footer = (req,res)=>{
   res.render('footer', { title: 'Expresss' });
 }
 
+// หน้าแสดงโพสต์ที่ต้องเช็ค
 exports.checkpost  = (req, res) => {
   if( req.cookies.AUTH != undefined){
     const cookie = req.cookies.AUTH
@@ -296,7 +306,7 @@ exports.checkpost  = (req, res) => {
   }
 }
 
-
+// หน้าแสดงโพสต์ของฉัน
 exports.mypost = (req, res) =>{
     if( req.cookies.AUTH != undefined){
       const cookie = req.cookies.AUTH
@@ -312,13 +322,15 @@ exports.mypost = (req, res) =>{
         })
       })
     }
-  
   }
    
 
 
 
-//yun
+
+
+//นำข้อมูลจาก cat_findhouse ที่มีไอดีตรงกันไปแสดงที่หน้า cat_detail
+// หน้าแสดงข้อมูลแมวหาบ้าน
 exports.catfindhouse_detail = (req, res) => {
   let cat_id = req.query.id;
   if( req.cookies.AUTH != undefined){
@@ -329,33 +341,29 @@ exports.catfindhouse_detail = (req, res) => {
 
     users.findOne({_id: decrypted }).then((result) => {
    
-     cat_findhouse.findOne({_id:cat_id}).then((doc) => {
-      if(result.role == 1){
-        res.setHeader('Cache-Control', 'no-store');  
-        res.render('cat_detail', { title:'หาบ้านให้น้องแมว',profile:result,role:result.role,cat:doc});
-      }else if( doc.status ==1 ){
-        res.setHeader('Cache-Control', 'no-store');  
-        res.render('cat_detail', { title:'หาบ้านให้น้องแมว',profile:result,role:result.role,cat:doc});
-
-      }else{
-        res.setHeader('Cache-Control', 'no-store');  
-        res.redirect('/');
-      }
-      
-
-    })  
-   
+      cat_findhouse.findOne({_id:cat_id}).then((doc) => {
+        if(result.role == 1){
+          res.setHeader('Cache-Control', 'no-store');  
+          res.render('cat_detail', { title:'หาบ้านให้น้องแมว',profile:result,role:result.role,cat:doc});
+        }else if( doc.status ==1 ){
+          res.setHeader('Cache-Control', 'no-store');  
+          res.render('cat_detail', { title:'หาบ้านให้น้องแมว',profile:result,role:result.role,cat:doc});
+        }else{
+          res.setHeader('Cache-Control', 'no-store');  
+          res.redirect('/');
+        }
+      })  
     })
-
   }else{
     cat_findhouse.findOne({_id:cat_id}).then((doc) => {
       res.setHeader('Cache-Control', 'no-store');  
       res.render('cat_detail', { title:'หาบ้านให้น้องแมว',role:null,cat:doc});
     })
-}
-  
-  
+  }
 };
+
+//นำข้อมูลจาก cat_lost ที่มีไอดีตรงกันไปแสดงที่หน้า cat_detail
+// หน้าแสดงข้อมูลแมวหาย
 exports.catlost_detail = (req, res) => {
   let cat_id = req.query.id;
   if( req.cookies.AUTH != undefined){
@@ -365,12 +373,10 @@ exports.catlost_detail = (req, res) => {
     const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
 
     users.findOne({_id: decrypted }).then((result) => {
-     cat_lost.findOne({_id:cat_id}).then((doc) => {
-        res.setHeader('Cache-Control', 'no-store');  
-        res.render('cat_detail', { title:'น้องแมวหาย',profile:result,role:result.role,cat:doc});
-
-    })  
-   
+      cat_lost.findOne({_id:cat_id}).then((doc) => {
+          res.setHeader('Cache-Control', 'no-store');  
+          res.render('cat_detail', { title:'น้องแมวหาย',profile:result,role:result.role,cat:doc});
+      })  
     })
 
   }else{
@@ -381,21 +387,20 @@ exports.catlost_detail = (req, res) => {
 }
 };
 
+// หน้าแสดงข้อมูลพบแมว
 exports.catfound_detail = (req, res) => {
   let cat_id = req.query.id;
   if( req.cookies.AUTH != undefined){
-    
+
     const cookie = req.cookies.AUTH
     const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
     const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
 
     users.findOne({_id: decrypted }).then((result) => {
-     cat_lost.findOne({_id:cat_id}).then((doc) => {
-        res.setHeader('Cache-Control', 'no-store');  
-        res.render('cat_detail', { title:'พบน้องแมว',profile:result,role:result.role,cat:doc});
-
-    })  
-   
+      cat_lost.findOne({_id:cat_id}).then((doc) => {
+          res.setHeader('Cache-Control', 'no-store');  
+          res.render('cat_detail', { title:'พบน้องแมว',profile:result,role:result.role,cat:doc});
+      })  
     })
 
   }else{
@@ -406,7 +411,7 @@ exports.catfound_detail = (req, res) => {
 }
 };
 
-
+//หน้าแบบฟอร์มโพสต์หาบ้านให้น้องแมว
 exports.findhome_post = (req,res)=>{
   if( req.cookies.AUTH != undefined){
     const cookie = req.cookies.AUTH
@@ -420,7 +425,7 @@ exports.findhome_post = (req,res)=>{
   }
 }
 
-
+//หน้าบันทึกข้อมูลจากแบบฟอร์มที่ถูกส่งมา ไปเก็บที่ cat_findhouse บน MongoDB
 exports.addcat_findhouse = (req, res) => {
   const cookie = req.cookies.AUTH
   const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
@@ -471,7 +476,6 @@ exports.addcat_findhouse = (req, res) => {
           res.redirect('/findhome_post');
         }else{
           // res.send(' <script>alert("บันทึกข้อมูลสำเร็จ!!!"); </script>');
-     
           res.redirect('/');
         }
       });
@@ -516,7 +520,7 @@ exports.addcat_findhouse = (req, res) => {
     
   };
 
-
+// เพิ่มโพสต์สัตว์เลี้ยงหาย/พบสัตว์เลี้ยง
 exports.report_post = (req,res)=>{
   if( req.cookies.AUTH != undefined){
     const cookie = req.cookies.AUTH
@@ -524,13 +528,13 @@ exports.report_post = (req,res)=>{
     const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
     users.findOne({_id: decrypted }).then((result) => {
       res.setHeader('Cache-Control', 'no-store');  
-      res.render('report_post', { title: 'แก้ไขโปรไฟล์' ,result,role:result.role});
+      res.render('report_post', { title: 'สร้างโพสต์' ,result,role:result.role});
 
     })
   }
   
 }
-
+//หน้าบันทึกข้อมูลจากแบบฟอร์มที่ถูกส่งมา ไปเก็บที่ cat_lost บน MongoDB
 exports.addcat_lost = (req, res, next) => {
   const cookie = req.cookies.AUTH
   const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
@@ -629,6 +633,7 @@ exports.addcat_lost = (req, res, next) => {
   
 };
 
+// แสดงหน้าโปรไฟล์
 exports.profile = (req,res)=>{
   if( req.cookies.AUTH != undefined){
     const cookie = req.cookies.AUTH
@@ -642,7 +647,7 @@ exports.profile = (req,res)=>{
   }
    
 }
-
+//ส่งผู้ใช้ไปที่หน้าแก้ไขข้อมูลผู้ใช้
 exports.editprofile = (req,res)=>{
   if( req.cookies.AUTH != undefined){
     const cookie = req.cookies.AUTH
@@ -656,6 +661,7 @@ exports.editprofile = (req,res)=>{
   }
 }
 
+// หน้าแก้ไขข้อมูลบัญชีผู้ใช้
 exports.editprofileinfo = (req, res) => {
   if( req.cookies.AUTH != undefined){
       users.findOne({email:req.body.email}).then((result) => {
@@ -712,6 +718,7 @@ exports.banner = (req, res) => {
     });
 }
 
+// ระบบการค้นหาชื่อแมว
 exports.search = (req, res) => {
   if( req.cookies.AUTH != undefined){
     let input = req.query.search
@@ -719,8 +726,8 @@ exports.search = (req, res) => {
     const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
     const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
     users.findOne({_id: decrypted }).then((result) => {
-      cat_findhouse.find({pet_name:input,status:1}).then((docs) => {
-        cat_lost.find({pet_name:input,status:1}).then((doc) => {
+      cat_findhouse.find({pet_name:{$regex: input}, status:1}).then((docs) => {
+        cat_lost.find({pet_name:{$regex: input}, status:1}).then((doc) => {
             res.setHeader('Cache-Control', 'no-store');  
             res.render('search', { title: 'ค้นหา',role:result.role,callitem1: docs ,callitem2: doc  });
         })
@@ -729,8 +736,8 @@ exports.search = (req, res) => {
   }
   else{
     let input = req.query.search
-    cat_findhouse.find({pet_name:input,status:1}).then((docs) => {
-      cat_lost.find({pet_name:input,status:1}).then((doc) => {
+    cat_findhouse.find({pet_name:{$regex: input}, status:1}).then((docs) => {
+      cat_lost.find({pet_name:{$regex: input}, status:1}).then((doc) => {
           res.setHeader('Cache-Control', 'no-store');  
           res.render('search', { title: 'ค้นหา',role:null,callitem1: docs ,callitem2: doc  });
       })
@@ -742,15 +749,14 @@ exports.search = (req, res) => {
 
 
 
-//yun
-
+//การลบโพสต์ 
 exports.delete = (req, res) => {
   cat_findhouse.remove({_id:req.params.id});
   cat_lost.remove({_id:req.params.id});
   res.redirect('/mypost');
 };
 
-//อ้างอิง id ที่จะทำการแก้ไขรายละเอียด
+//อ้างอิง id ที่จะทำการแก้ไขรายละเอียดแล้วส่งไปที่หน้าฟอร์มแก้ไขข้อมูล
 exports.edit_findhome_post = (req, res) => {
   if( req.cookies.AUTH != undefined){
     const edit_id = req.body.edit_id;
@@ -762,12 +768,11 @@ exports.edit_findhome_post = (req, res) => {
         res.render("edit_findhome_post", {title:"แก้ไขรายละเอียด", doc: doc ,role:result.role});
       });
     })
- 
-
 }
 };
 
 //หลังจากกด submit จากหน้า edit.ejs จะมาทำ action นี้
+//หน้าแบบฟอร์มแก้ไขข้อมูลโพสต์
 exports.update_findhome_post = (req, res) => {
   const file = req.files.pet_image;
   var filename_random = __dirname.split('\controllers')[0]+"/public/images/"+randomstring.generate(50)+".jpg"
@@ -819,6 +824,8 @@ exports.update_findhome_post = (req, res) => {
       );
     });
 };
+
+//อ้างอิง id ที่จะทำการแก้ไขรายละเอียดแล้วส่งไปที่หน้าฟอร์มแก้ไขข้อมูลของ cat_lost
 exports.edit_cat_lost = (req, res) => {
   if( req.cookies.AUTH != undefined){
     const edit_id = req.body.edit_id;
@@ -830,13 +837,10 @@ exports.edit_cat_lost = (req, res) => {
         res.render("edit_cat_lost", {title:"แก้ไขรายละเอียด", doc: doc ,role:result.role});
       });
     })
- 
-
-}
-  
- 
+  }
 };
 
+// ระบบแก้ไขข้อมูลแมวหาย
 exports.update_cat_lost = (req, res) => {
   const file = req.files.pet_image;
   var filename_random = __dirname.split('\controllers')[0]+"/public/images/"+randomstring.generate(50)+".jpg"
@@ -899,7 +903,7 @@ exports.update_cat_lost = (req, res) => {
 
 
 
-
+// อนุมัติโพสต์ของผู้ใช้
 exports.accept_post = (req,res)=>{
   cat_findhouse.findOneAndUpdate({_id:req.params.id}, {$set:{ status:1}}).then((docs) => {
     cat_lost.findOneAndUpdate({_id:req.params.id}, {$set:{ status:1}}).then((doc) => {
@@ -908,6 +912,7 @@ exports.accept_post = (req,res)=>{
   })
 }
 
+// ปฏิเสธโพสต์ของผู้ใช้
 exports.decline_post = (req,res)=>{
   cat_findhouse.findOneAndUpdate({_id:req.params.id}, {$set:{ status:2}}).then((docs) => {
     cat_lost.findOneAndUpdate({_id:req.params.id}, {$set:{ status:2}}).then((doc) => {
@@ -915,6 +920,7 @@ exports.decline_post = (req,res)=>{
     })
   })
 }
+
 
 exports.home = (req, res) => {
   res.render('home', {

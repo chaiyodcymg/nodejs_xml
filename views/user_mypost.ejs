@@ -15,8 +15,9 @@
         <div class="container">
             <div class="d-inline-flex flex-wrap justify-content-center">
                 <% callitem1.forEach(callitem1 => { %>
+                    <a href="/catinfo1/?id=<%= callitem1._id%>">
                 <div class="col-md ">
-             
+                    
                     <div class="box">
                         <div class="presentcat">
                             <img src="<%= callitem1.pet_image%>" alt="">
@@ -42,8 +43,10 @@
                     </div>
         
                 </div>
+            </a>
                 <% }) %>
                 <% callitem2.forEach(callitem2 => { %>
+                    <a href="/catinfo1/?id=<%= callitem2._id%>">
                 <div class="col-md ">
              
                     <div class="box">
@@ -71,6 +74,7 @@
                     </div>
         
                 </div>
+            </a>
                 <% }) %>
             </div>
         </div>

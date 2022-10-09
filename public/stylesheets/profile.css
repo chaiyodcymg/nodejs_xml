@@ -2,14 +2,43 @@
     margin: 10em auto;
     width: 500px;
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.299);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
-.profile-block, .profile-info  {
-    transform: translateY(-40%);
+.profile-info  {
+    padding-top: 10px;
 }
 
+
+.editprofile {
+    background: rgb(255, 178, 91);
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    width: 500px;
+}
+
+.editprofile a {
+    text-decoration: none;
+    color: white;
+}
+
+
+.editprofile:hover {
+    background: rgb(202, 134, 57);
+    color: white;
+}
+
+.editprofile:active {
+    background: rgb(168, 105, 33);
+    color: white;
+}
 
 .logout {
+    border-radius: none !important;
     width: 500px;
     height: 3rem;
 }

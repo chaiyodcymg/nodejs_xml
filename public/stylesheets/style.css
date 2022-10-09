@@ -6,6 +6,23 @@
 
 a {
   color: #FF9F45;
+  text-decoration: none !important; 
+}
+
+h3{
+  color: black !important;
+}
+
+.login-link{
+  color: white;
+}
+
+.login-link:hover{
+  color: #d5761d;
+}
+
+.login-link+span{
+  color: #d5761d;
 }
 
 .nav-drop{

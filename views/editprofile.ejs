@@ -10,41 +10,27 @@
         <%}%>
     <div class="container">
 
-        <h1 class="text-center mb-3">แก้ไขโปรไฟล์</h1>
+        <h1 class="text-center mb-3 mt-5">แก้ไขโปรไฟล์</h1>
 
-        <div class="text-center">
-            <img class="rounded-circle mb-5"
-                src="<%= profile.image_url %>" alt="">
-        </div>
         <form class="row g-3" action="/editprofile" method="POST" enctype="multipart/form-data">
-
-            <label class="form-label">เลือกภาพโปรไฟล์ใหม่</label>
-            <input name="image" type="file" class="form-control" id="customFile" />
-            <div class="col-md-6">
+            <div style="width: 70vw; margin: auto;" class="mt-5">
                 <label class="form-label">ชื่อ</label>
                 <input type="text" name="firstname"  class="form-control" id="inputEmail4" value="<%= profile.firstname %>">
-            </div>
-            <div class="col-md-6">
+            
                 <label class="form-label">นามสกุล</label>
                 <input type="text" name="lastname" class="form-control" id="inputPassword4" value="<%= profile.lastname %>">
-            </div>
+            
         
-            <div class="col-md-6">
                 <label class="form-label">อีเมล</label>
                 <input type="email" class="form-control" id="inputPassword4" value="<%= profile.email %>" disabled>
-            </div>
-
-
-            <div class="d-grid gap-2 col-6 mx-auto mt-5">
-                <button class="btn btnorg" type="submit">บันทึกการแก้ไข</button>
-                <a href="/profile" class="btn btn-danger">ยกเลิก</a>
+                <div class="d-flex justify-content-center">
+                    <button class="btn btnorg mt-3" style="width:33vw; " type="submit">บันทึกการแก้ไข</button>
+                    <a href="/profile"><button class="mt-3 btn btn-danger" style="width:33vw; margin-left: 10px;">ยกเลิก</button></a>
+                </div>
             </div>
         </form>
 
-        <div class="d-grid gap-2 col-6 mx-auto mt-5">
-            <button class="btn btn-color" type="button">บันทึกการแก้ไข</button>
-            <button class="btn btn-cancle" type="button">ยกเลิก</button>
-        </div>
+    
     </div>
 </body>
 

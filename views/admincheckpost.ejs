@@ -25,6 +25,7 @@
                       <div class="d-inline-flex flex-row">
                         <% callitem1.forEach((item)=> { %>
                             <% if(item.status== 0 ) { %>
+                            <a  href="/catinfo1/?id=<%= item._id%>">
                             <div class="box">
                                 <div class="presentcat">
                                     <img src="<%= item.pet_image %>" alt="">
@@ -47,10 +48,12 @@
                                     <a href="accept/<%= item._id %>"><button type="button" class="btn btn-success">อนุมัติ</button></a>
                                 </div>
                             </div>
+                            </a>
                             <% } %>  
                         <% }) %>     
                         <% callitem2.forEach((item)=> { %>
                             <% if(item.status== 0 ) { %>
+                                <a href="/catinfo2/?id=<%= item._id%>">
                             <div class="box">
                                 <div class="presentcat">
                                     <img src="<%= item.pet_image %>" alt="">
@@ -73,6 +76,7 @@
                                     <a href="accept/<%= item._id %>"><button type="button" class="btn btn-success">อนุมัติ</button></a>
                                 </div>
                             </div>
+                        </a>
                             <% } %>  
                         <% }) %>              
                      </div>
@@ -88,9 +92,10 @@
                   <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <div class="d-inline-flex flex-row">
+                           
                             <% callitem1.forEach((item)=> { %>
                                 <% if(item.status== 1 ) { %>
-                                  
+                                    <a href="/catinfo1/?id=<%= item._id%>" >
                                     <div class="box box-admin">
                                         <div class="presentcat">
                                             <img src="<%= item.pet_image %>" alt="">
@@ -111,10 +116,12 @@
                                             <span>อนุมัติแล้ว</span>
                                         </div>
                                     </div>
+                                </a>
                                 <% } %>
                             <% }) %>   
                             <% callitem2.forEach((item)=> { %>
                                 <% if(item.status== 1 ) { %>
+                                <a  href="/catinfo2/?id=<%= item._id%>">
                                 <div class="box">
                                     <div class="presentcat">
                                         <img src="<%= item.pet_image %>" alt="">
@@ -135,6 +142,7 @@
                                         <span>อนุมัติแล้ว</span>
                                     </div>
                                 </div>
+                            </a>
                                 <% } %>  
                             <% }) %>                 
                      </div>
@@ -152,6 +160,7 @@
                         <div class="d-inline-flex flex-row">
                             <% callitem1.forEach((item)=> { %>
                                 <% if(item.status== 2 ) { %>
+                                    <a  href="/catinfo1/?id=<%= item._id%>">
                                 <div class="box box-admin">
                                     <div class="status-post">
                                         <span>สถานะ : ปฏิเสธแล้ว</span>
@@ -173,10 +182,12 @@
                                     </div>
                                     
                                 </div>
+                            </a>
                                 <% } %>
                             <% }) %>  
                             <% callitem2.forEach((item)=> { %>
                                 <% if(item.status== 2 ) { %>
+                                    <a  href="/catinfo2/?id=<%= item._id%>">
                                 <div class="box">
                                     <div class="presentcat">
                                         <img src="<%= item.pet_image %>" alt="">
@@ -195,6 +206,7 @@
                                     </div>
                                     
                                 </div>
+                            </a>
                                 <% } %>  
                             <% }) %>                    
                         </div>
