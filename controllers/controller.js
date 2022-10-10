@@ -242,7 +242,6 @@ exports.register =async (req,res,next)=>{
         firstname:req.body.firstname,
         lastname:req.body.lastname,
         role:0,
-        image_url :"/images/user.png",
  
       }).then((result) => {
        
