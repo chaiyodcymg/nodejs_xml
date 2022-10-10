@@ -28,19 +28,29 @@
                   <li>สี: <%= cat.pet_color%></li>
                   <li>วัคซีนที่เคยได้รับ: <%= cat.pet_vaccin%></li>
                   <li>สายพันธ์: <%= cat.pet_gene%></li>
+                  <li>วัคซีน: <%= cat.pet_vaccine%></li>
+                  <li>วันที่ได้รับวัคซีน: <%= cat.pet_vaccin_date%></li>
+                  <li>สถานที่พบ/หาย/ที่อยู่:<%= cat.place_landmarks%> <%= cat.place_name%> <%= cat.place%> </li>
                 </ul>
               </div>
               <div class="text-wrap">
                 <h3>ข้อมูลสัตว์</h3>
-                <p><%= cat.pet_symptom%></p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= cat.pet_symptom%></p>
               </div>
               <div class="text-wrap">
                 <h3>ช่องทางการติดต่อ</h3>
                 <ul>
+                  <li> ชื่อ: <%= cat.contact_name %> <%= cat.contact_surname %></li>
+                  <li> เบอร์โทร: <%= cat.contact_tel %></li>
+                  <li> อีเมล: <%= cat.contact_email %></li>
+                  <li> LineID: <%= cat.contact_line %></li>
+                  <li> Facebook: <%= cat.contact_facebook %></li>
+                  <br>
                   <li class="fa-solid fa-phone"> เบอรโทร: <%= cat.contact_tel %></li>
-                </ul>
+                </ul>    
+                <div>วันที่โพสต์ <%= cat.createat %></div>         
               </div>
-            </div>
+            </div>        
           </div>
         </div>
       </div>

@@ -61,7 +61,6 @@ exports.index= (req,res)=>{
 // แยกสิทธิ์แอดมินกับผู้ใช้ทั่วไป
 exports.user_permission = (req, res, next) => {
   if( req.cookies.AUTH != undefined){
-
     const cookie = req.cookies.AUTH
     const decoded = CryptoJS.enc.Hex.parse(cookie).toString(CryptoJS.enc.Base64);
     const decrypted = CryptoJS.AES.decrypt(decoded, "nodejs_xml").toString(CryptoJS.enc.Utf8); 
